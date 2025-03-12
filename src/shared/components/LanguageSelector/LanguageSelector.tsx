@@ -38,7 +38,7 @@ export default function LanguageSelector() {
   return (
     <div className="relative" ref={menuRef}>
       <div 
-        className="bg-white rounded-xl py-2 px-3 flex items-center shadow-md cursor-pointer justify-center"
+        className="bg-white h-[44px] rounded-xl py-2 px-3 flex items-center shadow-md cursor-pointer justify-center"
         onClick={toggleLanguage}
         style={{ width: '80px' }} // Фиксированная ширина 80px
       >

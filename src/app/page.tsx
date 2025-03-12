@@ -1,153 +1,56 @@
 'use client';
 
-import { BackIcon, GlobeIcon, CategoryIcon, MailIcon, CameraIcon, PlusIcon,ProfileIcon, CheckmarkIcon, TrashIcon, EditIcon, SearchIcon } from '../shared/ui/Icon';
+import { useState } from 'react';
+import SurveyBanner from '@/src/shared/components/SurveyBanner';
+import { HouseIcon, HeartIcon, PlusIcon, ProfileIcon } from '@/src/shared/ui/Icon';
+import Categories from '../shared/components/PropertyCategories';
+import SearchBar from '../shared/components/SearchWFFilter';
 
 export default function Home() {
   return (
-    <main style={{ 
-      padding: '20px', 
-      maxWidth: '1200px', 
-      margin: '0 auto',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
-    }}>
-      <h1 style={{ marginBottom: '30px' }}>Демонстрация иконок</h1>
+    <div className="flex flex-col min-h-screen bg-[#f7f7f7]">
+      {/* Основной контент */}
+      <main className="flex-1 pb-20">
+        {/* Компонент поиска */}
+        <div className="pt-4">
+          <SearchBar />
+        </div>
+        
+        {/* Компонент опроса */}
+        <div className="mt-4">
+          <SurveyBanner />
+        </div>
+        
+        {/* Компонент категорий */}
+        <Categories />
+      </main>
       
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
-        gap: '30px',
-        marginBottom: '50px'
-      }}>
-        <div style={{ 
-          padding: '20px', 
-          border: '1px solid #eee', 
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <BackIcon size={32} />
-          <p>BackIcon</p>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <ProfileIcon size={24} color="red" />
-            <CheckmarkIcon size={24} color="red" />
-            <TrashIcon size={24} color="red" />
-            <EditIcon size={24} color="red" />
-            <SearchIcon size={24} color="red" />
-            <BackIcon size={24} color="blue" />
-            <BackIcon size={24} color="blue" />
-            <BackIcon size={24} color="blue" />
-            
-          </div>
+      {/* Нижняя навигация */}
+      <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-3 px-6">
+        <div className="flex justify-between items-center">
+          <button className="flex flex-col items-center">
+            <HouseIcon size={28} color="#FF6B6B" />
+            <span className="text-xs mt-1 text-[#FF6B6B]">Главная</span>
+          </button>
+          
+          <button className="flex flex-col items-center">
+            <HeartIcon size={28} color="#A3A3A3" />
+            <span className="text-xs mt-1 text-[#A3A3A3]">Избранное</span>
+          </button>
+          
+          <button className="flex flex-col items-center">
+            <div className="w-14 h-14 bg-[#FF6B6B] rounded-full flex items-center justify-center -mt-7">
+              <PlusIcon size={28} color="white" />
+            </div>
+            <span className="text-xs mt-1 text-[#A3A3A3]">Добавить</span>
+          </button>
+          
+          <button className="flex flex-col items-center">
+            <ProfileIcon size={28} color="#A3A3A3" />
+            <span className="text-xs mt-1 text-[#A3A3A3]">Профиль</span>
+          </button>
         </div>
-
-        <div style={{ 
-          padding: '20px', 
-          border: '1px solid #eee', 
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <GlobeIcon size={32} />
-          <p>GlobeIcon</p>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <GlobeIcon size={24} color="red" strokeWidth={1} />
-            <GlobeIcon size={24} color="green" strokeWidth={2} />
-            <GlobeIcon size={24} color="blue" strokeWidth={3} />
-          </div>
-        </div>
-
-        <div style={{ 
-          padding: '20px', 
-          border: '1px solid #eee', 
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <CategoryIcon size={32} />
-          <p>CategoryIcon</p>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <CategoryIcon size={24} color="red" />
-            <CategoryIcon size={24} color="green" />
-            <CategoryIcon size={24} color="blue" />
-          </div>
-        </div>
-
-        <div style={{ 
-          padding: '20px', 
-          border: '1px solid #eee', 
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <MailIcon size={32} color="black" />
-          <p>MailIcon</p>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <MailIcon size={24} color="red" />
-            <MailIcon size={24} color="green" />
-            <MailIcon size={24} color="blue" />
-          </div>
-        </div>
-
-        <div style={{ 
-          padding: '20px', 
-          border: '1px solid #eee', 
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <CameraIcon size={40} />
-          <p>CameraIcon</p>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <CameraIcon size={24} color="red" />
-            <CameraIcon size={24} color="green" />
-            <CameraIcon size={24} color="blue" />
-          </div>
-        </div>
-
-        <div style={{ 
-          padding: '20px', 
-          border: '1px solid #eee', 
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <PlusIcon size={32} />
-          <p>PlusIcon</p>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <PlusIcon size={24} color="red" />
-            <PlusIcon size={24} color="green" />
-            <PlusIcon size={24} color="blue" />
-          </div>
-        </div>
-      </div>
-
-      <div style={{ marginTop: '30px' }}>
-        <h2 style={{ marginBottom: '20px' }}>Различные размеры</h2>
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '20px',
-          flexWrap: 'wrap'
-        }}>
-          <BackIcon size={16} />
-          <BackIcon size={24} />
-          <BackIcon size={32} />
-          <BackIcon size={48} />
-          <BackIcon size={64} />
-        </div>
-      </div>
-    </main>
+      </footer>
+    </div>
   );
 }

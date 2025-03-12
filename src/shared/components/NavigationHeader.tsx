@@ -27,11 +27,11 @@ export default function NavigationHeader({
   };
   
   return (
-    <header className="w-full bg-white py-4 px-4 flex justify-between items-center">
+    <header className="w-full  p-4 flex justify-between items-center">
       <div className="flex items-center">
         <button 
           onClick={handleBackClick}
-          className="w-[36px] h-[36px] rounded-full bg-white shadow-md flex items-center justify-center"
+          className="w-[44px] h-[44px] rounded-full bg-white shadow-md flex items-center justify-center"
           aria-label="Назад"
         >
           <BackIcon size={12} color="#1B1B1B" style={{ height: '20px' }} />
