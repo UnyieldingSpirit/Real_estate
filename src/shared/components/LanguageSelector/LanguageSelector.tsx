@@ -54,13 +54,13 @@ export default function LanguageSelector() {
           style={{ width: '80px' }}
         >
           <div 
-            className={`py-3 px-4 hover:bg-gray-100 cursor-pointer flex justify-center ${currentLocale === Locale.RU ? 'bg-gray-300' : ''}`}
+            className={`py-3 px-4 hover:bg-gray-100 cursor-pointer flex justify-center ${currentLocale === Locale.RU ? 'bg-gray-200' : ''}`}
             onClick={() => selectLanguage(Locale.RU)}
           >
             <span className="font-medium text-[#1F1F1F]">RU</span>
           </div>
           <div 
-            className={`py-3 px-4 hover:bg-gray-100 cursor-pointer flex justify-center ${currentLocale === Locale.UZ ? 'bg-gray-50' : ''}`}
+            className={`py-3 px-4 hover:bg-gray-100 cursor-pointer flex justify-center ${currentLocale === Locale.UZ ? 'bg-gray-200' : ''}`}
             onClick={() => selectLanguage(Locale.UZ)} 
           >
             <span className="font-medium text-[#1F1F1F]">UZ</span>
