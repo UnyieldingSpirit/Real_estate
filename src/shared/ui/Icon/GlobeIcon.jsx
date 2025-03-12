@@ -1,0 +1,41 @@
+export default function GlobeIcon({ 
+  color = '#1F1F1F', 
+  size = 25,
+  strokeWidth = 2,
+  style = {},
+  ...props 
+}) {
+  return (
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 25 25" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+      style={style}
+      {...props}
+    >
+      <path 
+        d="M12.5 22.9166C18.253 22.9166 22.9167 18.2529 22.9167 12.5C22.9167 6.74701 18.253 2.08331 12.5 2.08331C6.74707 2.08331 2.08337 6.74701 2.08337 12.5C2.08337 18.2529 6.74707 22.9166 12.5 22.9166Z" 
+        stroke={color} 
+        strokeWidth={strokeWidth} 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+      <path 
+        d="M2.08337 12.5H22.9167" 
+        stroke={color} 
+        strokeWidth={strokeWidth} 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+      <path 
+        d="M12.5 2.08331C15.1055 4.93576 16.5862 8.63751 16.6667 12.5C16.5862 16.3624 15.1055 20.0642 12.5 22.9166C9.89454 20.0642 8.41384 16.3624 8.33337 12.5C8.41384 8.63751 9.89454 4.93576 12.5 2.08331Z" 
+        stroke={color} 
+        strokeWidth={strokeWidth} 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}

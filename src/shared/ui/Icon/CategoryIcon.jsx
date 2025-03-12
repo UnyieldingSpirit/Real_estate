@@ -1,0 +1,33 @@
+export default function CategoryIcon({ 
+  color = '#838383', 
+  size = 15,
+  style = {},
+  ...props 
+}) {
+  const height = size * (17/15);
+  
+  return (
+    <svg 
+      width={size} 
+      height={height} 
+      viewBox="0 0 15 17" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+      style={style}
+      {...props}
+    >
+      <path 
+        d="M11.0714 8.5295V12.0545C11.0714 14.992 10.0643 16.167 7.54643 16.167H4.525C2.00714 16.167 1 14.992 1 12.0545V8.5295C1 5.59199 2.00714 4.41699 4.525 4.41699H7.54643C10.0643 4.41699 11.0714 5.59199 11.0714 8.5295Z" 
+        stroke={color} 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+      <path 
+        d="M14.4267 3.51584V6.10084C14.4267 8.25501 13.6882 9.11667 11.8417 9.11667H11.0696V8.52917C11.0696 5.59167 10.0624 4.41667 7.54459 4.41667H7.04102V3.51584C7.04102 1.36167 7.77959 0.5 9.62602 0.5H11.8417C13.6882 0.5 14.4267 1.36167 14.4267 3.51584Z" 
+        stroke={color} 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
