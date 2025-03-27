@@ -27,7 +27,7 @@ export default function NavigationHeader({
   };
   
   return (
-    <header className="w-full  p-4 flex justify-between items-center">
+    <header className="w-full p-4 flex justify-between items-center">
       <div className="flex items-center">
         <button 
           onClick={handleBackClick}

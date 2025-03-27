@@ -11,7 +11,7 @@ const localization = {
     filter: 'Фильтр',
     city: 'Город',
     district: 'Район',
-    area: 'Площадь (м²)',
+    area: 'Площадь (м2)',
     currency: 'Валюта',
     type: 'Тип',
     price: 'Цена',
@@ -23,17 +23,18 @@ const localization = {
     apply: 'Применить',
     reset: 'Сбросить',
     from: 'от',
+    to: 'до',
     select: 'Выбрать',
     rent: 'Аренда',
     buy: 'Покупка',
     dollars: 'Доллары',
-    sum: 'Сум'
+    sum: 'UZS'
   },
   uz: {
     filter: 'Filtr',
     city: 'Shahar',
     district: 'Tuman',
-    area: 'Maydon (m²)',
+    area: 'Maydon (m2)',
     currency: 'Valyuta',
     type: 'Turi',
     price: 'Narxi',
@@ -44,12 +45,13 @@ const localization = {
     fromOwners: 'Mulkdorlardan',
     apply: 'Qo\'llash',
     reset: 'Tozalash',
-    from: 'dan',
+    from: 'от',
+    to: 'до',
     select: 'Tanlash',
-    rent: 'Ijara',
-    buy: 'Sotib olish',
-    dollars: 'Dollar',
-    sum: 'So\'m'
+    rent: 'Аренда',
+    buy: 'Продажа',
+    dollars: 'Доллары',
+    sum: 'UZS'
   }
 };
 
@@ -70,6 +72,7 @@ export default function FilterPage() {
   const [selectedCity, setSelectedCity] = useState('Ташкент');
   const [selectedDistrict, setSelectedDistrict] = useState('Чиланзарский');
   const [minArea, setMinArea] = useState('60');
+  const [maxArea, setMaxArea] = useState('60');
   const [currency, setCurrency] = useState('Доллары');
   const [propertyType, setPropertyType] = useState('Аренда');
   const [minPrice, setMinPrice] = useState('');
@@ -94,6 +97,7 @@ export default function FilterPage() {
       selectedCity,
       selectedDistrict,
       minArea,
+      maxArea,
       currency,
       propertyType,
       minPrice,
@@ -110,6 +114,7 @@ export default function FilterPage() {
     setSelectedCity('Ташкент');
     setSelectedDistrict('Чиланзарский');
     setMinArea('');
+    setMaxArea('');
     setCurrency('Доллары');
     setPropertyType('Аренда');
     setMinPrice('');
@@ -164,7 +169,7 @@ export default function FilterPage() {
   };
   
   return (
-    <div className="min-h-screen bg-[#f7f7f7]">
+    <div className="bg-[#f7f7f7]">
       {/* Header */}
      <NavigationHeader showLanguageSelector={false} />
           <div className="px-4">
@@ -190,11 +195,11 @@ export default function FilterPage() {
           setSelectedDistrict
         )}
         
-        {/* Площадь */}
+        {/* Площадь - теперь с двумя инпутами (от и до) */}
         <div className="mb-6">
           <div className="text-[#8F8F8F] mb-2 text-lg">{t('area')}</div>
-          <div className="relative">
-            <div className="bg-white rounded-xl p-4 shadow-sm">
+          <div className="flex gap-3">
+            <div className="w-[48.5%] bg-white rounded-xl p-4 shadow-sm">
               <div className="flex items-center">
                 <span className="text-[#8F8F8F] text-lg mr-2">{t('from')}</span>
                 <input
@@ -207,26 +212,39 @@ export default function FilterPage() {
                 />
               </div>
             </div>
+            <div className="w-[48.5%] bg-white rounded-xl p-4 shadow-sm">
+              <div className="flex items-center">
+                <span className="text-[#8F8F8F] text-lg mr-2">{t('to')}</span>
+                <input
+                  type="number"
+                  value={maxArea}
+                  onChange={(e) => setMaxArea(e.target.value)}
+                  className="flex-1 text-[#2F3334] text-lg outline-none"
+                  placeholder="0"
+                  style={{ appearance: 'textfield' }}
+                />
+              </div>
+            </div>
           </div>
         </div>
         
-        {/* Валюта */}
+        {/* Валюта - опции изменены на "Доллары" и "UZS" */}
         {renderSelector(
           t('currency'), 
           currency, 
           showCurrencyDropdown, 
           setShowCurrencyDropdown, 
-          [t('dollars'), t('sum')], 
+          ['Доллары', 'UZS'], 
           setCurrency
         )}
         
-        {/* Тип */}
+        {/* Тип - опции изменены на "Аренда" и "Продажа" */}
         {renderSelector(
           t('type'), 
           propertyType, 
           showTypeDropdown, 
           setShowTypeDropdown, 
-          [t('rent'), t('buy')], 
+          ['Аренда', 'Продажа'], 
           setPropertyType
         )}
         
