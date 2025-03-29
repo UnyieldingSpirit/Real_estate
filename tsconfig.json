@@ -35,7 +35,7 @@
     ".next/types/**/*.ts",
     "src/app/lib/api.js",
     "src/shared/components/LanguageSelector/LanguageSelector.tsx"
-  ],
+, "next.config.js"  ],
   "exclude": [
     "node_modules"
   ]
