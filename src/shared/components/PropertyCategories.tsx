@@ -1,50 +1,20 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslation } from '@/src/hooks';
+import { 
+  HousePlanIcon, 
+  BookkeepingIcon, 
+  CalculatorIcon, 
+  WeatherIcon
+} from '@/src/shared/ui/Icon';
+import { useCategoryStore, PropertyCategoryType } from '@/src/store/categoryStore';
 
-// Enum для категорий с настройками
-export enum PropertyCategoryType {
-  APARTMENT = 'apartment',
-  HOUSE = 'house',
-  COMMERCIAL = 'commercial',
-  DACHA = 'dacha',
-}
-
-// Конфигурация категорий
-export const PROPERTY_CATEGORIES = {
-  [PropertyCategoryType.APARTMENT]: {
-    titleKey: 'apartment',
-    image: '/apartment.svg',
-    activeColor: '#F08674',
-    inactiveColor: '#FFFFFF',
-    textColor: '#1F1F1F',
-    iconComponent: 'ApartmentIcon',
-  },
-  [PropertyCategoryType.HOUSE]: {
-    titleKey: 'house',
-    image: '/house.svg',
-    activeColor: '#6B95FF',
-    inactiveColor: '#FFFFFF',
-    textColor: '#1F1F1F',
-    iconComponent: 'HouseIcon',
-  },
-  [PropertyCategoryType.COMMERCIAL]: {
-    titleKey: 'commercial',
-    image: '/commercial.svg',
-    activeColor: '#9C74F0',
-    inactiveColor: '#FFFFFF',
-    textColor: '#1F1F1F',
-    iconComponent: 'CommercialIcon',
-  },
-  [PropertyCategoryType.DACHA]: {
-    titleKey: 'dacha',
-    image: '/dacha.svg',
-    activeColor: '#74F0A9',
-    inactiveColor: '#FFFFFF',
-    textColor: '#1F1F1F',
-    iconComponent: 'DachaIcon',
-  },
+// Сопоставление типов категорий с компонентами иконок
+const CATEGORY_ICONS = {
+  [PropertyCategoryType.APARTMENT]: CalculatorIcon,
+  [PropertyCategoryType.HOUSE]: HousePlanIcon,
+  [PropertyCategoryType.COMMERCIAL]: BookkeepingIcon,
+  [PropertyCategoryType.DACHA]: WeatherIcon,
 };
 
 const localization = {
@@ -66,25 +36,42 @@ const localization = {
 
 export default function Categories() {
   const { t } = useTranslation(localization);
-  const [activeCategory, setActiveCategory] = useState(null);
   
-  const handleCategoryClick = (category) => {
-    setActiveCategory(category === activeCategory ? null : category);
+  // Используем store напрямую для получения активной категории и метода для её изменения
+  const activeCategory = useCategoryStore(state => state.activeCategory);
+  const setActiveCategory = useCategoryStore(state => state.setActiveCategory);
+  const getCategoryConfig = useCategoryStore(state => state.getCategoryConfig);
+  
+  // Обработчик нажатия на категорию
+  const handleCategoryClick = (category: PropertyCategoryType) => {
+    setActiveCategory(category);
     console.log(`Selected category: ${category}`);
   };
   
   return (
     <div className="px-4 mb-6">
-      <h2 className="text-[34px] font-bold text-[#1F1F1F] mb-4">
+      <h2 className="text-[#1F1F1F] mb-4"
+       style={{ 
+                    fontFamily: 'ALS Hauss, sans-serif',
+                    fontWeight: 900,
+                    fontSize: '28px',
+                    lineHeight: '96%',
+                    letterSpacing: '-0.04em'
+                  }}>
         {t('categories')}
       </h2>
       
       <div className="grid grid-cols-2 gap-4">
         {Object.values(PropertyCategoryType).map((category) => {
-          const config = PROPERTY_CATEGORIES[category];
-          const isActive = category === activeCategory;
+          const config = getCategoryConfig(category);
+          
+          // Проверяем, является ли текущая категория активной
+          const isActive = activeCategory === category;
+          
           const bgColor = isActive ? config.activeColor : config.inactiveColor;
-          const textColor = isActive ? '#FFFFFF' : config.textColor;
+          const textColor = isActive ? config.activeTextColor : config.textColor;
+          const iconColor = isActive ? config.iconActiveColor : config.iconInactiveColor;
+          const IconComponent = CATEGORY_ICONS[category];
           
           return (
             <div
@@ -101,14 +88,12 @@ export default function Categories() {
                   {t(config.titleKey)}
                 </h3>
                 
-                <div className="w-full h-3/4 absolute bottom-0 right-0 flex justify-end items-end">
-                  <img 
-                    src={config.image || `/images/categories/${category}.svg`}
-                    alt={t(config.titleKey)}
-                    className="w-[110px] h-[90px] object-contain"
-                    onError={(e) => {
-                      e.target.src = `/images/categories/placeholder.svg`;
-                    }}
+                <div className="w-full h-3/4 absolute bottom-0 right-0 flex justify-end items-end px-4">
+                  <IconComponent 
+                    color={iconColor}
+                    width={config.iconWidth}
+                    height={config.iconHeight}
+                    style={{ maxWidth: '100%', maxHeight: '100%' }}
                   />
                 </div>
               </div>

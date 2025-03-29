@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from 'next/script';
+import TelegramWebAppInitializer from "../shared/components/TelegramWebAppInitializer";
+
+
+// Загружаем Inter как основной шрифт
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-inter',
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +53,12 @@ export default function RootLayout({
         <meta name="apple-touch-fullscreen" content="yes" />
         <meta name="HandheldFriendly" content="true" />
         
+        {/* Добавляем загрузку для шрифта ALS Hauss */}
+        <link
+          rel="stylesheet"
+          href="https://fonts.cdnfonts.com/css/als-hauss"
+        />
+        
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
         
         <Script
@@ -65,9 +80,12 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased touch-manipulation overflow-x-hidden`}
+        className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased touch-manipulation overflow-x-hidden`}
+        style={{ fontFamily: 'Inter, sans-serif' }}
       >
+        {/* <TelegramWebAppInitializer /> */}
         <main className="scrollbar-none flex-1 overflow-y-auto overflow-x-hidden">
+          <TelegramWebAppInitializer />
           {children}
         </main>
       </body>

@@ -1,16 +1,13 @@
-export default function PlusIcon({ 
-  color = '#A3A3A3', 
+export default function NavbarPlusIcon({ 
+  color = 'white', 
   size = 27,
   style = {},
   ...props 
 }) {
-  // Рассчитываем высоту пропорционально
-  const height = size * (29/27);
-  
   return (
     <svg 
       width={size} 
-      height={height} 
+      height={size} 
       viewBox="0 0 27 29" 
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"

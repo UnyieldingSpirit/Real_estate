@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { SearchIcon, FilterIcon } from '@/src/shared/ui/Icon';
 import { useTranslation } from '@/src/hooks';
 
@@ -19,7 +19,7 @@ export default function SearchBar() {
   const [searchQuery, setSearchQuery] = useState('');
   const { t } = useTranslation(localization);
   
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setSearchQuery(e.target.value);
   };
   
@@ -30,7 +30,7 @@ export default function SearchBar() {
   
   return (
     <div className="flex items-center gap-3 px-4 py-3 w-full">
-      <div className="flex items-center flex-1 h-14 bg-white rounded-2xl px-4 py-3 shadow-sm">
+      <div className="flex items-center flex-1 h-16 bg-white rounded-2xl px-4 py-3 shadow-sm">
         <SearchIcon size={24} color="#343434" />
         <input
           type="text"
@@ -43,7 +43,7 @@ export default function SearchBar() {
       
       <button 
         onClick={handleFilterClick}
-        className="w-14 h-14 flex items-center justify-center bg-white rounded-2xl shadow-sm"
+        className="w-16 h-16 flex items-center justify-center bg-white rounded-2xl shadow-sm"
         aria-label={t('filter')}
       >
         <div className="relative">

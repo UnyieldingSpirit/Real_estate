@@ -1,10 +1,24 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MouseEvent, JSX } from 'react';
 import NavigationHeader from '@/src/shared/components/NavigationHeader';
 import { useTranslation } from '@/src/hooks';
 
-const localization = {
+// Типизация локализации
+interface LocalizationMessages {
+  authorization: string;
+  enterPhoneNumber: string;
+  phoneNumber: string;
+  requestCode: string;
+  requiredField: string;
+}
+
+type Localization = {
+  ru: LocalizationMessages;
+  uz: LocalizationMessages;
+};
+
+const localization: Localization = {
   ru: {
     authorization: 'Авторизация',
     enterPhoneNumber: 'Введите номер телефона',
@@ -21,19 +35,20 @@ const localization = {
   }
 };
 
-export default function RegistrationPage() {
-  const [phoneNumber, setPhoneNumber] = useState('+998');
-  const [error, setError] = useState('');
-  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
-  const inputRef = useRef(null);
-  const { t } = useTranslation(localization);
+export default function RegistrationPage(): JSX.Element {
+  const [phoneNumber, setPhoneNumber] = useState<string>('+998');
+  const [error, setError] = useState<string>('');
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { t } = useTranslation(localization as any);
 
   // Fix cursor position to always be after prefix
-  const fixCursorPosition = () => {
+  const fixCursorPosition = (): void => {
     if (inputRef.current) {
       // Ensure cursor is always after prefix
       const minPosition = '+998'.length;
-      if (inputRef.current.selectionStart < minPosition) {
+      if (inputRef.current.selectionStart !== null && inputRef.current.selectionStart < minPosition) {
         inputRef.current.setSelectionRange(minPosition, minPosition);
       }
     }
@@ -49,10 +64,7 @@ export default function RegistrationPage() {
   }, []);
 
   // Handle phone number input with formatting
-  const handlePhoneInput = (e) => {
-    // Store current cursor position
-    const cursorPosition = e.target.selectionStart;
-    
+  const handlePhoneInput = (e: ChangeEvent<HTMLInputElement>): void => {
     // Get the value and prevent modifying the prefix
     let value = e.target.value;
     
@@ -133,7 +145,7 @@ export default function RegistrationPage() {
   };
 
   // Handle input focus event
-  const handleFocus = () => {
+  const handleFocus = (): void => {
     fixCursorPosition();
     if (phoneNumber === '+998') {
       setPhoneNumber('+998');
@@ -141,41 +153,48 @@ export default function RegistrationPage() {
   };
 
   // Handle input click event
-  const handleClick = () => {
+  const handleClick = (): void => {
     fixCursorPosition();
   };
 
   // Handle input keydown event to prevent cursor from moving before prefix
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
     // If Home key is pressed, prevent default and position cursor after prefix
     if (e.key === 'Home') {
       e.preventDefault();
       const position = '+998'.length;
-      inputRef.current.setSelectionRange(position, position);
+      if (inputRef.current) {
+        inputRef.current.setSelectionRange(position, position);
+      }
     }
     
     // If backspace at prefix boundary, prevent deletion of prefix
-    if (e.key === 'Backspace' && inputRef.current.selectionStart <= '+998'.length) {
+    if (e.key === 'Backspace' && 
+        inputRef.current && 
+        inputRef.current.selectionStart !== null && 
+        inputRef.current.selectionStart <= '+998'.length) {
       e.preventDefault();
     }
   };
 
   // Close keyboard when clicking outside the input
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (inputRef.current && event.target instanceof Node && !inputRef.current.contains(event.target)) {
         inputRef.current.blur();
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    // TypeScript не позволяет напрямую использовать MouseEvent<HTMLElement>
+    // для события document, поэтому используем преобразование типов
+    document.addEventListener('mousedown', handleClickOutside as unknown as EventListener);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside as unknown as EventListener);
     };
   }, []);
 
   // Validate phone when request code button is clicked
-  const handleRequestCode = () => {
+  const handleRequestCode = (): void => {
     const digitsOnly = phoneNumber.replace(/\D/g, '');
     
     if (digitsOnly.length !== 12) {
@@ -188,7 +207,7 @@ export default function RegistrationPage() {
     window.location.href = '/register/cod';
   };
 
-  const getInputBorderStyle = () => {
+  const getInputBorderStyle = (): string => {
     if (error && isSubmitAttempted) {
       return 'border-red-500 focus:border-red-500';
     }
@@ -196,7 +215,7 @@ export default function RegistrationPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen ">
+    <div className="flex flex-col h-screen">
       <NavigationHeader showLanguageSelector={true} />
       
       <div className="flex flex-col flex-1 p-4">
@@ -208,12 +227,14 @@ export default function RegistrationPage() {
         </p>
         
         {/* Key icon in circle */}
-        <div className="self-center w-[250px] h-[250px] rounded-full bg-white flex items-center justify-center mb-10"
-             style={{ 
-               border: '2px solid #FF6B6B',
-               boxShadow: '0px 0px 0px 2px rgba(255, 107, 107, 0.1)'
-             }}>
-          <img src="/smart-key.svg" alt="" />
+        <div 
+          className="self-center w-[250px] h-[250px] rounded-full bg-white flex items-center justify-center mb-10"
+          style={{ 
+            border: '2px solid #FF6B6B',
+            boxShadow: '0px 0px 0px 2px rgba(255, 107, 107, 0.1)'
+          }}
+        >
+          <img src="/smart-key.svg" alt="Key icon" />
         </div>
         
         {/* Phone number input */}
@@ -232,9 +253,11 @@ export default function RegistrationPage() {
             onKeyDown={handleKeyDown}
             className={`w-full p-2 text-xl h-[60px] text-[#1F1F1F] border rounded-2xl bg-gray-50 focus:outline-none ${getInputBorderStyle()}`}
             inputMode="numeric"
+            aria-invalid={!!error && isSubmitAttempted}
+            aria-describedby={error && isSubmitAttempted ? "phone-error" : undefined}
           />
           {error && isSubmitAttempted && (
-            <p className="text-red-500 text-sm mt-1">{error}</p>
+            <p id="phone-error" className="text-red-500 text-sm mt-1" role="alert">{error}</p>
           )}
         </div>
         

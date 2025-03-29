@@ -3,13 +3,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GlobeIcon } from '../../ui/Icon';
 import { useLanguageStore, Locale } from '../../../store/language';
-import { useTranslation } from '../../../hooks/useTranslation';
-import { localization } from './locails';
+// import { useTranslation } from '../../../hooks/useTranslation';
+// import { localization } from './locails';
 
 export default function LanguageSelector() {
   const [showLanguages, setShowLanguages] = useState<boolean>(false);
   const { currentLocale, setLocale } = useLanguageStore();
-  const { t } = useTranslation(localization);
+  // const { t } = useTranslation(localization);
   const menuRef = useRef<HTMLDivElement | null>(null);
   
   const toggleLanguage = (): void => {

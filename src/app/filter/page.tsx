@@ -1,12 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { JSX, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BackIcon, CheckmarkIcon } from '@/src/shared/ui/Icon';
+import { CheckmarkIcon } from '@/src/shared/ui/Icon';
 import { useTranslation } from '@/src/hooks';
 import NavigationHeader from '@/src/shared/components/NavigationHeader';
 
-const localization = {
+interface Localization {
+  filter: string;
+  city: string;
+  district: string;
+  area: string;
+  currency: string;
+  type: string;
+  price: string;
+  minPrice: string;
+  maxPrice: string;
+  hasRenovation: string;
+  hasFurniture: string;
+  fromOwners: string;
+  apply: string;
+  reset: string;
+  from: string;
+  to: string;
+  select: string;
+  rent: string;
+  buy: string;
+  dollars: string;
+  sum: string;
+}
+
+type TranslationDictionary = {
+  [locale: string]: Localization;
+};
+
+const localization: TranslationDictionary = {
   ru: {
     filter: 'Фильтр',
     city: 'Город',
@@ -56,42 +84,46 @@ const localization = {
 };
 
 // Список городов и районов для демонстрации
-const cities = ['Ташкент', 'Самарканд', 'Бухара', 'Андижан'];
-const districts = {
+const cities: string[] = ['Ташкент', 'Самарканд', 'Бухара', 'Андижан'];
+const districts: Record<string, string[]> = {
   'Ташкент': ['Чиланзарский', 'Юнусабадский', 'Мирзо-Улугбекский', 'Сергелийский'],
   'Самарканд': ['Район 1', 'Район 2'],
   'Бухара': ['Район 1', 'Район 2'],
   'Андижан': ['Район 1', 'Район 2']
 };
 
-export default function FilterPage() {
+// Типы валюты
+type CurrencyType = 'Доллары' | 'UZS';
+
+// Типы операций с недвижимостью
+type PropertyOperationType = 'Аренда' | 'Продажа';
+
+export default function FilterPage(): JSX.Element {
   const router = useRouter();
-  const { t } = useTranslation(localization);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { t } = useTranslation(localization as any);
   
   // Состояния для фильтров
-  const [selectedCity, setSelectedCity] = useState('Ташкент');
-  const [selectedDistrict, setSelectedDistrict] = useState('Чиланзарский');
-  const [minArea, setMinArea] = useState('60');
-  const [maxArea, setMaxArea] = useState('60');
-  const [currency, setCurrency] = useState('Доллары');
-  const [propertyType, setPropertyType] = useState('Аренда');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [hasRenovation, setHasRenovation] = useState(true);
-  const [hasFurniture, setHasFurniture] = useState(false);
-  const [fromOwners, setFromOwners] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string>('Ташкент');
+  const [selectedDistrict, setSelectedDistrict] = useState<string>('Чиланзарский');
+  const [minArea, setMinArea] = useState<string>('60');
+  const [maxArea, setMaxArea] = useState<string>('60');
+  const [currency, setCurrency] = useState<CurrencyType>('Доллары');
+  const [propertyType, setPropertyType] = useState<PropertyOperationType>('Аренда');
+  const [minPrice, setMinPrice] = useState<string>('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [hasRenovation, setHasRenovation] = useState<boolean>(true);
+  const [hasFurniture, setHasFurniture] = useState<boolean>(false);
+  const [fromOwners, setFromOwners] = useState<boolean>(false);
   
   // Показать/скрыть выпадающие списки
-  const [showCityDropdown, setShowCityDropdown] = useState(false);
-  const [showDistrictDropdown, setShowDistrictDropdown] = useState(false);
-  const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
-  const [showTypeDropdown, setShowTypeDropdown] = useState(false);
+  const [showCityDropdown, setShowCityDropdown] = useState<boolean>(false);
+  const [showDistrictDropdown, setShowDistrictDropdown] = useState<boolean>(false);
+  const [showCurrencyDropdown, setShowCurrencyDropdown] = useState<boolean>(false);
+  const [showTypeDropdown, setShowTypeDropdown] = useState<boolean>(false);
 
-  const handleBack = () => {
-    router.back();
-  };
-  
-  const handleApplyFilters = () => {
+  // Обработчик применения фильтров
+  const handleApplyFilters = (): void => {
     // Здесь будет логика применения фильтров
     console.log({
       selectedCity,
@@ -110,7 +142,8 @@ export default function FilterPage() {
     router.back();
   };
   
-  const handleResetFilters = () => {
+  // Обработчик сброса фильтров
+  const handleResetFilters = (): void => {
     setSelectedCity('Ташкент');
     setSelectedDistrict('Чиланзарский');
     setMinArea('');
@@ -125,7 +158,15 @@ export default function FilterPage() {
   };
   
   // Функция для отображения селектора
-  const renderSelector = (title, value, showDropdown, setShowDropdown, options, setValue) => {
+  const renderSelector = (
+    title: string, 
+    value: string, 
+    showDropdown: boolean, 
+    setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>, 
+    options: string[], 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setValue: (option: any) => void
+  ): JSX.Element => {
     return (
       <div className="mb-6">
         <div className="text-[#8F8F8F] mb-2 text-lg">{title}</div>
@@ -171,8 +212,8 @@ export default function FilterPage() {
   return (
     <div className="bg-[#f7f7f7]">
       {/* Header */}
-     <NavigationHeader showLanguageSelector={false} />
-          <div className="px-4">
+      <NavigationHeader showLanguageSelector={false} />
+      <div className="px-4">
         <h1 className="text-[32px] font-bold text-[#1F1F1F]">{t('filter')}</h1>
               
         {/* Город */}
@@ -234,7 +275,7 @@ export default function FilterPage() {
           currency, 
           showCurrencyDropdown, 
           setShowCurrencyDropdown, 
-          ['Доллары', 'UZS'], 
+          ['Доллары', 'UZS'] as CurrencyType[], 
           setCurrency
         )}
         
@@ -244,7 +285,7 @@ export default function FilterPage() {
           propertyType, 
           showTypeDropdown, 
           setShowTypeDropdown, 
-          ['Аренда', 'Продажа'], 
+          ['Аренда', 'Продажа'] as PropertyOperationType[], 
           setPropertyType
         )}
         

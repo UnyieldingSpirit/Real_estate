@@ -6,12 +6,11 @@ export default function HeartIcon({
   ...props 
 }) {
   // Вычисляем высоту пропорционально ширине
-  const height = size * (19/21);
   
   return (
     <svg 
       width={size} 
-      height={height} 
+      height={size} 
       viewBox="0 0 21 19" 
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
