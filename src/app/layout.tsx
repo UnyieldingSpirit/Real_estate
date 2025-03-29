@@ -101,9 +101,8 @@ export default function RootLayout({
                 const mainContent = document.querySelector('.main-content');
                 if (mainContent) {
                   if (isMobileDevice()) {
-                    console.log('Применяю мобильные отступы: 4.5rem сверху и снизу');
-                    mainContent.style.paddingTop = '4.5rem';
-                    mainContent.style.paddingBottom = '4.5rem';
+                    mainContent.style.paddingTop = '6rem';
+                    mainContent.style.paddingBottom = '6rem';
                     mainContent.classList.add('mobile-padding');
                     mainContent.classList.remove('desktop-padding');
                   } else {
@@ -146,8 +145,8 @@ export default function RootLayout({
             
             /* Классы для JS-применения */
             .mobile-padding {
-              padding-top: 4.5rem !important;
-              padding-bottom: 4.5rem !important;
+              padding-top: 6rem !important;
+              padding-bottom: 6rem !important;
             }
             
             .desktop-padding {

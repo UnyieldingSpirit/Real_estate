@@ -1,4 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface TelegramWebApp {
+    MainButton: boolean;
+    ready: any;
+    viewportStableHeight: number;
+    BackButton: any;
     expand: () => void;
     close: () => void;
     enableClosingConfirmation: (enable: boolean) => void;
