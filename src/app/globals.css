@@ -1,17 +1,20 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #f7f7f7;
-  /* --foreground: #171717; */
+  --foreground: #171717;
   --font-inter: var(--font-inter);
   --font-als-hauss: 'ALS Hauss', sans-serif;
 }
 
-@theme inline {
-  /* --color-background: var(--background); */
-  /* --color-foreground: var(--foreground); */
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-geist-mono);
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,13 +24,26 @@
   }
 }
 
-body {
-  background: #f7f7f7;
-  color: var(--foreground);
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+/* Дополнительные утилиты */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* Добавляем класс для использования ALS Hauss */
-.font-als-hauss {
-  font-family: var(--font-als-hauss);
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@layer components {
+  .btn-primary {
+    @apply py-2 px-4 bg-primary text-white font-medium rounded-xl;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm p-4;
+  }
+  
+  .input-field {
+    @apply w-full bg-white rounded-xl p-4 text-gray-800 outline-none;
+  }
 }

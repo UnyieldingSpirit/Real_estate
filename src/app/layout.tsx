@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Script from 'next/script';
-import TelegramWebAppInitializer from "../shared/components/TelegramWebAppInitializer";
+// import TelegramWebAppInitializer from "../shared/components/TelegramWebAppInitializer";
 
 
 // Загружаем Inter как основной шрифт
@@ -85,7 +85,7 @@ export default function RootLayout({
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
         <main className="scrollbar-none flex-1 overflow-y-auto overflow-x-hidden">
-          <TelegramWebAppInitializer />
+          {/* <TelegramWebAppInitializer /> */}
           {children}
         </main>
       </body>
