@@ -79,25 +79,12 @@ export default function RootLayout({
             `
           }}
         />
-
-        {/* Инлайн-стили для условного применения паддингов только на мобильных устройствах */}
-        <style>
-          {`
-            @media (max-width: 768px) {
-              .main-container {
-                padding-top: 7rem;
-                padding-bottom: 7rem;
-                background-color: #f7f7f7;
-              }
-            }
-          `}
-        </style>
       </head>
       <body
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation overflow-x-hidden`}
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
-        <main className="main-container scrollbar-none flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="scrollbar-none flex-1 overflow-y-auto overflow-x-hidden py-28 bg-[#f7f7f7]">
           <TelegramWebAppInitializer />
           {children}
         </main>
