@@ -52,6 +52,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-touch-fullscreen" content="yes" />
         <meta name="HandheldFriendly" content="true" />
+        <meta name="theme-color" content="#f7f7f7" />
         
         {/* Добавляем загрузку для шрифта ALS Hauss */}
         <link
@@ -101,12 +102,16 @@ export default function RootLayout({
                 const mainContent = document.querySelector('.main-content');
                 if (mainContent) {
                   if (isMobileDevice()) {
-                    mainContent.classList.add('mobile-device');
-                    mainContent.classList.remove('desktop-device');
+                    mainContent.style.paddingTop = '6rem';
+                    mainContent.style.paddingBottom = '6rem';
+                    mainContent.classList.add('mobile-padding');
+                    mainContent.classList.remove('desktop-padding');
                   } else {
-                    console.log('Применяю десктопные стили');
-                    mainContent.classList.add('desktop-device');
-                    mainContent.classList.remove('mobile-device');
+                    console.log('Применяю десктопные отступы: без отступов');
+                    mainContent.style.paddingTop = '0';
+                    mainContent.style.paddingBottom = '0';
+                    mainContent.classList.add('desktop-padding');
+                    mainContent.classList.remove('mobile-padding');
                   }
                 } else {
                   console.warn('Элемент .main-content не найден, повторяю попытку...');
@@ -115,64 +120,116 @@ export default function RootLayout({
                 }
               }
               
+              // Определение наличия Telegram Web App и настройка соответствующих отступов
+              function setupTelegramPaddings() {
+                if (window.Telegram && window.Telegram.WebApp) {
+                  const tg = window.Telegram.WebApp;
+                  
+                  // Установка CSS-переменных для безопасных зон
+                  if (tg.viewportStableHeight) {
+                    document.documentElement.style.setProperty('--tg-viewport-stable-height', \`\${tg.viewportStableHeight}px\`);
+                  }
+                  
+                  // Применяем отступы для полноэкранного режима, если доступно
+                  if (tg.isExpanded) {
+                    document.body.classList.add('tg-expanded');
+                  }
+                  
+                  // Слушаем изменения viewportHeight
+                  window.addEventListener('viewportChanged', function() {
+                    if (tg.viewportStableHeight) {
+                      document.documentElement.style.setProperty('--tg-viewport-stable-height', \`\${tg.viewportStableHeight}px\`);
+                    }
+                  });
+                }
+              }
+              
               // Выполняем с разными событиями для надежности
-              document.addEventListener('DOMContentLoaded', applyPadding);
-              window.addEventListener('load', applyPadding);
+              document.addEventListener('DOMContentLoaded', () => {
+                applyPadding();
+                setupTelegramPaddings();
+              });
+              
+              window.addEventListener('load', () => {
+                applyPadding();
+                setupTelegramPaddings();
+              });
               
               // Также применяем немедленно
-              setTimeout(applyPadding, 0);
+              setTimeout(() => {
+                applyPadding();
+                setupTelegramPaddings();
+              }, 0);
+              
               // И с небольшой задержкой
-              setTimeout(applyPadding, 500);
+              setTimeout(() => {
+                applyPadding();
+                setupTelegramPaddings();
+              }, 500);
             `
           }}
         />
         
-        {/* Стили для фиксации layout и правильного позиционирования навигации */}
+        {/* Стили для layout и навигации */}
         <style>
           {`
-            html, body {
-              height: 100%;
-              width: 100%;
-              overflow: hidden;
-              position: relative;
-              touch-action: manipulation;
+            :root {
+              --safe-area-inset-top: env(safe-area-inset-top, 0px);
+              --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+              --tg-viewport-stable-height: 100vh;
             }
             
             /* Базовые стили для main-content */
             .main-content {
-              height: 100%;
-              width: 100%;
+              flex: 1;
               background-color: #f7f7f7;
               position: relative;
-              overflow: hidden;
-              display: flex;
-              flex-direction: column;
+              /* Отключаем скролл на основном контейнере */
+              overflow: hidden !important;
+              min-height: 100vh;
+              min-height: var(--tg-viewport-stable-height, 100vh);
+              /* Добавляем отступы для полноэкранного режима */
+              padding-top: var(--safe-area-inset-top, 0px);
+              padding-bottom: calc(var(--safe-area-inset-bottom, 0px) + 100px);
             }
             
-            /* Стили для страниц, которым нужен скролл */
+            /* Классы для JS-применения */
+            .mobile-padding {
+              padding-top: 6rem !important;
+              padding-bottom: 6rem !important;
+            }
+            
+            .desktop-padding {
+              padding-top: 0 !important;
+              padding-bottom: 0 !important;
+            }
+            
+            /* Стиль для страниц, где нужен скролл */
             .page-scrollable {
               height: 100%;
               overflow-y: auto;
               -webkit-overflow-scrolling: touch;
-              padding-bottom: 100px; /* Отступ для нижней навигации */
+              /* Отступ для нижней навигации */
+              padding-bottom: 100px;
             }
             
-            /* Позиционирование навигации внизу */
-            .bottom-navigation-container {
-              position: fixed;
-              bottom: 0;
-              left: 0;
-              right: 0;
-              z-index: 50;
+            /* Фиксируем нижнюю навигацию */
+            .fixed-bottom-nav {
+              position: fixed !important;
+              bottom: calc(30px + var(--safe-area-inset-bottom, 0px)) !important;
+              left: 14px !important;
+              right: 14px !important;
+              z-index: 5000 !important;
             }
             
-            /* Классы для JS-определения устройства */
-            .mobile-device {
-              /* Стили для мобильных устройств */
+            /* Стили для режима Telegram expanded */
+            body.tg-expanded .main-content {
+              padding-top: var(--safe-area-inset-top, 0px);
+              padding-bottom: var(--safe-area-inset-bottom, 0px);
             }
             
-            .desktop-device {
-              /* Стили для десктопных устройств */
+            body.tg-expanded .fixed-bottom-nav {
+              bottom: calc(30px + var(--safe-area-inset-bottom, 0px)) !important;
             }
           `}
         </style>
@@ -181,7 +238,7 @@ export default function RootLayout({
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation`}
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
-        <main className="main-content">
+        <main className="main-content scrollbar-none">
           <TelegramWebAppInitializer />
           {children}
         </main>
