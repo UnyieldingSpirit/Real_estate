@@ -82,30 +82,69 @@ export default function RootLayout({
         {/* Скрипт для определения типа устройства и применения отступов */}
         <Script
           id="device-detector"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               function isMobileDevice() {
-                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+                // Проверка ТОЛЬКО по user-agent
+                const mobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                
+                console.log('Обнаружение устройства:', { 
+                  'User-Agent': navigator.userAgent,
+                  'Мобильный User-Agent': mobileUA
+                });
+                
+                return mobileUA;
               }
               
-              window.addEventListener('DOMContentLoaded', () => {
+              function applyPadding() {
                 const mainContent = document.querySelector('.main-content');
                 if (mainContent) {
                   if (isMobileDevice()) {
+                    console.log('Применяю мобильные отступы: 7rem сверху и снизу');
+                    mainContent.style.paddingTop = '7rem';
+                    mainContent.style.paddingBottom = '7rem';
                     mainContent.classList.add('mobile-padding');
+                    mainContent.classList.remove('desktop-padding');
                   } else {
+                    console.log('Применяю десктопные отступы: без отступов');
+                    mainContent.style.paddingTop = '0';
+                    mainContent.style.paddingBottom = '0';
                     mainContent.classList.add('desktop-padding');
+                    mainContent.classList.remove('mobile-padding');
                   }
+                } else {
+                  console.warn('Элемент .main-content не найден, повторяю попытку...');
+                  // Если элемент не найден, пытаемся снова через небольшую задержку
+                  setTimeout(applyPadding, 100);
                 }
-              });
+              }
+              
+              // Выполняем с разными событиями для надежности
+              document.addEventListener('DOMContentLoaded', applyPadding);
+              window.addEventListener('load', applyPadding);
+              
+              // Также применяем немедленно
+              setTimeout(applyPadding, 0);
+              // И с небольшой задержкой
+              setTimeout(applyPadding, 500);
             `
           }}
         />
         
+        {/* Стили для подстраховки */}
         <style>
           {`
+            /* Базовые стили для main-content */
+            .main-content {
+              overflow-y: auto;
+              overflow-x: hidden;
+              flex: 1;
+              background-color: #f7f7f7;
+              position: relative;
+            }
+            
+            /* Классы для JS-применения */
             .mobile-padding {
               padding-top: 7rem !important;
               padding-bottom: 7rem !important;
@@ -122,7 +161,7 @@ export default function RootLayout({
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation overflow-x-hidden`}
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
-        <main className="main-content scrollbar-none flex-1 overflow-y-auto overflow-x-hidden bg-[#f7f7f7]">
+        <main className="main-content scrollbar-none">
           <TelegramWebAppInitializer />
           {children}
         </main>
