@@ -101,16 +101,12 @@ export default function RootLayout({
                 const mainContent = document.querySelector('.main-content');
                 if (mainContent) {
                   if (isMobileDevice()) {
-                    mainContent.style.paddingTop = '6rem';
-                    mainContent.style.paddingBottom = '6rem';
-                    mainContent.classList.add('mobile-padding');
-                    mainContent.classList.remove('desktop-padding');
+                    mainContent.classList.add('mobile-device');
+                    mainContent.classList.remove('desktop-device');
                   } else {
-                    console.log('Применяю десктопные отступы: без отступов');
-                    mainContent.style.paddingTop = '0';
-                    mainContent.style.paddingBottom = '0';
-                    mainContent.classList.add('desktop-padding');
-                    mainContent.classList.remove('mobile-padding');
+                    console.log('Применяю десктопные стили');
+                    mainContent.classList.add('desktop-device');
+                    mainContent.classList.remove('mobile-device');
                   }
                 } else {
                   console.warn('Элемент .main-content не найден, повторяю попытку...');
@@ -131,27 +127,52 @@ export default function RootLayout({
           }}
         />
         
-        {/* Стили для подстраховки */}
+        {/* Стили для фиксации layout и правильного позиционирования навигации */}
         <style>
           {`
+            html, body {
+              height: 100%;
+              width: 100%;
+              overflow: hidden;
+              position: relative;
+              touch-action: manipulation;
+            }
+            
             /* Базовые стили для main-content */
             .main-content {
-              // overflow-y: auto;
-              // overflow-x: hidden;
-              flex: 1;
+              height: 100%;
+              width: 100%;
               background-color: #f7f7f7;
               position: relative;
+              overflow: hidden;
+              display: flex;
+              flex-direction: column;
             }
             
-            /* Классы для JS-применения */
-            .mobile-padding {
-              padding-top: 6rem !important;
-              padding-bottom: 6rem !important;
+            /* Стили для страниц, которым нужен скролл */
+            .page-scrollable {
+              height: 100%;
+              overflow-y: auto;
+              -webkit-overflow-scrolling: touch;
+              padding-bottom: 100px; /* Отступ для нижней навигации */
             }
             
-            .desktop-padding {
-              padding-top: 0 !important;
-              padding-bottom: 0 !important;
+            /* Позиционирование навигации внизу */
+            .bottom-navigation-container {
+              position: fixed;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              z-index: 50;
+            }
+            
+            /* Классы для JS-определения устройства */
+            .mobile-device {
+              /* Стили для мобильных устройств */
+            }
+            
+            .desktop-device {
+              /* Стили для десктопных устройств */
             }
           `}
         </style>
@@ -160,7 +181,7 @@ export default function RootLayout({
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation`}
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
-        <main className="main-content scrollbar-none">
+        <main className="main-content">
           <TelegramWebAppInitializer />
           {children}
         </main>
