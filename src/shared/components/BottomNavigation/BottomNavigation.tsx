@@ -69,9 +69,9 @@ export default function BottomNavigation(): JSX.Element {
   ];
 
   return (
-    <div className="fixed bottom-[30px] left-[15px] right-[15px] z-50">
-      <div className="bg-white h-[70px] rounded-[80px] shadow-lg py-3 px-6">
-        <div className="flex justify-between items-end mt-2 mx-4">
+    <div className="fixed bottom-[30px] left-[14px] right-[14px] z-50">
+      <div className="bg-white h-[70px] rounded-[80px] shadow-lg py-4 px-6">
+        <div className="flex justify-between items-end">
           {navItems.map((item) => (
             <button 
               key={item.path}
@@ -91,8 +91,6 @@ export default function BottomNavigation(): JSX.Element {
                 style={{ color: isActive(item.path) ? activeColor : "#A3A3A3" }}
               >
                 {t(item.label)}
-
-                
               </span>
             </button>
           ))}

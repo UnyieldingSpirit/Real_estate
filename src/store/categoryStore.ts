@@ -41,7 +41,7 @@ export const PROPERTY_CATEGORIES = {
         iconActiveColor: 'white',
         iconInactiveColor: '#E6E6E6',
         iconWidth: 90,
-        iconHeight: 90
+        iconHeight: 85
     },
     [PropertyCategoryType.DACHA]: {
         titleKey: 'dacha',
