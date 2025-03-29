@@ -148,23 +148,39 @@ export default function RootLayout({
               document.addEventListener('DOMContentLoaded', () => {
                 applyPadding();
                 setupTelegramPaddings();
+                
+                // Явно отключаем скролл на html и body
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
               });
               
               window.addEventListener('load', () => {
                 applyPadding();
                 setupTelegramPaddings();
+                
+                // Явно отключаем скролл на html и body
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
               });
               
               // Также применяем немедленно
               setTimeout(() => {
                 applyPadding();
                 setupTelegramPaddings();
+                
+                // Явно отключаем скролл на html и body
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
               }, 0);
               
               // И с небольшой задержкой
               setTimeout(() => {
                 applyPadding();
                 setupTelegramPaddings();
+                
+                // Явно отключаем скролл на html и body
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
               }, 500);
             `
           }}
@@ -177,6 +193,15 @@ export default function RootLayout({
               --safe-area-inset-top: env(safe-area-inset-top, 0px);
               --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
               --tg-viewport-stable-height: 100vh;
+            }
+            
+            /* Жестко отключаем скролл на html и body */
+            html, body {
+              overflow: hidden !important;
+              height: 100% !important;
+              position: fixed !important;
+              width: 100% !important;
+              touch-action: manipulation !important;
             }
             
             /* Базовые стили для main-content */
@@ -211,6 +236,11 @@ export default function RootLayout({
               -webkit-overflow-scrolling: touch;
               /* Отступ для нижней навигации */
               padding-bottom: 100px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
             }
             
             /* Фиксируем нижнюю навигацию */
@@ -236,9 +266,9 @@ export default function RootLayout({
       </head>
       <body
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation`}
-        style={{ fontFamily: 'Inter, sans-serif' }}
+        style={{ fontFamily: 'Inter, sans-serif', overflow: 'hidden' }}
       >
-        <main className="main-content scrollbar-none">
+        <main className="main-content scrollbar-none" style={{ overflow: 'hidden' }}>
           <TelegramWebAppInitializer />
           {children}
         </main>
