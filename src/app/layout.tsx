@@ -4,6 +4,7 @@ import "./globals.css";
 import Script from 'next/script';
 import TelegramWebAppInitializer from "../shared/components/TelegramWebAppInitializer";
 
+
 // Загружаем Inter как основной шрифт
 const inter = Inter({
   subsets: ['latin', 'cyrillic'],
@@ -78,42 +79,16 @@ export default function RootLayout({
             `
           }}
         />
-        
-        {/* Скрипт для определения типа устройства и применения отступов */}
-        <Script
-          id="device-detector"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              function isMobileDevice() {
-                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-              }
-              
-              window.addEventListener('DOMContentLoaded', () => {
-                const mainContent = document.querySelector('.main-content');
-                if (mainContent) {
-                  if (isMobileDevice()) {
-                    mainContent.classList.add('mobile-padding');
-                  } else {
-                    mainContent.classList.add('desktop-padding');
-                  }
-                }
-              });
-            `
-          }}
-        />
-        
+
+        {/* Инлайн-стили для условного применения паддингов только на мобильных устройствах */}
         <style>
           {`
-            .mobile-padding {
-              padding-top: 7rem !important;
-              padding-bottom: 7rem !important;
-            }
-            
-            .desktop-padding {
-              padding-top: 0 !important;
-              padding-bottom: 0 !important;
+            @media (max-width: 768px) {
+              .main-container {
+                padding-top: 7rem;
+                padding-bottom: 7rem;
+                background-color: #f7f7f7;
+              }
             }
           `}
         </style>
@@ -122,7 +97,7 @@ export default function RootLayout({
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation overflow-x-hidden`}
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
-        <main className="main-content scrollbar-none flex-1 overflow-y-auto overflow-x-hidden bg-[#f7f7f7]">
+        <main className="main-container scrollbar-none flex-1 overflow-y-auto overflow-x-hidden">
           <TelegramWebAppInitializer />
           {children}
         </main>
