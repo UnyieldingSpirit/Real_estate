@@ -136,8 +136,8 @@ export default function RootLayout({
           {`
             /* Базовые стили для main-content */
             .main-content {
-              overflow-y: auto;
-              overflow-x: hidden;
+              // overflow-y: auto;
+              // overflow-x: hidden;
               flex: 1;
               background-color: #f7f7f7;
               position: relative;
