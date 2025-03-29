@@ -7,7 +7,6 @@ import PropertyCard from '../shared/components/PropertyCard';
 import { useTranslation } from '@/src/hooks';
 import { BottomNavigation } from '../shared/components';
 
-// Определение типов для объекта недвижимости
 interface PropertyData {
   id: number;
   title: string;
@@ -32,11 +31,9 @@ const localization = {
   }
 };
 
-// Переносим данные внутрь компонента
 export default function Home() {
   const { t } = useTranslation(localization);
 
-  // Внутренняя константа вместо экспортированной
   const properties: PropertyData[] = [
     {
       id: 1,
@@ -115,22 +112,17 @@ export default function Home() {
   return (
     <div className="page-scrollable">
       <div className="flex flex-col min-h-screen bg-[#f7f7f7] overflow-x-hidden">
-        {/* Основной контент */}
         <main className="flex-1 pb-20 mt-20">
-          {/* Компонент поиска */}
           <div className="pt-4">
             <SearchBar />
           </div>
           
-          {/* Компонент опроса */}
           <div className="mt-4">
             <SurveyBanner />
           </div>
           
-          {/* Компонент категорий */}
           <Categories />
 
-          {/* Список объявлений */}
           <div className="px-4 mb-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-[34px] font-bold text-[#1F1F1F]">

@@ -69,7 +69,7 @@ export default function BottomNavigation(): JSX.Element {
   ];
 
   return (
-    <div className="fixed bottom-[30px] left-[14px] right-[14px] z-50">
+    <div className="fixed bottom-[50px] left-[14px] right-[14px] z-50">
       <div className="bg-white h-[70px] rounded-[80px] shadow-lg py-4 px-6">
         <div className="flex justify-between items-end">
           {navItems.map((item) => (
