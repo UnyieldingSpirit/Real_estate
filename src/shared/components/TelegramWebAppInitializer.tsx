@@ -37,6 +37,11 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
         //   tg.MainButton.hide();
         // }
         
+    // Полноэкранный режим
+        if (typeof tg.requestFullscreen === 'function') {
+          tg.requestFullscreen();
+        }
+
         // Настройка кнопки "Назад"
         if (tg.BackButton && typeof tg.BackButton.onClick === 'function') {
           tg.BackButton.onClick(handleBackRef.current);
