@@ -2,7 +2,7 @@ interface TelegramWebApp {
     expand: () => void;
     close: () => void;
     enableClosingConfirmation: (enable: boolean) => void;
-    requestFullscreen: () => void;
+    requestFullscreen: () => (enable: boolean) => void;
     disableVerticalSwipes: (disable: boolean) => void;
     // Добавьте другие методы, которые вы используете
 }
