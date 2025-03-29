@@ -84,7 +84,7 @@ export default function RootLayout({
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation overflow-x-hidden`}
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
-        <main className="scrollbar-none flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="scrollbar-none flex-1 overflow-y-auto overflow-x-hidden py-28 bg-[#f7f7f7]">
           <TelegramWebAppInitializer />
           {children}
         </main>

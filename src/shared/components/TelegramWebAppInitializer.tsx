@@ -2,8 +2,6 @@
 
 import { JSX, useEffect } from 'react';
 
-
-
 export default function TelegramWebAppInitializer(): JSX.Element | null {
   useEffect(() => {
     // Проверка наличия API Telegram WebApp
@@ -16,32 +14,36 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
       console.log('User-Agent:', navigator.userAgent);
       console.log('Определена платформа:', isMobileDevice ? 'Мобильная' : 'Десктоп');
 
-      // Общие настройки (применяются всегда)
-      tg.enableClosingConfirmation(true);
-
-      // Мобильно-специфичные методы
-      if (isMobileDevice) {
-        console.log('Активация мобильных функций');
-
-        // Расширение на всю высоту
-        if (typeof tg.expand === 'function') {
-          tg.expand();
+      try {
+        // Общие настройки (применяются всегда)
+        if (typeof tg.enableClosingConfirmation === 'function') {
+          tg.enableClosingConfirmation(true);
         }
 
-        // Полноэкранный режим
-        if (typeof tg.requestFullscreen === 'function') {
-          tg.requestFullscreen();
+        // Мобильно-специфичные методы
+        if (isMobileDevice) {
+          console.log('Активация мобильных функций');
+
+          // Расширение на всю высоту
+          if (typeof tg.expand === 'function') {
+            tg.expand();
+          }
+
+          // Отключение вертикальных свайпов - проверяем наличие метода
+          // Метод requestFullscreen не поддерживается - удаляем его вызов
+          
+          // Безопасно проверяем наличие метода перед вызовом
+          if (typeof tg.disableVerticalSwipes === 'function') {
+            tg.disableVerticalSwipes(true);
+          }
+        } else {
+          console.log('Мобильные функции не активированы (десктопная платформа)');
         }
 
-        // Отключение вертикальных свайпов
-        if (typeof tg.disableVerticalSwipes === 'function') {
-          tg.disableVerticalSwipes(true);
-        }
-      } else {
-        console.log('Мобильные функции не активированы (десктопная платформа)');
+        console.log('Telegram WebApp инициализирован');
+      } catch (error) {
+        console.warn('Ошибка при инициализации Telegram WebApp:', error);
       }
-
-      console.log('Telegram WebApp инициализирован');
     } else {
       console.warn('Telegram WebApp API недоступен');
     }

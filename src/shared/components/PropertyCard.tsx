@@ -201,15 +201,15 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
                 {/* Параметры */}
                 <div className="flex gap-2">
                     <div className="flex items-center bg-[#F2F2F2] py-1 px-2 rounded-full text-base">
-                       <img src="/square.svg" alt="Площадь" />
-                        <span className='ml-2 text-[#000000]'>
+                       <img src="/square.svg" alt="Площадь" className='w-[16px] h-[16px]' />
+                        <span className='ml-2 text-[18px] mt-1 text-[#000000]'>
                             {property.area || "60м²"}
                         </span>
                     </div>
 
                     <div className="flex items-center bg-[#F2F2F2] py-1 px-2 rounded-full text-base">
-                         <img src="/rooms.svg" alt="Комнаты" />
-                        <span className='ml-2 text-[#000000]'>
+                         <img src="/rooms.svg" alt="Комнаты" className='w-[16px] h-[16px]' />
+                        <span className='ml-2 text-[18px] mt-1 text-[#000000]'>
                             {property.rooms || "4"}
                         </span>
                     </div>
