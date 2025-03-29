@@ -157,7 +157,7 @@ export default function RootLayout({
         </style>
       </head>
       <body
-        className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation overflow-x-hidden`}
+        className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation`}
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
         <main className="main-content scrollbar-none">
