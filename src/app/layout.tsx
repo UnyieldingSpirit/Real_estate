@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Inter } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Script from 'next/script';
 import TelegramWebAppInitializer from "../shared/components/TelegramWebAppInitializer";
@@ -12,12 +11,14 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const geistSans = Geist({
+// Заменил Geist на Inter для sans-serif шрифта
+const interSans = Inter({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
 });
 
-const geistMono = Geist_Mono({
+// Заменил Geist Mono на Roboto Mono для монопространственного шрифта
+const robotoMono = Roboto_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
@@ -80,10 +81,9 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased touch-manipulation overflow-x-hidden`}
+        className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} antialiased touch-manipulation overflow-x-hidden`}
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
-        {/* <TelegramWebAppInitializer /> */}
         <main className="scrollbar-none flex-1 overflow-y-auto overflow-x-hidden">
           <TelegramWebAppInitializer />
           {children}
