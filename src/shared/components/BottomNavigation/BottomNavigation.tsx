@@ -91,6 +91,8 @@ export default function BottomNavigation(): JSX.Element {
                 style={{ color: isActive(item.path) ? activeColor : "#A3A3A3" }}
               >
                 {t(item.label)}
+
+                
               </span>
             </button>
           ))}
