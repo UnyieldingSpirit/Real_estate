@@ -7,7 +7,6 @@ import {
 // import { useRouter } from 'next/navigation';
 // import { BackIcon } from '@/src/shared/ui/Icon';
 // import { useTranslation } from '@/src/hooks';
-// import NavigationHeader from '@/src/shared/components/NavigationHeader';
 
 // Типизация локализации
 // interface LocalizationMessages {
@@ -164,7 +163,6 @@ export default function VerificationCodePage(): JSX.Element {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header with back button
-      <NavigationHeader showLanguageSelector={true} />
       
       <div className="flex-1 flex flex-col px-5 pt-6">
         <h1 className="text-[32px] font-bold text-[#1F1F1F] mb-4">

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import NavigationHeader from '@/src/shared/components/NavigationHeader';
 import { useTranslation } from '@/src/hooks';
 
 // Types
@@ -134,7 +133,6 @@ export default function PropertyComplaintPage({ params }: { params: { id: string
   return (
     <div className="page-scrollable">
       <div className="flex flex-col min-h-screen bg-[#f7f7f7]">
-        <NavigationHeader showLanguageSelector={false} />
         
         <div className="flex-1 px-5 pb-20">
           <h2 className='text-[#1F1F1F] text-[28px] font-bold'>{t('complaint')}</h2>

@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import NavigationHeader from '@/src/shared/components/NavigationHeader';
 import { useTranslation } from '@/src/hooks';
 import { MailIcon } from '@/src/shared/ui/Icon';
 import PhotoGalleryModal from '@/src/shared/components/PhotoGalleryModal';
@@ -63,7 +61,6 @@ const localization = {
 };
 
 export default function PropertyDetailPage() {
-  const router = useRouter();
   const { t } = useTranslation(localization);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
@@ -313,7 +310,6 @@ export default function PropertyDetailPage() {
   return (
     <div className="page-scrollable">
       <div className="flex flex-col min-h-screen bg-[#f7f7f7]">
-        <NavigationHeader />
         
         <div className="flex-1"> {/* Без отступа для кнопок */}
           {/* Галерея изображений с отступами по бокам */}

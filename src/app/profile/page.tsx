@@ -1,7 +1,6 @@
 'use client';
 
 import { JSX, useState } from 'react';
-import NavigationHeader from '@/src/shared/components/NavigationHeader';
 import { useTranslation } from '@/src/hooks';
 import { BottomNavigation } from '@/src/shared/components';
 import { CameraIcon, EditIcon } from '@/src/shared/ui/Icon';
@@ -113,7 +112,6 @@ export default function ProfilePage(): JSX.Element {
   
   return (
     <div className="flex flex-col min-h-screen bg-[#f7f7f7]">
-      <NavigationHeader title={t('profile')} showLanguageSelector={true} />
       
       <div className="flex-1 p-4 pb-32">
         {/* Профильная информация */}

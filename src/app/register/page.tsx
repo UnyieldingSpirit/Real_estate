@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MouseEvent, JSX } from 'react';
-import NavigationHeader from '@/src/shared/components/NavigationHeader';
 import { useTranslation } from '@/src/hooks';
 
 // Типизация локализации
@@ -216,7 +215,6 @@ export default function RegistrationPage(): JSX.Element {
 
   return (
     <div className="flex flex-col h-screen">
-      <NavigationHeader showLanguageSelector={true} />
       
       <div className="flex flex-col flex-1 p-4">
         <h2 className="text-[#1F1F1F] text-4xl font-black">

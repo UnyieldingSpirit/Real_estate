@@ -2,7 +2,6 @@
 
 import { useState, JSX } from 'react';
 import { useRouter } from 'next/navigation';
-import NavigationHeader from '@/src/shared/components/NavigationHeader';
 import SlideIndicator from '@/src/shared/ui/SlideIndicator';
 import { useTranslation } from '@/src/hooks';
 
@@ -164,15 +163,6 @@ export default function SurveyPage(): JSX.Element {
     }
   };
   
-  // Обработчик кнопки "Назад"
-  const handleBack = (): void => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    } else {
-      router.back();
-    }
-  };
-  
   // Получаем текст кнопки в зависимости от текущего шага
   const getButtonText = (): string => {
     if (currentStep === totalSteps - 1) {
@@ -184,7 +174,6 @@ export default function SurveyPage(): JSX.Element {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Шапка с кнопкой назад */}
-      <NavigationHeader onBack={handleBack} showLanguageSelector={false} />
       
       <div className="flex-1 p-4 flex flex-col">
         {/* Первый шаг - Выбор типа недвижимости */}

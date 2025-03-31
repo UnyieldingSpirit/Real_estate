@@ -4,7 +4,6 @@ import { JSX, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckmarkIcon } from '@/src/shared/ui/Icon';
 import { useTranslation } from '@/src/hooks';
-import NavigationHeader from '@/src/shared/components/NavigationHeader';
 
 interface Localization {
   filter: string;
@@ -212,7 +211,6 @@ export default function FilterPage(): JSX.Element {
   return (
     <div className="bg-[#f7f7f7]">
       {/* Header */}
-      <NavigationHeader showLanguageSelector={false} />
       <div className="px-4">
         <h1 className="text-[32px] font-bold text-[#1F1F1F]">{t('filter')}</h1>
               
