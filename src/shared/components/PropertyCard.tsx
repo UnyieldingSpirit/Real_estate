@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, TouchEvent, JSX } from 'react';
+import { useRouter } from 'next/navigation';
 import { useCategoryStore } from '@/src/store/categoryStore';
 import { FavoriteHeartIcon } from '@/src/shared/ui/Icon';
 
@@ -37,6 +38,7 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
     const imageRef = useRef<HTMLImageElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
     
     // Получаем активный цвет из store
     const activeColor = useCategoryStore(state => state.getActiveColor());
@@ -50,6 +52,16 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
     const toggleFavorite = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.stopPropagation();
         setIsFavorite(!isFavorite);
+    };
+
+    // Обработчик для клика по карточке
+    const handleCardClick = () => {
+        if (onClick) {
+            onClick();
+        } else {
+            // Переход на детальную страницу с использованием id из property
+           router.push(`/property/${property.id}`);
+        }
     };
 
     // Определение типа объявления (риелтор или собственник)
@@ -115,8 +127,8 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
 
     return (
         <div 
-            className="rounded-[20px] overflow-hidden bg-white mb-4"
-            onClick={onClick}
+            className="rounded-[20px] overflow-hidden bg-white mb-4 cursor-pointer"
+            onClick={handleCardClick}
         >
             {/* Изображение и дни */}
             <div className="relative">

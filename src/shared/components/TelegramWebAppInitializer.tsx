@@ -32,11 +32,6 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           tg.enableClosingConfirmation(true);
         }
         
-        // // Скрыть главную кнопку если она существует
-        // if (tg.MainButton && typeof tg.MainButton.hide === 'function') {
-        //   tg.MainButton.hide();
-        // }
-        
     // Полноэкранный режим
         if (typeof tg.requestFullscreen === 'function') {
           tg.requestFullscreen();

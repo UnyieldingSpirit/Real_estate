@@ -112,7 +112,7 @@ export default function Home() {
   return (
     <div className="page-scrollable">
       <div className="flex flex-col min-h-screen bg-[#f7f7f7] overflow-x-hidden">
-        <main className="flex-1 pb-20 mt-20">
+        <main className="flex-1">
           <div className="pt-4">
             <SearchBar />
           </div>
