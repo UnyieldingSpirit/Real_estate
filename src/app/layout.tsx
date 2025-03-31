@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Script from 'next/script';
-import TelegramWebAppInitializer from "../shared/components/TelegramWebAppInitializer";
+import EnhancedMainWrapper from "../shared/components/EnhancedMainWrapper";
 
 // Загружаем Inter как основной шрифт
 const inter = Inter({
@@ -235,7 +235,8 @@ export default function RootLayout({
               overflow-y: auto;
               -webkit-overflow-scrolling: touch;
               /* Отступ для нижней навигации */
-              padding-bottom: 100px;
+              padding-bottom: 120px;
+              padding-top: 100px;
               position: absolute;
               top: 0;
               left: 0;
@@ -268,10 +269,9 @@ export default function RootLayout({
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} bg-[#f7f7f7] antialiased touch-manipulation`}
         style={{ fontFamily: 'Inter, sans-serif', overflow: 'hidden' }}
       >
-        <main className="main-content scrollbar-none" style={{ overflow: 'hidden' }}>
-          <TelegramWebAppInitializer />
-          {children}
-        </main>
+       <EnhancedMainWrapper>
+  {children}
+</EnhancedMainWrapper>
       </body>
     </html>
   );

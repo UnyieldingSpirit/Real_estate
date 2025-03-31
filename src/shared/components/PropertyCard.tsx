@@ -59,7 +59,6 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
         if (onClick) {
             onClick();
         } else {
-            // Переход на детальную страницу с использованием id из property
            router.push(`/property/${property.id}`);
         }
     };

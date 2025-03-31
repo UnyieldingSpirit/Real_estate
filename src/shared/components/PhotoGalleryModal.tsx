@@ -75,7 +75,7 @@ export default function PhotoGalleryModal({
       {/* Контент модального окна */}
       <div className="relative w-full h-full flex flex-col items-center justify-center px-4" onClick={handleContentClick}>
         {/* Верхняя панель с кнопкой закрытия (только крестик справа) */}
-        <div className="absolute top-0 right-0 z-10 p-5">
+        <div className="absolute top-[105px] right-0 z-10 p-5">
           {/* Кнопка закрытия (плюс повёрнутый на 45 градусов) */}
           <button 
             onClick={handleCloseClick} 
