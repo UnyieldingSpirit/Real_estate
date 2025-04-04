@@ -7,7 +7,7 @@ import { FavoriteHeartIcon } from '@/src/shared/ui/Icon';
 type OperationType = 'rent' | 'sale';
 
 // Статус объявления
-type AdvertisementStatus = 'active' | 'inReview' | 'draft' | 'rejected';
+export type AdvertisementStatus = 'active' | 'inReview' | 'draft' | 'rejected';
 
 // Интерфейс для объекта недвижимости
 interface PropertyData {

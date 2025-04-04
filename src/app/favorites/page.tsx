@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { BottomNavigation } from '@/src/shared/components';
-import PropertyCard from '@/src/shared/components/PropertyCard';
+import PropertyCard, { AdvertisementStatus } from '@/src/shared/components/PropertyCard';
 import { useTranslation } from '@/src/hooks';
 import EmptyState from '@/src/shared/components/EmptyState';
 
@@ -116,7 +116,7 @@ export default function MyAdvertisementsPage() {
             {advertisements.map(ad => (
               <PropertyCard 
                 key={ad.id} 
-                property={ad}
+                 property={{...ad, status: ad.status as AdvertisementStatus}}
                 myAdvertisementMode={true}
               />
             ))}

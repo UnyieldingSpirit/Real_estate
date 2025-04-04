@@ -4,6 +4,8 @@ import { useState, JSX } from 'react';
 import { useRouter } from 'next/navigation';
 import SlideIndicator from '@/src/shared/ui/SlideIndicator';
 import { useTranslation } from '@/src/hooks';
+import PropertyCategories from '@/src/shared/components/PropertyCategories';
+import { PropertyCategoryType } from '@/src/store/categoryStore';
 
 // Типы для локализации
 interface PropertyTypeLocalization {
@@ -41,12 +43,11 @@ interface Localization {
 }
 
 // Типы для данных опроса
-type PropertyType = 'apartment' | 'house' | 'commercial' | 'dacha' | '';
 type RoomType = 'one' | 'two' | 'three' | 'four' | 'moreThanFive' | '';
 type CurrencyType = '$' | 'UZS';
 
 interface SurveyData {
-  propertyType: PropertyType;
+  propertyType: PropertyCategoryType | '';
   rooms: RoomType;
   currency: CurrencyType;
   budget: number;
@@ -126,14 +127,8 @@ export default function SurveyPage(): JSX.Element {
   // Состояние для отслеживания текущего шага
   const [currentStep, setCurrentStep] = useState<number>(0);
   
-  // Общее количество шагов
   const totalSteps: number = 3;
-  
-  // Обработчик выбора типа недвижимости
-  const handlePropertyTypeSelect = (type: PropertyType): void => {
-    setSurveyData({...surveyData, propertyType: type});
-  };
-  
+
   // Обработчик выбора комнатности
   const handleRoomsSelect = (rooms: RoomType): void => {
     setSurveyData({...surveyData, rooms: rooms});
@@ -147,11 +142,6 @@ export default function SurveyPage(): JSX.Element {
       setSurveyData({...surveyData, currency: currency, budget: 10000000});
     }
   };
-  
-  // // Обработчик изменения бюджета
-  // const handleBudgetChange = (value: number): void => {
-  //   setSurveyData({...surveyData, budget: value});
-  // };
   
   // Обработчик кнопки "Продолжить"
   const handleContinue = (): void => {
@@ -172,100 +162,29 @@ export default function SurveyPage(): JSX.Element {
   };
   
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      {/* Шапка с кнопкой назад */}
-      
-      <div className="flex-1 p-4 flex flex-col">
-        {/* Первый шаг - Выбор типа недвижимости */}
+    <div className="flex flex-col min-h-screen">
+      {/* Основной контент с прокруткой */}
+      <div className="flex-1 p-4 pb-[120px] overflow-auto">
         {currentStep === 0 && (
-          <div className="flex-1">
+          <div>
             <h1 className="text-[28px] font-bold text-[#1F1F1F] mb-1">
               {t('propertyType.title')}
             </h1>
             <p className="text-[#777777] text-[16px] mb-6">
               {t('propertyType.subtitle')}
             </p>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div 
-                className={`p-4 rounded-xl flex flex-col items-center h-[180px] cursor-pointer
-                ${surveyData.propertyType === 'apartment' ? 'bg-[#F08674]' : 'bg-white border border-gray-200'}`}
-                onClick={() => handlePropertyTypeSelect('apartment')}
-              >
-                <div className="flex-1 flex items-center justify-center w-full">
-                  <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Иконка квартиры */}
-                    <rect x="20" y="20" width="60" height="60" stroke={surveyData.propertyType === 'apartment' ? '#FFFFFF' : '#000000'} strokeWidth="2" fill="none" />
-                    <rect x="30" y="30" width="10" height="10" fill={surveyData.propertyType === 'apartment' ? '#FFFFFF' : '#000000'} />
-                    <rect x="30" y="50" width="10" height="10" fill={surveyData.propertyType === 'apartment' ? '#FFFFFF' : '#000000'} />
-                    <rect x="50" y="30" width="10" height="10" fill={surveyData.propertyType === 'apartment' ? '#FFFFFF' : '#000000'} />
-                    <rect x="50" y="50" width="10" height="10" fill={surveyData.propertyType === 'apartment' ? '#FFFFFF' : '#000000'} />
-                  </svg>
-                </div>
-                <span className={`text-base font-medium ${surveyData.propertyType === 'apartment' ? 'text-white' : 'text-[#1F1F1F]'}`}>
-                  {t('propertyType.apartment')}
-                </span>
-              </div>
-
-              <div 
-                className={`p-4 rounded-xl flex flex-col items-center h-[180px] cursor-pointer
-                ${surveyData.propertyType === 'house' ? 'bg-[#F08674]' : 'bg-white border border-gray-200'}`}
-                onClick={() => handlePropertyTypeSelect('house')}
-              >
-                <div className="flex-1 flex items-center justify-center w-full">
-                  <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Иконка частного дома */}
-                    <path d="M50 20L20 50H30V80H70V50H80L50 20Z" stroke={surveyData.propertyType === 'house' ? '#FFFFFF' : '#000000'} strokeWidth="2" fill="none" />
-                    <rect x="40" y="60" width="20" height="20" stroke={surveyData.propertyType === 'house' ? '#FFFFFF' : '#000000'} strokeWidth="2" fill="none" />
-                  </svg>
-                </div>
-                <span className={`text-base font-medium ${surveyData.propertyType === 'house' ? 'text-white' : 'text-[#1F1F1F]'}`}>
-                  {t('propertyType.house')}
-                </span>
-              </div>
-
-              <div 
-                className={`p-4 rounded-xl flex flex-col items-center h-[180px] cursor-pointer
-                ${surveyData.propertyType === 'commercial' ? 'bg-[#F08674]' : 'bg-white border border-gray-200'}`}
-                onClick={() => handlePropertyTypeSelect('commercial')}
-              >
-                <div className="flex-1 flex items-center justify-center w-full">
-                  <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Иконка нежилой недвижимости */}
-                    <rect x="20" y="40" width="60" height="40" stroke={surveyData.propertyType === 'commercial' ? '#FFFFFF' : '#000000'} strokeWidth="2" fill="none" />
-                    <rect x="30" y="50" width="40" height="10" fill={surveyData.propertyType === 'commercial' ? '#FFFFFF' : '#000000'} />
-                    <rect x="30" y="65" width="15" height="15" stroke={surveyData.propertyType === 'commercial' ? '#FFFFFF' : '#000000'} strokeWidth="2" fill="none" />
-                  </svg>
-                </div>
-                <span className={`text-base font-medium ${surveyData.propertyType === 'commercial' ? 'text-white' : 'text-[#1F1F1F]'}`}>
-                  {t('propertyType.commercial')}
-                </span>
-              </div>
-
-              <div 
-                className={`p-4 rounded-xl flex flex-col items-center h-[180px] cursor-pointer
-                ${surveyData.propertyType === 'dacha' ? 'bg-[#F08674]' : 'bg-white border border-gray-200'}`}
-                onClick={() => handlePropertyTypeSelect('dacha')}
-              >
-                <div className="flex-1 flex items-center justify-center w-full">
-                  <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* Иконка дачи */}
-                    <path d="M50 20L20 50H30V70H70V50H80L50 20Z" stroke={surveyData.propertyType === 'dacha' ? '#FFFFFF' : '#000000'} strokeWidth="2" fill="none" />
-                    <rect x="40" y="50" width="20" height="20" stroke={surveyData.propertyType === 'dacha' ? '#FFFFFF' : '#000000'} strokeWidth="2" fill="none" />
-                    <path d="M20 70C20 70 30 90 50 90C70 90 80 70 80 70" stroke={surveyData.propertyType === 'dacha' ? '#FFFFFF' : '#000000'} strokeWidth="2" fill="none" />
-                  </svg>
-                </div>
-                <span className={`text-base font-medium ${surveyData.propertyType === 'dacha' ? 'text-white' : 'text-[#1F1F1F]'}`}>
-                  {t('propertyType.dacha')}
-                </span>
-              </div>
-            </div>
+            <PropertyCategories 
+              onCategorySelect={(category) => {
+                setSurveyData({...surveyData, propertyType: category});
+              }}
+              updateStoreCategory={true}
+              preventRouting={true} 
+            />
           </div>
         )}
         
-        {/* Второй шаг - Выбор комнатности */}
         {currentStep === 1 && (
-          <div className="flex-1">
+          <div>
             <h1 className="text-[28px] font-bold text-[#1F1F1F] mb-1">
               {t('rooms.title')}
             </h1>
@@ -334,7 +253,7 @@ export default function SurveyPage(): JSX.Element {
         
         {/* Третий шаг - Выбор бюджета */}
         {currentStep === 2 && (
-          <div className="flex-1">
+          <div>
             <h1 className="text-[28px] font-bold text-[#1F1F1F] mb-1">
               {t('budget.title')}
             </h1>
@@ -398,25 +317,25 @@ export default function SurveyPage(): JSX.Element {
             </div>
           </div>
         )}
-        
-        {/* Индикатор прогресса и кнопка */}
-        <div className="mt-auto">
-          <div className="flex justify-center mb-8">
-            <SlideIndicator totalSlides={totalSteps} currentSlide={currentStep} />
-          </div>
-          
-          <button 
-            className={`w-full p-4 rounded-xl bg-[#1F1F1F] text-white font-medium ${
-              (currentStep === 0 && !surveyData.propertyType) || 
-              (currentStep === 1 && !surveyData.rooms) ? 
-              'opacity-50' : ''
-            }`}
-            onClick={handleContinue}
-            disabled={(currentStep === 0 && !surveyData.propertyType) || (currentStep === 1 && !surveyData.rooms)}
-          >
-            {getButtonText()}
-          </button>
+      </div>
+      
+      {/* Фиксированная нижняя панель с индикатором и кнопкой */}
+      <div className="fixed bottom-0 left-0 right-0  px-4 py-6 shadow-lg">
+        <div className="flex justify-center mb-10">
+          <SlideIndicator totalSlides={totalSteps} currentSlide={currentStep} />
         </div>
+        
+        <button 
+          className={`w-full p-4 rounded-xl bg-[#1F1F1F] text-white font-medium ${
+            (currentStep === 0 && !surveyData.propertyType) || 
+            (currentStep === 1 && !surveyData.rooms) ? 
+            'opacity-50' : ''
+          }`}
+          onClick={handleContinue}
+          disabled={(currentStep === 0 && !surveyData.propertyType) || (currentStep === 1 && !surveyData.rooms)}
+        >
+          {getButtonText()}
+        </button>
       </div>
     </div>
   );

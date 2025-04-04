@@ -40,11 +40,17 @@ interface PropertyCategoriesProps {
   onCategorySelect?: (category: PropertyCategoryType) => void;
   // Флаг для определения, нужно ли автоматически обновлять активную категорию в сторе
   updateStoreCategory?: boolean;
+  // Флаг для отключения автоматической маршрутизации
+  preventRouting?: boolean;
+  // Опциональный заголовок для компонента
+  title?: string;
 }
 
 export default function PropertyCategories({ 
   onCategorySelect, 
-  updateStoreCategory = true 
+  updateStoreCategory = true,
+  preventRouting = false,
+  title
 }: PropertyCategoriesProps) {
   const { t } = useTranslation(localization);
   const router = useRouter();
@@ -66,24 +72,41 @@ export default function PropertyCategories({
       onCategorySelect(category);
     }
     
-    // По умолчанию роутим на страницу поиска с выбранной категорией
-    router.push(`/property-search?category=${category}`);
+    // Выполняем маршрутизацию только если флаг preventRouting не установлен
+    if (!preventRouting) {
+      // По умолчанию роутим на страницу поиска с выбранной категорией
+      router.push(`/property-search?category=${category}`);
+    }
     
     console.log(`Selected category: ${category}`);
   };
   
   return (
     <div className="px-4 mb-6">
-      <h2 className="text-[#1F1F1F] mb-4"
-       style={{ 
-        fontFamily: 'ALS Hauss, sans-serif',
-        fontWeight: 900,
-        fontSize: '28px',
-        lineHeight: '96%',
-        letterSpacing: '-0.04em'
-      }}>
-        {t('categories')}
-      </h2>
+      {/* Отображаем заголовок только если он передан или используем стандартный */}
+      {(title || title !== '') ? (
+        <h2 className="text-[#1F1F1F] mb-4"
+         style={{ 
+          fontFamily: 'ALS Hauss, sans-serif',
+          fontWeight: 900,
+          fontSize: '28px',
+          lineHeight: '96%',
+          letterSpacing: '-0.04em'
+        }}>
+          {title}
+        </h2>
+      ) : (
+        <h2 className="text-[#1F1F1F] mb-4"
+         style={{ 
+          fontFamily: 'ALS Hauss, sans-serif',
+          fontWeight: 900,
+          fontSize: '28px',
+          lineHeight: '96%',
+          letterSpacing: '-0.04em'
+        }}>
+          {t('categories')}
+        </h2>
+      )}
       
       <div className="grid grid-cols-2 gap-4">
         {Object.values(PropertyCategoryType).map((category) => {
@@ -115,8 +138,7 @@ export default function PropertyCategories({
                 <div className="w-full h-3/4 absolute bottom-0 right-0 flex justify-end items-end px-4">
                   <IconComponent 
                     color={iconColor}
-                    width={config.iconWidth}
-                    height={config.iconHeight}
+                    size={config.iconWidth}
                     style={{ maxWidth: '100%', maxHeight: '100%' }}
                   />
                 </div>
