@@ -1,5 +1,5 @@
 export default function HeartIcon({ 
-  color = '#A3A3A3', 
+  color = '#E2E2E2', 
   size = 21,
   opacity = 0.93,
   style = {},

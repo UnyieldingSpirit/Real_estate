@@ -34,11 +34,11 @@ const localization = {
 export default function Home() {
   const { t } = useTranslation(localization);
 
-  const properties: PropertyData[] = [
+const properties: PropertyData[] = [
     {
       id: 1,
       title: 'Современная квартира в центре',
-      description: 'Светлая квартира с хорошим ремонтом',
+      description: 'Светлая квартира с панорамным видом на город, качественный ремонт, новая мебель',
       price: '450$',
       location: 'Ташкент, Юнусабадский район',
       area: '75м²',
@@ -56,7 +56,7 @@ export default function Home() {
     {
       id: 2,
       title: 'Уютная двухкомнатная квартира',
-      description: 'Квартира с отличным видом',
+      description: 'Квартира с отличным видом, рядом метро и торговый центр. Подходит для семейной пары',
       price: '85 000$',
       location: 'Ташкент, Чиланзарский район',
       area: '54м²',
@@ -74,7 +74,7 @@ export default function Home() {
     {
       id: 3,
       title: 'Просторная трехкомнатная квартира',
-      description: 'Квартира в новом доме с ремонтом',
+      description: 'Новый дом, евроремонт, видеонаблюдение, закрытая территория. Отличный вариант для большой семьи',
       price: '150 000$',
       location: 'Ташкент, Мирзо-Улугбекский район',
       area: '92м²',
@@ -92,7 +92,7 @@ export default function Home() {
     {
       id: 4,
       title: 'Квартира-студия в центре',
-      description: 'Компактная квартира для молодых',
+      description: 'Компактное жилье для молодых, идеально для одного человека или пары. Близко к университету',
       price: '65 000$',
       location: 'Ташкент, Сергелийский район',
       area: '35м²',

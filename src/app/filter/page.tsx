@@ -138,7 +138,7 @@ export default function FilterPage(): JSX.Element {
       fromOwners
     });
     
-    router.back();
+    router.push('/property-search');
   };
   
   // Обработчик сброса фильтров
@@ -209,7 +209,7 @@ export default function FilterPage(): JSX.Element {
   };
   
   return (
-    <div className="bg-[#f7f7f7]">
+    <div className="bg-[#f7f7f7] page-scrollable">
       {/* Header */}
       <div className="px-4">
         <h1 className="text-[32px] font-bold text-[#1F1F1F]">{t('filter')}</h1>

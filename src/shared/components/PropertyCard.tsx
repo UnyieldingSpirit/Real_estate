@@ -1,12 +1,13 @@
-'use client';
-
-import { useState, useRef, TouchEvent, JSX } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCategoryStore } from '@/src/store/categoryStore';
 import { FavoriteHeartIcon } from '@/src/shared/ui/Icon';
 
 // Тип операции с недвижимостью
 type OperationType = 'rent' | 'sale';
+
+// Статус объявления
+type AdvertisementStatus = 'active' | 'inReview' | 'draft' | 'rejected';
 
 // Интерфейс для объекта недвижимости
 interface PropertyData {
@@ -23,23 +24,36 @@ interface PropertyData {
     hasFurniture?: boolean;
     fromOwner?: boolean;
     operationType?: OperationType;
+    status?: AdvertisementStatus;
+    hideOwnerBadge?: boolean;
 }
 
 // Интерфейс пропсов компонента
 interface PropertyCardProps {
     property: PropertyData;
-    onClick?: () => void;
+    myAdvertisementMode?: boolean;
 }
 
-export default function PropertyCard({ property, onClick }: PropertyCardProps): JSX.Element {
+// Функция для форматирования времени
+const formatTimeAgo = (daysAgo?: number): string => {
+    if (!daysAgo) return 'Сегодня';
+    
+    if (daysAgo === 1) return 'Вчера';
+    if (daysAgo >= 2 && daysAgo <= 4) return `${daysAgo} дня назад`;
+    return `${daysAgo} дней назад`;
+};
+
+export default function PropertyCard({ 
+    property, 
+    myAdvertisementMode = false 
+}: PropertyCardProps) {
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
-    const [touchStart, setTouchStart] = useState<number | null>(null);
-    const [touchEnd, setTouchEnd] = useState<number | null>(null);
-    const imageRef = useRef<HTMLImageElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const router = useRouter();
     
+    const router = useRouter();
+    const handleCardClick = () => {
+        router.push(`/property/${property.id}`);
+    };
     // Получаем активный цвет из store
     const activeColor = useCategoryStore(state => state.getActiveColor());
 
@@ -54,30 +68,19 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
         setIsFavorite(!isFavorite);
     };
 
-    // Обработчик для клика по карточке
-    const handleCardClick = () => {
-        if (onClick) {
-            onClick();
-        } else {
-           router.push(`/property/${property.id}`);
-        }
-    };
-
-    // Определение типа объявления (риелтор или собственник)
-    const isOwner: boolean = property.fromOwner === true;
-    const advertiserType: string = isOwner ? 'Собственник' : 'Риелтор';
-    const advertiserBgColor: string = isOwner ? 'bg-[#7BB3FF]' : 'bg-[#F18D74]';
-    const advertiserTextColor: string = 'text-white';
+    // Добавляем обработчики для тачевых событий слайдера
+    const [touchStart, setTouchStart] = useState<number | null>(null);
+    const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
     // Минимальное расстояние для определения свайпа
     const minSwipeDistance: number = 50;
 
-    const onTouchStart = (e: TouchEvent<HTMLImageElement>): void => {
+    const onTouchStart = (e: React.TouchEvent<HTMLImageElement>): void => {
         setTouchEnd(null);
         setTouchStart(e.targetTouches[0].clientX);
     };
 
-    const onTouchMove = (e: TouchEvent<HTMLImageElement>): void => {
+    const onTouchMove = (e: React.TouchEvent<HTMLImageElement>): void => {
         setTouchEnd(e.targetTouches[0].clientX);
     };
 
@@ -96,33 +99,40 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
         }
     };
 
-    // Если элемент в избранном, используем цвет активной категории, 
-    // иначе стандартный цвет для сердечка
-    const heartFillColor: string = isFavorite ? (activeColor || "#DC2735") : "none";
-    const heartStrokeColor: string = isFavorite ? "none" : "#C0C0C0";
-
-    // Форматирование цены и определение типа объявления (аренда/продажа)
+    // Форматирование цены и определение типа объявления
     const formatPrice = (): string => {
-        // Получаем строку цены
         const priceString: string = property.price || "300$";
         
-        // Если тип операции задан явно, используем его
         if (property.operationType) {
             return property.operationType === 'rent' 
                 ? `${priceString}/мес.` 
                 : `${priceString}`;
         }
         
-        // Иначе пытаемся определить по цене
-        // Извлекаем числовое значение из строки цены
         const priceValue: number = parseInt(priceString.replace(/[^0-9]/g, ''));
         
-        // Если цена больше 5000$, считаем что это продажа
-        // Если меньше, то аренда
         return priceValue > 5000 
             ? `${priceString}` 
             : `${priceString}/мес.`;
     };
+
+    // Определяем текст для статуса объявления
+    // Определяем текст для статуса объявления
+    const getTimeOrStatus = (): { text: string; isStatus?: boolean } => {
+        // Если это мои объявления в статусе "на проверке"
+        if (myAdvertisementMode && property.status === 'inReview') {
+            return { 
+                text: 'На проверке', 
+                isStatus: true 
+            };
+        }
+        
+        // Иначе возвращаем отформатированное время
+        return { text: formatTimeAgo(property.daysAgo) };
+    };
+
+    // Определяем, показывать ли бейдж владельца
+    const showOwnerBadge = !property.hideOwnerBadge && !myAdvertisementMode;
 
     return (
         <div 
@@ -132,13 +142,8 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
             {/* Изображение и дни */}
             <div className="relative">
                 <div className="relative w-full p-4">
-                    <div 
-                        ref={containerRef}
-                        className="relative h-[180px] w-full rounded-2xl overflow-hidden"
-                    >
-                        {/* Основное изображение */}
+                    <div className="relative h-[180px] w-full rounded-2xl overflow-hidden">
                         <img
-                            ref={imageRef}
                             src={images[currentImageIndex]}
                             alt={property.title || "Изображение недвижимости"}
                             className="object-cover h-full w-full"
@@ -150,45 +155,53 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
                                 target.src = 'https://placehold.co/600x400?text=Нет+фото';
                             }}
                         />
+                        
+                        {/* Индикаторы слайдера */}
+                        {images.length > 1 && (
+                            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                                {images.map((_, index) => (
+                                    <div
+                                        key={index}
+                                        className={`w-3 h-3 rounded-full ${
+                                            index === currentImageIndex 
+                                                ? 'border-2 border-white bg-transparent' 
+                                                : 'bg-white'
+                                        }`}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
 
-                    {/* Индикаторы слайдера */}
-                    {images.length > 1 && (
-                        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
-                            {images.map((_, index) => (
-                                <div
-                                    key={index}
-                                    className={`w-3 h-3 rounded-full ${
-                                        index === currentImageIndex 
-                                            ? 'border-2 border-white bg-transparent' 
-                                            : 'bg-white'
-                                    }`}
-                                />
-                            ))}
-                        </div>
+                    {/* Бейдж с днями или статусом */}
+                    <div 
+                        className={`absolute top-6 left-6 rounded-full px-4 py-2 text-sm 
+                            ${getTimeOrStatus().isStatus 
+                                ? 'bg-[#DFA803] text-white' 
+                                : 'bg-white text-[#000000]'}`}
+                    >
+                        {getTimeOrStatus().text}
+                    </div>
+
+                    {/* Кнопка избранного - только не в режиме моих объявлений */}
+                    {!myAdvertisementMode && (
+                        <button
+                            onClick={toggleFavorite}
+                            className="absolute top-6 right-6 bg-white border-none rounded-full w-10 h-10 flex items-center justify-center"
+                        >
+                            <FavoriteHeartIcon
+                                color={isFavorite ? activeColor : '#E2E2E2'} 
+                                strokeWidth={isFavorite ? 0 : 1.5}
+                            />
+                        </button>
                     )}
 
-                    {/* Бейдж с днями */}
-                    <div className="absolute top-6 left-6 bg-white rounded-full px-4 py-2 text-[#000000] text-sm">
-                        {property.daysAgo || 4} дня назад
-                    </div>
-
-                    {/* Кнопка избранного */}
-                    <button
-                        onClick={toggleFavorite}
-                        className="absolute top-6 right-6 bg-white border-none rounded-full w-10 h-10 flex items-center justify-center"
-                    >
-                        <FavoriteHeartIcon
-                            color={heartFillColor} 
-                            stroke={heartStrokeColor}
-                            strokeWidth={isFavorite ? 0 : 1.5}
-                        />
-                    </button>
-
-                    {/* Тип объявителя (риелтор/собственник) */}
-                    <div className={`absolute bottom-0.5 right-4 ${advertiserBgColor} rounded-full px-4 py-1.5 ${advertiserTextColor} text-sm font-medium`}>
-                        {advertiserType}
-                    </div>
+                    {/* Бейдж владельца */}
+                    {showOwnerBadge && (
+                        <div className={`absolute bottom-0 right-4 ${property.fromOwner ? 'bg-[#7BB3FF]' : 'bg-[#F18D74]'} rounded-full px-4 py-1.5 text-white text-sm font-medium`}>
+                            {property.fromOwner ? 'Собственник' : 'Риелтор'}
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -204,7 +217,7 @@ export default function PropertyCard({ property, onClick }: PropertyCardProps): 
                     </span>
                 </div>
 
-                {/* Цена с определением типа объявления */}
+                {/* Цена */}
                 <div className="text-[22px] text-[#000000] font-bold mb-2">
                     {formatPrice()}
                 </div>

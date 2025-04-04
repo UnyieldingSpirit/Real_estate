@@ -1,10 +1,11 @@
 'use client';
 
 import { useTranslation } from '@/src/hooks';
-import { 
-  HousePlanIcon, 
-  BookkeepingIcon, 
-  CalculatorIcon, 
+import { useRouter } from 'next/navigation';
+import {
+  HousePlanIcon,
+  BookkeepingIcon,
+  CalculatorIcon,
   WeatherIcon
 } from '@/src/shared/ui/Icon';
 import { useCategoryStore, PropertyCategoryType } from '@/src/store/categoryStore';
@@ -34,17 +35,40 @@ const localization = {
   }
 };
 
-export default function Categories() {
+interface PropertyCategoriesProps {
+  // Опциональный обработчик клика для кастомизации поведения
+  onCategorySelect?: (category: PropertyCategoryType) => void;
+  // Флаг для определения, нужно ли автоматически обновлять активную категорию в сторе
+  updateStoreCategory?: boolean;
+}
+
+export default function PropertyCategories({ 
+  onCategorySelect, 
+  updateStoreCategory = true 
+}: PropertyCategoriesProps) {
   const { t } = useTranslation(localization);
+  const router = useRouter();
   
-  // Используем store напрямую для получения активной категории и метода для её изменения
+  // Используем store для получения активной категории
   const activeCategory = useCategoryStore(state => state.activeCategory);
   const setActiveCategory = useCategoryStore(state => state.setActiveCategory);
   const getCategoryConfig = useCategoryStore(state => state.getCategoryConfig);
   
   // Обработчик нажатия на категорию
   const handleCategoryClick = (category: PropertyCategoryType) => {
-    setActiveCategory(category);
+    // Обновляем активную категорию в сторе, если указан флаг
+    if (updateStoreCategory) {
+      setActiveCategory(category);
+    }
+    
+    // Если передан кастомный обработчик, вызываем его
+    if (onCategorySelect) {
+      onCategorySelect(category);
+    }
+    
+    // По умолчанию роутим на страницу поиска с выбранной категорией
+    router.push(`/property-search?category=${category}`);
+    
     console.log(`Selected category: ${category}`);
   };
   
@@ -52,12 +76,12 @@ export default function Categories() {
     <div className="px-4 mb-6">
       <h2 className="text-[#1F1F1F] mb-4"
        style={{ 
-                    fontFamily: 'ALS Hauss, sans-serif',
-                    fontWeight: 900,
-                    fontSize: '28px',
-                    lineHeight: '96%',
-                    letterSpacing: '-0.04em'
-                  }}>
+        fontFamily: 'ALS Hauss, sans-serif',
+        fontWeight: 900,
+        fontSize: '28px',
+        lineHeight: '96%',
+        letterSpacing: '-0.04em'
+      }}>
         {t('categories')}
       </h2>
       
