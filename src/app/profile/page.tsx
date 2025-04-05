@@ -1,219 +1,109 @@
 'use client';
 
-import { JSX, useState } from 'react';
-import { useTranslation } from '@/src/hooks';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { BottomNavigation } from '@/src/shared/components';
-import { CameraIcon, EditIcon } from '@/src/shared/ui/Icon';
-import LanguageSelector from '@/src/shared/components/LanguageSelector/LanguageSelector';
+import { useTranslation } from '@/src/hooks';
 
-// Интерфейс для локализации
-interface ProfileLocalization {
-  profile: string;
-  edit: string;
-  name: string;
-  email: string;
-  phone: string;
-  language: string;
-  myAdvertisements: string;
-  savedSearches: string;
-  settings: string;
-  support: string;
-  logOut: string;
-}
-
-// Интерфейс для данных профиля
-interface ProfileData {
-  name: string;
-  email: string;
-  phone: string;
-  avatar: string | null;
-}
-
-// Интерфейс для пункта меню
-interface MenuItemProps {
-  icon: React.ReactNode;
-  title: string;
-  onClick: () => void;
-}
-
-// Локализация
-const localization: Record<string, ProfileLocalization> = {
+const localization = {
   ru: {
     profile: 'Профиль',
-    edit: 'Редактировать',
-    name: 'Имя',
-    email: 'Электронная почта',
-    phone: 'Телефон',
+    views: 'Просмотров',
+    ads: 'Объявлений',
+    phoneNumber: 'Номер телефона',
     language: 'Язык',
-    myAdvertisements: 'Мои объявления',
-    savedSearches: 'Сохраненные поиски',
-    settings: 'Настройки',
-    support: 'Поддержка',
-    logOut: 'Выйти'
+    logout: 'Выйти',
+    apply: 'Применить'
   },
   uz: {
     profile: 'Profil',
-    edit: 'Tahrirlash',
-    name: 'Ism',
-    email: 'Elektron pochta',
-    phone: 'Telefon',
+    views: 'Ko\'rishlar',
+    ads: 'E\'lonlar',
+    phoneNumber: 'Telefon raqami',
     language: 'Til',
-    myAdvertisements: 'Mening e\'lonlarim',
-    savedSearches: 'Saqlangan qidiruvlar',
-    settings: 'Sozlamalar',
-    support: 'Yordam',
-    logOut: 'Chiqish'
+    logout: 'Chiqish',
+    apply: 'Qo\'llash'
   }
 };
 
-export default function ProfilePage(): JSX.Element {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { t } = useTranslation(localization as any);
+export default function ProfilePage() {
+  const router = useRouter();
+  const { t } = useTranslation(localization);
   
-  // Демо-данные профиля
-  const [profile] = useState<ProfileData>({
-    name: 'Александр Иванов',
-    email: 'alexander@example.com',
-    phone: '+998 90 123 45 67',
-    avatar: null
+  // Состояние для хранения данных профиля
+  const [profileData, ] = useState({
+    viewsCount: 30,
+    adsCount: 10,
+    phoneNumber: '+998 99 999 99 99',
+    language: 'Русский'
   });
   
-  const handleEditProfile = (): void => {
-    console.log('Edit profile');
+  // Обработчик перехода на страницу выбора языка
+  const handleLanguageClick = () => {
+    router.push('/language-select');
   };
-  
-  const handleChangePhoto = (): void => {
-    console.log('Change profile photo');
-  };
-  
-  const handleLogout = (): void => {
-    console.log('Logout');
-  };
-  
-  const navigateTo = (path: string): void => {
-    console.log(`Navigate to: ${path}`);
-  };
-  
-  // Компонент пункта меню
-  const MenuItem: React.FC<MenuItemProps> = ({ icon, title, onClick }): JSX.Element => (
-    <div 
-      className="flex items-center p-4 bg-white rounded-xl mb-3 cursor-pointer"
-      onClick={onClick}
-    >
-      <div className="mr-4 text-[#8F8F8F]">{icon}</div>
-      <span className="text-[#1F1F1F]">{title}</span>
-      <div className="ml-auto">
-        <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
-          <path d="M1 1L7 7L1 13" stroke="#A3A3A3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-    </div>
-  );
   
   return (
-    <div className="flex flex-col min-h-screen bg-[#f7f7f7]">
-      
-      <div className="flex-1 p-4 pb-32">
-        {/* Профильная информация */}
-        <div className="bg-white rounded-xl p-5 mb-6">
-          <div className="flex items-center mb-5">
-            <div 
-              className="w-[80px] h-[80px] rounded-full bg-gray-200 flex items-center justify-center relative mr-4"
-              onClick={handleChangePhoto}
-            >
-              {profile.avatar ? (
-                <img 
-                  src={profile.avatar} 
-                  alt={profile.name} 
-                  className="w-full h-full object-cover rounded-full"
-                />
-              ) : (
-                <CameraIcon size={40} color="#A3A3A3" />
-              )}
-              <div className="absolute bottom-0 right-0 bg-[#FF6B6B] rounded-full w-6 h-6 flex items-center justify-center">
-                <EditIcon size={12} color="white" />
+    <div className="page-scrollable">
+      <div className="flex flex-col min-h-screen bg-[#f7f7f7]">
+        <div className="flex-1 px-4 pb-32">
+          <h1 className="text-[32px] font-bold text-[#1F1F1F] mb-6">
+            {t('profile')}
+          </h1>
+          
+          {/* Аватар профиля */}
+          <div className="flex justify-center mb-6">
+            <div className="w-[180px] h-[180px] rounded-full bg-white flex items-center justify-center">
+              <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M48 52.5V47.5C48 44.8478 46.9464 42.3043 45.0711 40.4289C43.1957 38.5536 40.6522 37.5 38 37.5H22C19.3478 37.5 16.8043 38.5536 14.9289 40.4289C13.0536 42.3043 12 44.8478 12 47.5V52.5" 
+                      stroke="#CCCCCC" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M30 27.5C35.5228 27.5 40 23.0228 40 17.5C40 11.9772 35.5228 7.5 30 7.5C24.4772 7.5 20 11.9772 20 17.5C20 23.0228 24.4772 27.5 30 27.5Z" 
+                      stroke="#CCCCCC" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          
+          {/* Статистика профиля */}
+          <div className="bg-white rounded-xl mb-4 overflow-hidden">
+            <div className="flex">
+              <div className="flex-1 p-4">
+                <div className="text-[32px] font-bold text-[#1F1F1F]">{profileData.viewsCount}</div>
+                <div className="text-[#8F8F8F]">{t('views')}</div>
+              </div>
+              <div className='w-[3px] h-[64px] mt-5 bg-[#EFEFEF]'></div>
+              <div className="flex-1 p-4">
+                <div className="text-[32px] font-bold text-[#1F1F1F]">{profileData.adsCount}</div>
+                <div className="text-[#8F8F8F]">{t('ads')}</div>
               </div>
             </div>
-            
-            <div className="flex-1">
-              <h2 className="text-[#1F1F1F] text-xl font-medium">{profile.name}</h2>
-              <button 
-                onClick={handleEditProfile}
-                className="text-[#FF6B6B] text-sm"
-              >
-                {t('edit')}
-              </button>
+          </div>
+          
+          <div className="mb-4">
+            <div className="text-[#8F8F8F] mb-1">{t('phoneNumber')}</div>
+            <div className="bg-[#F0F0F0] p-4 rounded-xl">
+              <div className="text-[#1F1F1F]">{profileData.phoneNumber}</div>
             </div>
           </div>
           
-          <div className="mb-3">
-            <p className="text-[#8F8F8F] text-sm mb-1">{t('email')}</p>
-            <p className="text-[#1F1F1F]">{profile.email}</p>
-          </div>
-          
-          <div className="mb-3">
-            <p className="text-[#8F8F8F] text-sm mb-1">{t('phone')}</p>
-            <p className="text-[#1F1F1F]">{profile.phone}</p>
-          </div>
-          
-          <div>
-            <p className="text-[#8F8F8F] text-sm mb-1">{t('language')}</p>
-            <div className="inline-block">
-              <LanguageSelector />
+          {/* Язык */}
+          <div className="mb-4">
+            <div 
+              className="bg-white p-6 rounded-xl flex justify-between items-center cursor-pointer"
+              onClick={handleLanguageClick}
+            >
+              <div className="text-[#8F8F8F] mr-2">{t('language')}</div>
+              <div className="flex items-center">
+                <span className="text-[#1F1F1F] text-[16px] mr-6">{profileData.language}</span>
+                <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L7 7L1 13" stroke="#A3A3A3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
         
-        {/* Меню профиля */}
-        <div className="space-y-3">
-          <MenuItem 
-            icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="currentColor"/>
-            </svg>}
-            title={t('myAdvertisements')} 
-            onClick={() => navigateTo('/my-advertisements')}
-          />
-          
-          <MenuItem 
-            icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M19.023 9.158c0 4.007-3.313 7.254-7.39 7.254-4.076 0-7.39-3.247-7.39-7.254 0-4.008 3.314-7.254 7.39-7.254 4.077 0 7.39 3.246 7.39 7.254z" stroke="currentColor" strokeWidth="2"/>
-              <path d="M15.756 15.764L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>}
-            title={t('savedSearches')} 
-            onClick={() => navigateTo('/saved-searches')}
-          />
-          
-          <MenuItem 
-            icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 4V3m0 18v-1m8-8h1M3 12h1m14.364-5.364l.7071-.7071M4.9289 19.0711l.7071-.7071m12.7279 0l.7071.7071M4.9289 4.9289l.7071.7071" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/>
-            </svg>}
-            title={t('settings')} 
-            onClick={() => navigateTo('/settings')}
-          />
-          
-          <MenuItem 
-            icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 21.5C17.2467 21.5 21.5 17.2467 21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5Z" stroke="currentColor" strokeWidth="2"/>
-              <path d="M12 12V8M12 16V16.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>}
-            title={t('support')} 
-            onClick={() => navigateTo('/support')}
-          />
-        </div>
-        
-        {/* Кнопка выхода */}
-        <div className="mt-8">
-          <button 
-            onClick={handleLogout}
-            className="w-full py-4 text-[#FF6B6B] text-center font-medium"
-          >
-            {t('logOut')}
-          </button>
-        </div>
+        <BottomNavigation />
       </div>
-      
-      <BottomNavigation />
     </div>
   );
 }

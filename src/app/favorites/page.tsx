@@ -1,7 +1,8 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Добавляем импорт роутера
 import { BottomNavigation } from '@/src/shared/components';
-import PropertyCard, { AdvertisementStatus } from '@/src/shared/components/PropertyCard';
+import PropertyCard from '@/src/shared/components/PropertyCard';
 import { useTranslation } from '@/src/hooks';
 import EmptyState from '@/src/shared/components/EmptyState';
 
@@ -23,6 +24,23 @@ const localization = {
     favorites: 'Tanlanganlar'
   }
 };
+
+// Пример объявлений для избранного
+const favoritesAds = [
+  {
+    id: 3,
+    title: 'Квартира в избранном',
+    price: '350 $/мес.',
+    location: 'Ташкент, Юнусабадский район',
+    area: '75м²',
+    rooms: 3,
+    images: ['/Rectangle.png'],
+    daysAgo: 1,
+    hasRenovation: true,
+    hasFurniture: true,
+    fromOwner: false
+  }
+];
 
 // Пример объявлений (в реальном приложении это будет приходить с бэкенда)
 const mockAdvertisements = {
@@ -58,10 +76,11 @@ const mockAdvertisements = {
       status: 'inReview'
     }
   ],
-  favorites: []
+  favorites: favoritesAds
 };
 
 export default function MyAdvertisementsPage() {
+  const router = useRouter(); // Инициализируем роутер
   const { t } = useTranslation(localization);
   const [activeTab, setActiveTab] = useState<AdvertisementTab>('active');
 
@@ -79,7 +98,20 @@ export default function MyAdvertisementsPage() {
     }
   };
 
+  // Обработчик клика на карточку объявления
+  const handlePropertyClick = (id: number, isFavorite: boolean) => {
+    // Если это избранное, направляем на детальную страницу избранного
+    if (isFavorite) {
+      router.push(`/favorites-pro/${id}`);
+    } else {
+      // Для других типов объявлений можно направлять на обычную детальную страницу
+      // или на страницу редактирования в зависимости от бизнес-логики
+      router.push(`/property/${id}`);
+    }
+  };
+
   const advertisements = getAdvertisementsForTab();
+  const isFavoritesTab = activeTab === 'favorites';
 
   return (
     <div className="flex flex-col min-h-screen ">
@@ -111,19 +143,21 @@ export default function MyAdvertisementsPage() {
       </div>
       
       {/* Список объявлений */}
-           {advertisements.length > 0 ? (
-          <div className="space-y-4">
-            {advertisements.map(ad => (
+      {advertisements.length > 0 ? (
+        <div className="space-y-4 px-4">
+          {advertisements.map(ad => (
+            <div key={ad.id} onClick={() => handlePropertyClick(ad.id, isFavoritesTab)}>
               <PropertyCard 
-                key={ad.id} 
-                 property={{...ad, status: ad.status as AdvertisementStatus}}
-                myAdvertisementMode={true}
+                property={ad}
+                myAdvertisementMode={!isFavoritesTab}
+                fromFavoritesPage={isFavoritesTab} // Устанавливаем флаг для избранного
               />
-            ))}
-          </div>
-        ) : (
-          <EmptyState activeTab={activeTab} />
-        )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <EmptyState activeTab={activeTab} />
+      )}
       
       <BottomNavigation />
     </div>

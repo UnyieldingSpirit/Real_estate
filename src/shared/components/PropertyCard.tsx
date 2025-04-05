@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useCategoryStore } from '@/src/store/categoryStore';
 import { FavoriteHeartIcon } from '@/src/shared/ui/Icon';
 
@@ -7,7 +7,7 @@ import { FavoriteHeartIcon } from '@/src/shared/ui/Icon';
 type OperationType = 'rent' | 'sale';
 
 // Статус объявления
-export type AdvertisementStatus = 'active' | 'inReview' | 'draft' | 'rejected';
+type AdvertisementStatus = 'active' | 'inReview' | 'draft' | 'rejected';
 
 // Интерфейс для объекта недвижимости
 interface PropertyData {
@@ -32,6 +32,7 @@ interface PropertyData {
 interface PropertyCardProps {
     property: PropertyData;
     myAdvertisementMode?: boolean;
+    fromFavoritesPage?: boolean; // Новый параметр для определения источника
 }
 
 // Функция для форматирования времени
@@ -45,15 +46,27 @@ const formatTimeAgo = (daysAgo?: number): string => {
 
 export default function PropertyCard({ 
     property, 
-    myAdvertisementMode = false 
+    myAdvertisementMode = false,
+    fromFavoritesPage = false // По умолчанию считаем, что карточка не из избранного
 }: PropertyCardProps) {
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
     
     const router = useRouter();
+    const pathname = usePathname(); // Получаем текущий путь
+    
+    // Определяем, находимся ли мы на странице избранного
+    const isOnFavoritesPage = pathname === '/favorites' || fromFavoritesPage;
+    
     const handleCardClick = () => {
-        router.push(`/property/${property.id}`);
+        // Определяем, куда редиректить, в зависимости от того, где мы находимся
+        if (isOnFavoritesPage) {
+            router.push(`/property-favorites/${property.id}`);
+        } else {
+            router.push(`/property/${property.id}`);
+        }
     };
+    
     // Получаем активный цвет из store
     const activeColor = useCategoryStore(state => state.getActiveColor());
 
@@ -116,7 +129,6 @@ export default function PropertyCard({
             : `${priceString}/мес.`;
     };
 
-    // Определяем текст для статуса объявления
     // Определяем текст для статуса объявления
     const getTimeOrStatus = (): { text: string; isStatus?: boolean } => {
         // Если это мои объявления в статусе "на проверке"
