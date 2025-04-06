@@ -120,7 +120,7 @@ export default function OnboardingSlider() {
 
   return (
     <div className="fixed inset-0 flex flex-col h-screen w-full bg-white">
-      <div className="absolute top-[120px] right-4 z-20">
+      <div className="absolute top-[100px] right-4 z-20">
         <LanguageSelector />
       </div>
 
