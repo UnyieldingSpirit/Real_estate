@@ -9,20 +9,20 @@ const localization = {
     noAds: {
       active: 'Нет активных объявлений',
       inReview: 'Нет объявлений на проверке',
-      favorites: 'Избранных объявлений пока нет'
+      favorites: 'Избранных объявлений пока нет',
     },
     createAdDescription: 'Разместите объявление и найдите покупателя или арендатора',
-    createAdButton: 'Разместить объявление'
+    createAdButton: 'Разместить объявление',
   },
   uz: {
     noAds: {
       active: 'Faol e\'lonlar yo\'q',
       inReview: 'Tekshiruvdagi e\'lonlar yo\'q',
-      favorites: 'Tanlanganlar yo\'q'
+      favorites: 'Tanlanganlar yo\'q',
     },
     createAdDescription: 'E\'lon joylashtiring va sotuvchi yoki ijaraga beruvchini toping',
-    createAdButton: 'E\'lon yaratish'
-  }
+    createAdButton: 'E\'lon yaratish',
+  },
 };
 
 interface EmptyStateProps {

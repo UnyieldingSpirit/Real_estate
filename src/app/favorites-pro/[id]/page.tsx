@@ -24,13 +24,13 @@ const propertyData = {
   features: {
     hasRenovation: true,
     hasFurniture: true,
-    isFromOwner: true
+    isFromOwner: true,
   },
   owner: {
     name: 'Алена Ибрагимова',
     avatar: '/avatar.svg',
-    title: 'Хозяин'
-  }
+    title: 'Хозяин',
+  },
 };
 
 const localization = {
@@ -49,7 +49,7 @@ const localization = {
     removeFromFavoritesConfirm: 'Вы действительно хотите удалить из избранного?',
     call: 'Позвонить',
     yes: 'Да',
-    no: 'Нет'
+    no: 'Нет',
   },
   uz: {
     viewAll: 'Hammasini ko\'rish',
@@ -66,8 +66,8 @@ const localization = {
     removeFromFavoritesConfirm: 'Haqiqatan ham sevimlilardan olib tashlamoqchimisiz?',
     call: 'Qo\'ng\'iroq qilish',
     yes: 'Ha',
-    no: 'Yo\'q'
-  }
+    no: 'Yo\'q',
+  },
 };
 
 export default function PropertyDetailPage({  }: { params: { id: string } }) {
@@ -91,7 +91,7 @@ export default function PropertyDetailPage({  }: { params: { id: string } }) {
   
   // Обработчик удаления объявления
   const handleDelete = () => {
-    console.log("Deleting property...");
+    console.log('Deleting property...');
     // В реальном приложении здесь был бы API-запрос для удаления объявления
     
     // После успешного удаления перенаправляем на главную страницу
@@ -107,7 +107,7 @@ export default function PropertyDetailPage({  }: { params: { id: string } }) {
   // Подтверждение удаления из избранного
   const confirmRemoveFromFavorites = () => {
     // Здесь логика удаления из избранного
-    console.log("Удаление из избранного...");
+    console.log('Удаление из избранного...');
     // Закрываем модальное окно
     setIsDeleteModalOpen(false);
     // После успешного удаления перенаправляем на страницу с избранным
@@ -117,7 +117,7 @@ export default function PropertyDetailPage({  }: { params: { id: string } }) {
   // Функция совершения звонка
   const handleCall = () => {
     // Здесь логика для совершения звонка
-    console.log("Звоним владельцу...");
+    console.log('Звоним владельцу...');
     // Можно использовать window.location.href = `tel:${phoneNumber}` 
     // или показать модальное окно с номером телефона
   };

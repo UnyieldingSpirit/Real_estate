@@ -51,7 +51,7 @@ const localization: TranslationDictionary = {
     select: 'Выбрать',
     addPhotos: 'Добавить фотографии',
     photoLimit: 'Можно добавить до 10 фотографий',
-    uploadMore: 'Добавить еще'
+    uploadMore: 'Добавить еще',
   },
   uz: {
     edit: 'Tahrirlash',
@@ -72,8 +72,8 @@ const localization: TranslationDictionary = {
     select: 'Tanlash',
     addPhotos: 'Rasmlar qo\'shish',
     photoLimit: '10 tagacha rasm qo\'shish mumkin',
-    uploadMore: 'Yana qo\'shish'
-  }
+    uploadMore: 'Yana qo\'shish',
+  },
 };
 
 const cities: string[] = ['Ташкент', 'Самарканд', 'Бухара', 'Андижан'];
@@ -81,7 +81,7 @@ const districts: Record<string, string[]> = {
   'Ташкент': ['Чиланзарский', 'Юнусабадский', 'Мирзо-Улугбекский', 'Сергелийский'],
   'Самарканд': ['Район 1', 'Район 2'],
   'Бухара': ['Район 1', 'Район 2'],
-  'Андижан': ['Район 1', 'Район 2']
+  'Андижан': ['Район 1', 'Район 2'],
 };
 
 type CurrencyType = '$' | 'UZS';
@@ -125,7 +125,7 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
     hasRenovation: true,
     hasFurniture: false,
     fromOwners: false,
-    photos: ['/Rectangle.png']
+    photos: ['/Rectangle.png'],
   });
   
   // Максимальное количество фото
@@ -154,7 +154,7 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
       setProperty(prev => ({ 
         ...prev, 
         city, 
-        district: districts[city][0] || '' 
+        district: districts[city][0] || '', 
       }));
     }
   };
@@ -234,7 +234,7 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
                 // Добавляем новые фото к существующим
                 setProperty(prev => ({
                   ...prev,
-                  photos: [...prev.photos, ...newPhotos].slice(0, MAX_PHOTOS)
+                  photos: [...prev.photos, ...newPhotos].slice(0, MAX_PHOTOS),
                 }));
               }, 500);
             }
@@ -279,7 +279,7 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
     setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>, 
     options: string[], 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setValue: (option: any) => void
+    setValue: (option: any) => void,
   ): JSX.Element => {
     return (
       <div className="mb-6">
@@ -402,7 +402,7 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
             showCityDropdown, 
             setShowCityDropdown, 
             cities, 
-            handleCityChange
+            handleCityChange,
           )}
           
           {/* Район */}
@@ -412,7 +412,7 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
             showDistrictDropdown, 
             setShowDistrictDropdown, 
             districts[property.city] || [], 
-            handleDistrictChange
+            handleDistrictChange,
           )}
           
           {/* Площадь */}

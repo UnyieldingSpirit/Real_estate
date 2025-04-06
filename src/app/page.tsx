@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import SurveyBanner from '@/src/shared/components/SurveyBanner';
 import Categories from '../shared/components/PropertyCategories';
 import SearchBar from '../shared/components/SearchWFFilter';
@@ -28,13 +30,47 @@ const localization = {
   },
   uz: {
     properties: 'E\'lonlar',
-  }
+  },
 };
 
 export default function Home() {
   const { t } = useTranslation(localization);
+  const router = useRouter();
 
-const properties: PropertyData[] = [
+  // Эффект выполняется один раз при монтировании компонента
+  useEffect(() => {
+    // Проверяем завершение онбординга
+    const isOnboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
+    // Проверяем завершение регистрации
+    const isUserRegistered = localStorage.getItem('userRegistered') === 'true';
+    // Проверяем, находимся ли мы в процессе навигации (предотвращает циклические редиректы)
+    const isNavigating = sessionStorage.getItem('isNavigating') === 'true';
+    
+    if (isNavigating) {
+      // Если мы в процессе навигации, очищаем флаг
+      sessionStorage.removeItem('isNavigating');
+      return; // Прерываем выполнение, чтобы избежать циклических редиректов
+    }
+    
+    if (!isOnboardingCompleted) {
+      // Если онбординг не пройден, перенаправляем на страницу онбординга
+      sessionStorage.setItem('isNavigating', 'true');
+      router.push('/onboarding');
+      return;
+    }
+    
+    if (isOnboardingCompleted && !isUserRegistered) {
+      // Если онбординг пройден, но регистрация не завершена
+      sessionStorage.setItem('isNavigating', 'true');
+      router.push('/register');
+      return;
+    }
+    
+    // Если и онбординг и регистрация завершены, остаемся на главной
+    console.log('Онбординг и регистрация завершены, остаемся на главной странице');
+  }, [router]);
+
+  const properties: PropertyData[] = [
     {
       id: 1,
       title: 'Современная квартира в центре',
@@ -46,12 +82,12 @@ const properties: PropertyData[] = [
       images: [
         '/Rectangle.png',
         '/Rectangle.png',
-        '/Rectangle.png'
+        '/Rectangle.png',
       ],
       daysAgo: 2,
       hasRenovation: true,
       hasFurniture: true,
-      fromOwner: true
+      fromOwner: true,
     },
     {
       id: 2,
@@ -64,12 +100,12 @@ const properties: PropertyData[] = [
       images: [
         '/Rectangle.png',
         '/Rectangle.png',
-        '/Rectangle.png'
+        '/Rectangle.png',
       ],
       daysAgo: 5,
       hasRenovation: true,
       hasFurniture: false,
-      fromOwner: true
+      fromOwner: true,
     },
     {
       id: 3,
@@ -82,12 +118,12 @@ const properties: PropertyData[] = [
       images: [
         '/Rectangle.png',
         '/Rectangle.png',
-        '/Rectangle.png'
+        '/Rectangle.png',
       ],
       daysAgo: 1,
       hasRenovation: true,
       hasFurniture: true,
-      fromOwner: false
+      fromOwner: false,
     },
     {
       id: 4,
@@ -100,13 +136,13 @@ const properties: PropertyData[] = [
       images: [
         '/Rectangle.png',
         '/Rectangle.png',
-        '/Rectangle.png'
+        '/Rectangle.png',
       ],
       daysAgo: 3,
       hasRenovation: false,
       hasFurniture: false,
-      fromOwner: true
-    }
+      fromOwner: true,
+    },
   ];
 
   return (

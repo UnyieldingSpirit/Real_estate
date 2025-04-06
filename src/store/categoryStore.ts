@@ -10,50 +10,50 @@ export enum PropertyCategoryType {
 
 // Определяем полную конфигурацию категорий прямо в store
 export const PROPERTY_CATEGORIES = {
-    [PropertyCategoryType.APARTMENT]: {
-        titleKey: 'apartment',
-        activeColor: '#FF7560',
-        inactiveColor: '#FFFFFF',
-        textColor: '#1F1F1F',
-        activeTextColor: '#FFFFFF',
-        iconActiveColor: 'white',
-        iconInactiveColor: '#E6E6E6',
-        iconWidth: 90,
-        iconHeight: 100
-    },
-    [PropertyCategoryType.HOUSE]: {
-        titleKey: 'house',
-        activeColor: '#AB3574ED',
-        inactiveColor: '#FFFFFF',
-        textColor: '#1F1F1F',
-        activeTextColor: '#FFFFFF',
-        iconActiveColor: 'white',
-        iconInactiveColor: '#E6E6E6',
-        iconWidth: 115,
-        iconHeight: 100
-    },
-    [PropertyCategoryType.COMMERCIAL]: {
-        titleKey: 'commercial',
-        activeColor: '#554B8FED',
-        inactiveColor: '#FFFFFF',
-        textColor: '#1F1F1F',
-        activeTextColor: '#FFFFFF',
-        iconActiveColor: 'white',
-        iconInactiveColor: '#E6E6E6',
-        iconWidth: 90,
-        iconHeight: 85
-    },
-    [PropertyCategoryType.DACHA]: {
-        titleKey: 'dacha',
-        activeColor: '#4CAF50',
-        inactiveColor: '#FFFFFF',
-        textColor: '#1F1F1F',
-        activeTextColor: '#FFFFFF',
-        iconActiveColor: 'white',
-        iconInactiveColor: '#E6E6E6',
-        iconWidth: 96,
-        iconHeight: 96
-    },
+  [PropertyCategoryType.APARTMENT]: {
+    titleKey: 'apartment',
+    activeColor: '#FF7560',
+    inactiveColor: '#FFFFFF',
+    textColor: '#1F1F1F',
+    activeTextColor: '#FFFFFF',
+    iconActiveColor: 'white',
+    iconInactiveColor: '#E6E6E6',
+    iconWidth: 90,
+    iconHeight: 100,
+  },
+  [PropertyCategoryType.HOUSE]: {
+    titleKey: 'house',
+    activeColor: '#AB3574ED',
+    inactiveColor: '#FFFFFF',
+    textColor: '#1F1F1F',
+    activeTextColor: '#FFFFFF',
+    iconActiveColor: 'white',
+    iconInactiveColor: '#E6E6E6',
+    iconWidth: 115,
+    iconHeight: 100,
+  },
+  [PropertyCategoryType.COMMERCIAL]: {
+    titleKey: 'commercial',
+    activeColor: '#554B8FED',
+    inactiveColor: '#FFFFFF',
+    textColor: '#1F1F1F',
+    activeTextColor: '#FFFFFF',
+    iconActiveColor: 'white',
+    iconInactiveColor: '#E6E6E6',
+    iconWidth: 90,
+    iconHeight: 85,
+  },
+  [PropertyCategoryType.DACHA]: {
+    titleKey: 'dacha',
+    activeColor: '#4CAF50',
+    inactiveColor: '#FFFFFF',
+    textColor: '#1F1F1F',
+    activeTextColor: '#FFFFFF',
+    iconActiveColor: 'white',
+    iconInactiveColor: '#E6E6E6',
+    iconWidth: 96,
+    iconHeight: 96,
+  },
 };
 
 // Цвет по умолчанию для приложения (красный для MoyDom)
@@ -76,30 +76,30 @@ interface CategoryState {
 
 // Удалили middleware persist, теперь состояние не сохраняется между сессиями
 export const useCategoryStore = create<CategoryState>((set, get) => ({
-    // Устанавливаем APARTMENT как активную категорию по умолчанию
-    activeCategory: PropertyCategoryType.APARTMENT,
-    activeCategoryColor: PROPERTY_CATEGORIES[PropertyCategoryType.APARTMENT].activeColor,
+  // Устанавливаем APARTMENT как активную категорию по умолчанию
+  activeCategory: PropertyCategoryType.APARTMENT,
+  activeCategoryColor: PROPERTY_CATEGORIES[PropertyCategoryType.APARTMENT].activeColor,
 
-    setActiveCategory: (category) => {
-        // Если передан null, используем APARTMENT как категорию по умолчанию
-        const categoryToSet = category || PropertyCategoryType.APARTMENT;
-        const categoryConfig = PROPERTY_CATEGORIES[categoryToSet];
+  setActiveCategory: (category) => {
+    // Если передан null, используем APARTMENT как категорию по умолчанию
+    const categoryToSet = category || PropertyCategoryType.APARTMENT;
+    const categoryConfig = PROPERTY_CATEGORIES[categoryToSet];
 
-        set({
-            activeCategory: categoryToSet,
-            activeCategoryColor: categoryConfig.activeColor
-        });
-    },
+    set({
+      activeCategory: categoryToSet,
+      activeCategoryColor: categoryConfig.activeColor,
+    });
+  },
 
-    getActiveColor: () => {
-        return get().activeCategoryColor;
-    },
+  getActiveColor: () => {
+    return get().activeCategoryColor;
+  },
 
-    isCategoryActive: (category) => {
-        return get().activeCategory === category;
-    },
+  isCategoryActive: (category) => {
+    return get().activeCategory === category;
+  },
 
-    getCategoryConfig: (category) => {
-        return PROPERTY_CATEGORIES[category];
-    }
+  getCategoryConfig: (category) => {
+    return PROPERTY_CATEGORIES[category];
+  },
 }));

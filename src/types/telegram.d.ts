@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 interface TelegramWebApp {
+    platform: string;
     MainButton: boolean;
     ready: any;
     viewportStableHeight: number;

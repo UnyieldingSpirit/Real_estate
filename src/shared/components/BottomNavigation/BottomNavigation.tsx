@@ -24,14 +24,14 @@ const localization: Localization = {
     home: 'Главная',
     post: 'Разместить',
     favorites: 'Мои',
-    profile: 'Профиль'
+    profile: 'Профиль',
   },
   uz: {
     home: 'Asosiy',
     post: 'Joylashtirish',
     favorites: 'Mening',
-    profile: 'Profil'
-  }
+    profile: 'Profil',
+  },
 };
 
 export default function BottomNavigation(): JSX.Element {
@@ -78,17 +78,17 @@ export default function BottomNavigation(): JSX.Element {
               className="flex flex-col items-center" 
               onClick={() => navigateTo(item.path)}
               aria-label={t(item.label)}
-              aria-current={isActive(item.path) ? "page" : undefined}
+              aria-current={isActive(item.path) ? 'page' : undefined}
             >
               <div className="h-6 flex items-center justify-center">
                 <item.icon 
                   size={26} 
-                  color={isActive(item.path) ? activeColor : "#A3A3A3"} 
+                  color={isActive(item.path) ? activeColor : '#A3A3A3'} 
                 />
               </div>
               <span 
                 className="text-xs mt-2"
-                style={{ color: isActive(item.path) ? activeColor : "#A3A3A3" }}
+                style={{ color: isActive(item.path) ? activeColor : '#A3A3A3' }}
               >
                 {t(item.label)}
               </span>

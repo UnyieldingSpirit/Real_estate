@@ -12,13 +12,13 @@ interface LanguageState {
 }
 
 export const useLanguageStore = create<LanguageState>()(
-    persist(
-        (set) => ({
-            currentLocale: Locale.RU,
-            setLocale: (locale: Locale) => set({ currentLocale: locale }),
-        }),
-        {
-            name: 'language-storage',
-        }
-    )
+  persist(
+    (set) => ({
+      currentLocale: Locale.RU,
+      setLocale: (locale: Locale) => set({ currentLocale: locale }),
+    }),
+    {
+      name: 'language-storage',
+    },
+  ),
 );

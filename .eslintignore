@@ -1,0 +1,30 @@
+# зависимости
+node_modules
+.pnp
+.pnp.*
+.yarn/*
+
+# сборка
+.next/
+out/
+build/
+dist/
+
+# кэш
+.eslintcache
+.vercel
+.idea
+.DS_Store
+*.pem
+
+# дебаг
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# другие файлы
+coverage
+tsconfig.json
+next-env.d.ts
+public

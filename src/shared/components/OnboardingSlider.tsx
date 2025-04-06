@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { BackIcon } from '../ui/Icon';
 import { slides } from '@/src/shared/constants/slides';
 import LanguageSelector from './LanguageSelector/LanguageSelector';
@@ -8,7 +9,11 @@ import SlideIndicator from '../ui/SlideIndicator';
 
 export default function OnboardingSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 0,
+  );
+  
+  const router = useRouter();
   
   // Handle window resize event
   useEffect(() => {
@@ -42,16 +47,22 @@ export default function OnboardingSlider() {
   const handleNext = () => {
     // If on the second slide (index 1), redirect to registration
     if (currentSlide === 1) {
-      window.location.href = '/register';
+      // Mark onboarding as completed before redirecting
+      localStorage.setItem('onboardingCompleted', 'true');
+      router.push('/register');
       return;
     }
     
-    // Otherwise, proceed to next slide if not at the end
-    if (currentSlide < slides.length - 1) {
-      setCurrentSlide(currentSlide + 1);
-    } else if (currentSlide === slides.length - 1) {
-      window.location.href = '/register';
+    // If on the last slide, complete onboarding and redirect to register
+    if (currentSlide === slides.length - 1) {
+      // Mark onboarding as completed before redirecting
+      localStorage.setItem('onboardingCompleted', 'true');
+      router.push('/register');
+      return;
     }
+    
+    // Otherwise, proceed to next slide
+    setCurrentSlide(currentSlide + 1);
   };
   
   // Calculate image section height responsively
@@ -86,23 +97,32 @@ export default function OnboardingSlider() {
       {/* Контентная секция */}
       <div className={`${getContentSectionHeight()} flex flex-col justify-between p-4 bg-white rounded-t-[30px] -mt-6 relative z-10`}>
         <div className="text-center">
-          <h1 className={`${getTitleFontSize()} font-black mb-[20px] text-[#1F1F1F]`} style={{fontFamily: 'ALS Hauss, sans-serif'}}>
+          <h1 
+            className={`${getTitleFontSize()} font-black mb-[20px] text-[#1F1F1F]`} 
+            style={{fontFamily: 'ALS Hauss, sans-serif'}}
+          >
             {slides[currentSlide].title}
           </h1>
-          <p className={`${getDescriptionFontSize()} text-[#1F1F1F] mb-4 leading-relaxed font-normal`} style={{fontFamily: 'Inter, sans-serif'}}>
+          <p 
+            className={`${getDescriptionFontSize()} text-[#1F1F1F] mb-4 leading-relaxed font-normal`} 
+            style={{fontFamily: 'Inter, sans-serif'}}
+          >
             {slides[currentSlide].description}
           </p>
         </div>
 
         <div className="flex flex-col items-center">
           <div 
-            className={`mb-[30px] w-[90px] h-[90px] sm:w-[103px] sm:h-[103px] flex items-center justify-center bg-[#FF756012] rounded-full cursor-pointer shadow-md`}
+            className={'mb-[30px] w-[90px] h-[90px] sm:w-[103px] sm:h-[103px] flex items-center justify-center bg-[#FF756012] rounded-full cursor-pointer shadow-md'}
             onClick={handleNext}
           >
             <BackIcon 
               color="#FF756054" 
               size={windowWidth <= 360 ? 18 : 22} 
-              style={{ transform: 'rotate(180deg)', height: windowWidth <= 360 ? '36px' : '42px' }} 
+              style={{ 
+                transform: 'rotate(180deg)', 
+                height: windowWidth <= 360 ? '36px' : '42px', 
+              }}
             />
           </div>
 

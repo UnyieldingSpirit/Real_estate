@@ -23,15 +23,15 @@ const localization: Localization = {
     enterPhoneNumber: 'Введите номер телефона',
     phoneNumber: 'Номер телефона',
     requestCode: 'Запросить код',
-    requiredField: 'Обязательное поле'
+    requiredField: 'Обязательное поле',
   },
   uz: {
     authorization: 'Avtorizatsiya',
     enterPhoneNumber: 'Telefon raqamingizni kiriting',
     phoneNumber: 'Telefon raqami',
     requestCode: 'Kodni so\'rash',
-    requiredField: 'Majburiy maydon'
-  }
+    requiredField: 'Majburiy maydon',
+  },
 };
 
 export default function RegistrationPage(): JSX.Element {
@@ -229,7 +229,7 @@ export default function RegistrationPage(): JSX.Element {
           className="self-center w-[250px] h-[250px] rounded-full bg-white flex items-center justify-center mb-10"
           style={{ 
             border: '2px solid #FF6B6B',
-            boxShadow: '0px 0px 0px 2px rgba(255, 107, 107, 0.1)'
+            boxShadow: '0px 0px 0px 2px rgba(255, 107, 107, 0.1)',
           }}
         >
           <img src="/smart-key.svg" alt="Key icon" />
@@ -252,7 +252,7 @@ export default function RegistrationPage(): JSX.Element {
             className={`w-full p-2 text-xl h-[60px] text-[#1F1F1F] border rounded-2xl bg-gray-50 focus:outline-none ${getInputBorderStyle()}`}
             inputMode="numeric"
             aria-invalid={!!error && isSubmitAttempted}
-            aria-describedby={error && isSubmitAttempted ? "phone-error" : undefined}
+            aria-describedby={error && isSubmitAttempted ? 'phone-error' : undefined}
           />
           {error && isSubmitAttempted && (
             <p id="phone-error" className="text-red-500 text-sm mt-1" role="alert">{error}</p>
@@ -262,7 +262,7 @@ export default function RegistrationPage(): JSX.Element {
         {/* Request code button */}
         <button
           onClick={handleRequestCode}
-          className="py-2.5 rounded-2xl bg-[#1F1F1F] text-white font-medium text-lg"
+          className="py-2.5 rounded-xl bg-[#1F1F1F] text-white font-medium text-lg"
           style={{
             transition: 'background-color 0.2s ease',
           }}

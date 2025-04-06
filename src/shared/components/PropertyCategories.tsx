@@ -6,7 +6,7 @@ import {
   HousePlanIcon,
   BookkeepingIcon,
   CalculatorIcon,
-  WeatherIcon
+  WeatherIcon,
 } from '@/src/shared/ui/Icon';
 import { useCategoryStore, PropertyCategoryType } from '@/src/store/categoryStore';
 
@@ -24,15 +24,15 @@ const localization = {
     apartment: 'Квартира',
     house: 'Частный дом',
     commercial: 'Нежилая недвижимость',
-    dacha: 'Дача'
+    dacha: 'Дача',
   },
   uz: {
     categories: 'Toifalar',
     apartment: 'Kvartira',
     house: 'Xususiy uy',
     commercial: 'Tijorat ko\'chmas mulki',
-    dacha: 'Dala hovli'
-  }
+    dacha: 'Dala hovli',
+  },
 };
 
 interface PropertyCategoriesProps {
@@ -50,7 +50,7 @@ export default function PropertyCategories({
   onCategorySelect, 
   updateStoreCategory = true,
   preventRouting = false,
-  title
+  title,
 }: PropertyCategoriesProps) {
   const { t } = useTranslation(localization);
   const router = useRouter();
@@ -86,24 +86,24 @@ export default function PropertyCategories({
       {/* Отображаем заголовок только если он передан или используем стандартный */}
       {(title || title !== '') ? (
         <h2 className="text-[#1F1F1F] mb-4"
-         style={{ 
-          fontFamily: 'ALS Hauss, sans-serif',
-          fontWeight: 900,
-          fontSize: '28px',
-          lineHeight: '96%',
-          letterSpacing: '-0.04em'
-        }}>
+          style={{ 
+            fontFamily: 'ALS Hauss, sans-serif',
+            fontWeight: 900,
+            fontSize: '28px',
+            lineHeight: '96%',
+            letterSpacing: '-0.04em',
+          }}>
           {title}
         </h2>
       ) : (
         <h2 className="text-[#1F1F1F] mb-4"
-         style={{ 
-          fontFamily: 'ALS Hauss, sans-serif',
-          fontWeight: 900,
-          fontSize: '28px',
-          lineHeight: '96%',
-          letterSpacing: '-0.04em'
-        }}>
+          style={{ 
+            fontFamily: 'ALS Hauss, sans-serif',
+            fontWeight: 900,
+            fontSize: '28px',
+            lineHeight: '96%',
+            letterSpacing: '-0.04em',
+          }}>
           {t('categories')}
         </h2>
       )}

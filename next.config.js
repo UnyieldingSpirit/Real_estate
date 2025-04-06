@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     domains: ['olx.uz', 'via.placeholder.com']
   },
+  
   async rewrites() {
     return [
       {

@@ -48,8 +48,8 @@ const localization = {
       apartment: 'Квартиры',
       house: 'Частные дома',
       commercial: 'Нежилая недвижимость',
-      dacha: 'Дачи'
-    }
+      dacha: 'Дачи',
+    },
   },
   uz: {
     searchResults: 'Qidiruv natijalari',
@@ -61,9 +61,9 @@ const localization = {
       apartment: 'Kvartiralar',
       house: 'Xususiy uylar',
       commercial: 'Tijorat ko\'chmas mulki',
-      dacha: 'Dala hovlilar'
-    }
-  }
+      dacha: 'Dala hovlilar',
+    },
+  },
 };
 
 export default function PropertySearchPage() {
@@ -152,12 +152,12 @@ export default function PropertySearchPage() {
           images: [
             '/Rectangle.png',
             '/Rectangle.png',
-            '/Rectangle.png'
+            '/Rectangle.png',
           ],
           daysAgo: 2,
           hasRenovation: true,
           hasFurniture: true,
-          fromOwner: true
+          fromOwner: true,
         },
         {
           id: 2,
@@ -169,13 +169,13 @@ export default function PropertySearchPage() {
           rooms: 2,
           images: [
             '/Rectangle.png',
-            '/Rectangle.png'
+            '/Rectangle.png',
           ],
           daysAgo: 5,
           hasRenovation: true,
           hasFurniture: false,
-          fromOwner: true
-        }
+          fromOwner: true,
+        },
       ];
       
       setProperties(filteredProperties);
@@ -192,7 +192,7 @@ export default function PropertySearchPage() {
             <SearchBar />
           </div>
           
-                      {/* Заголовок и результаты */}
+          {/* Заголовок и результаты */}
           <div className="px-4 mt-4 mb-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-[28px] font-bold text-[#1F1F1F]">
@@ -205,15 +205,15 @@ export default function PropertySearchPage() {
             </div>
 
             <div>
-                  <div className="space-y-4">
-                    {properties.map((property) => (
-                      <PropertyCard 
-                        key={property.id} 
-                        property={property}
-                      />
-                    ))}
-                  </div>
+              <div className="space-y-4">
+                {properties.map((property) => (
+                  <PropertyCard 
+                    key={property.id} 
+                    property={property}
+                  />
+                ))}
               </div>
+            </div>
           </div>
         </main>
       </div>

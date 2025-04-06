@@ -8,13 +8,13 @@ const localization = {
   ru: {
     takeSurvey: 'Пройди опрос',
     surveyDescriptionStart: 'И мы предоставим тебе подходящие',
-    surveyDescriptionEnd: 'варианты'
+    surveyDescriptionEnd: 'варианты',
   },
   uz: {
     takeSurvey: 'So\'rovnomani to\'ldiring',
     surveyDescriptionStart: 'Va biz sizga mos',
-    surveyDescriptionEnd: 'variantlarni'
-  }
+    surveyDescriptionEnd: 'variantlarni',
+  },
 };
 
 // Функция для создания светлого оттенка цвета с прозрачностью
@@ -72,7 +72,7 @@ export default function SurveyBanner() {
         style={{ 
           bottom: '12px', 
           right: '12px',
-          backgroundColor: buttonBgColor 
+          backgroundColor: buttonBgColor, 
         }}
       >
         <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">

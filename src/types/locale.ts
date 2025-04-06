@@ -1,3 +1,3 @@
-import type { Locale } from '../store/language';
+import type { Locale } from '@/src/store/language';
 
-export type LocaleMessages<T = Record<string, unknown>> = Record<Locale, T>;
+export type LocaleMessages<T = Record<string, unknown>> = Record<Locale, T>

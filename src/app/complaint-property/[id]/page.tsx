@@ -18,7 +18,7 @@ const localization = {
     submitComplaint: 'Пожаловаться',
     complaintAccepted: 'Жалоба принята',
     thankYouMessage: 'Ваша жалоба успешна отправлена на рассмотрение. Спасибо что делаете наш сервис лучше!',
-    continue: 'Продолжить'
+    continue: 'Продолжить',
   },
   uz: {
     complaint: 'Shikoyat qilish',
@@ -29,8 +29,8 @@ const localization = {
     submitComplaint: 'Shikoyat qilish',
     complaintAccepted: 'Shikoyat qabul qilindi',
     thankYouMessage: 'Sizning shikoyatingiz muvaffaqiyatli yuborildi. Xizmatimizni yaxshilayotganingiz uchun rahmat!',
-    continue: 'Davom etish'
-  }
+    continue: 'Davom etish',
+  },
 };
 
 export default function PropertyComplaintPage({ params }: { params: { id: string } }) {

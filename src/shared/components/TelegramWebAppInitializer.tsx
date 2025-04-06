@@ -16,11 +16,17 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
       try {
         const tg = window.Telegram.WebApp;
         
-        // Определение мобильной платформы по User-Agent
-        const isMobileDevice = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+        // Получаем платформу из Telegram WebApp API
+        const tgPlatform = tg.platform || '';
         
-        console.log('User-Agent:', navigator.userAgent);
-        console.log('Определена платформа:', isMobileDevice ? 'Мобильная' : 'Десктоп');
+        // Определяем, является ли устройство мобильным, используя как User-Agent, так и платформу
+        const isMobileByUserAgent = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+        const isMobileByPlatform = ['android', 'ios', 'android_x', 'ios_x'].includes(tgPlatform);
+        
+        // Определяем, является ли это Telegram Desktop
+        const isTelegramDesktop = tgPlatform === 'tdesktop';
+        
+        const isMobileDevice = isMobileByUserAgent || isMobileByPlatform;
         
         // Сообщаем Telegram, что приложение готово
         if (typeof tg.ready === 'function') {
@@ -32,8 +38,8 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           tg.enableClosingConfirmation(true);
         }
         
-    // Полноэкранный режим
-        if (typeof tg.requestFullscreen === 'function') {
+        // Полноэкранный режим только для мобильных устройств, не для Desktop
+        if (!isTelegramDesktop && typeof tg.requestFullscreen === 'function') {
           tg.requestFullscreen();
         }
 
@@ -53,9 +59,8 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           }
         }
 
-        // Мобильно-специфичные методы
-        if (isMobileDevice) {
-          console.log('Активация мобильных функций');
+        // Мобильно-специфичные методы - только для не-Desktop платформ
+        if (isMobileDevice && !isTelegramDesktop) {
 
           // Расширение на всю высоту
           if (typeof tg.expand === 'function') {
@@ -82,13 +87,23 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           setViewportHeight();
           window.addEventListener('resize', setViewportHeight);
         } else {
-          console.log('Мобильные функции не активированы (десктопная платформа)');
+          
+          // Для Desktop убираем падинги
+          if (isTelegramDesktop) {
+            // Находим элемент с классом main-content или подобный
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+              mainContent.classList.remove('mobile-padding');
+              mainContent.classList.add('desktop-padding');
+              (mainContent as HTMLElement).style.paddingTop = '0';
+              (mainContent as HTMLElement).style.paddingBottom = '0';
+            }
+          }
         }
 
-        console.log('Telegram WebApp инициализирован');
         tgInitialized.current = true;
       } catch (error) {
-        console.error("Ошибка при инициализации Telegram WebApp:", error);
+        console.error('Ошибка при инициализации Telegram WebApp:', error);
       }
     }
   }, [pathname, router]);
@@ -109,7 +124,7 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           }
         }
       } catch (error) {
-        console.error("Ошибка при обработке BackButton:", error);
+        console.error('Ошибка при обработке BackButton:', error);
       }
     }
   }, [pathname]);
@@ -129,7 +144,7 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           backButton.offClick();
         }
       } catch (error) {
-        console.error("Ошибка при очистке ресурсов:", error);
+        console.error('Ошибка при очистке ресурсов:', error);
       }
     };
   }, []);

@@ -76,7 +76,7 @@ export default function EnhancedMainWrapper({ children }: EnhancedMainWrapperPro
         style={{ 
           overflow: 'auto',
           WebkitOverflowScrolling: 'touch',
-          height: '100vh'
+          height: '100vh',
         }}
       >
         <TelegramWebAppInitializer />

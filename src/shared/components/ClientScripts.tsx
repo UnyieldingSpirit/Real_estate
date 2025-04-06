@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-before-interactive-script-outside-document */
 'use client';
 
 import Script from 'next/script';
@@ -20,7 +21,7 @@ export function ClientScripts() {
             document.addEventListener('gesturestart', (event) => {
               event.preventDefault();
             }, { passive: false });
-          `
+          `,
         }}
       />
     </>

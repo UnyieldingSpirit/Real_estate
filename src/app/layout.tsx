@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-import { Inter, Roboto_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter, Roboto_Mono } from 'next/font/google';
+import './globals.css';
 import Script from 'next/script';
-import EnhancedMainWrapper from "../shared/components/EnhancedMainWrapper";
+import EnhancedMainWrapper from '../shared/components/EnhancedMainWrapper';
 
 // Загружаем Inter как основной шрифт
 const inter = Inter({
@@ -12,19 +12,19 @@ const inter = Inter({
 
 // Заменил Geist на Inter для sans-serif шрифта
 const interSans = Inter({
-  variable: "--font-geist-sans",
-  subsets: ["latin", "cyrillic"],
+  variable: '--font-geist-sans',
+  subsets: ['latin', 'cyrillic'],
 });
 
 // Заменил Geist Mono на Roboto Mono для монопространственного шрифта
 const robotoMono = Roboto_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "MoyDom Real Estate",
-  description: "Find your perfect home",
+  title: 'MoyDom Real Estate',
+  description: 'Find your perfect home',
   viewport: {
     width: 'device-width',
     initialScale: 1,
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
     'user-scalable': '0',
     'apple-mobile-web-app-capable': 'yes',
     'viewport-fit': 'cover',
-    'HandheldFriendly': 'true'
-  }
+    'HandheldFriendly': 'true',
+  },
 };
 
 export default function RootLayout({
@@ -76,7 +76,7 @@ export default function RootLayout({
               document.addEventListener('gesturestart', (event) => {
                 event.preventDefault();
               }, { passive: false });
-            `
+            `,
           }}
         />
         
@@ -182,7 +182,7 @@ export default function RootLayout({
                 document.documentElement.style.overflow = 'hidden';
                 document.body.style.overflow = 'hidden';
               }, 500);
-            `
+            `,
           }}
         />
         
@@ -269,9 +269,9 @@ export default function RootLayout({
         className={`${inter.variable} ${interSans.variable} ${robotoMono.variable} bg-[#f7f7f7] antialiased touch-manipulation`}
         style={{ fontFamily: 'Inter, sans-serif', overflow: 'hidden' }}
       >
-       <EnhancedMainWrapper>
-  {children}
-</EnhancedMainWrapper>
+        <EnhancedMainWrapper>
+          {children}
+        </EnhancedMainWrapper>
       </body>
     </html>
   );
