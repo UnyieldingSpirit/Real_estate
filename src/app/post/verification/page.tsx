@@ -86,7 +86,7 @@ export default function VerificationPage() {
         {/* Круг с иконкой */}
         <div className="relative mb-8 flex items-center justify-center">
           <motion.div 
-            className="w-52 h-52 rounded-full border-2 border-[#FF7560]"
+            className="w-[250px] h-[250px] rounded-full border-2 border-[#FF7560]"
             variants={circleVariants}
             initial="hidden"
             animate="visible"
@@ -98,7 +98,7 @@ export default function VerificationPage() {
             initial="hidden"
             animate="visible"
           >
-            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>

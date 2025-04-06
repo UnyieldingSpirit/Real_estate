@@ -532,13 +532,13 @@ export default function AddPropertyPage() {
               </p>
               
               {/* Форма с информацией */}
-              <div className="space-y-4">
+              <div className="space-y-5">
                 {/* Город */}
                 <div>
                   <label className="text-[#8F8F8F] text-base mb-1 block">{t('city')}</label>
                   <div className="relative">
                     <div 
-                      className="w-full bg-white rounded-xl p-4 flex justify-between items-center"
+                      className="w-full bg-white rounded-xl p-4 flex justify-between items-center cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         setCityDropdownOpen(!cityDropdownOpen);
@@ -554,18 +554,21 @@ export default function AddPropertyPage() {
                         fill="none" 
                         stroke="#A3A3A3" 
                         strokeWidth="2"
-                        className={`transition-transform ${cityDropdownOpen ? 'rotate-180' : ''}`}
+                        className={`transition-transform duration-200 ${cityDropdownOpen ? 'rotate-180' : ''}`}
                       >
                         <polyline points="6 9 12 15 18 9"></polyline>
                       </svg>
                     </div>
-                    
+      
                     {cityDropdownOpen && (
-                      <div className="absolute left-0 right-0 mt-1 bg-white rounded-xl shadow-lg z-10 max-h-60 overflow-y-auto">
+                      <div 
+                        className="absolute left-0 right-0 mt-1 bg-white rounded-xl shadow-lg z-10 max-h-60 overflow-y-auto"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {['Ташкент', 'Самарканд', 'Бухара', 'Андижан'].map((item) => (
                           <div 
                             key={item}
-                            className="p-4 hover:bg-gray-50 cursor-pointer"
+                            className="p-4 hover:bg-gray-50 cursor-pointer text-[#1F1F1F]"
                             onClick={() => {
                               setCity(item);
                               setCityDropdownOpen(false);
@@ -578,13 +581,13 @@ export default function AddPropertyPage() {
                     )}
                   </div>
                 </div>
-                
+  
                 {/* Район */}
                 <div>
                   <label className="text-[#8F8F8F] text-base mb-1 block">{t('district')}</label>
                   <div className="relative">
                     <div 
-                      className="w-full bg-white rounded-xl p-4 flex justify-between items-center"
+                      className="w-full bg-white rounded-xl p-4 flex justify-between items-center cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         setDistrictDropdownOpen(!districtDropdownOpen);
@@ -600,18 +603,21 @@ export default function AddPropertyPage() {
                         fill="none" 
                         stroke="#A3A3A3" 
                         strokeWidth="2"
-                        className={`transition-transform ${districtDropdownOpen ? 'rotate-180' : ''}`}
+                        className={`transition-transform duration-200 ${districtDropdownOpen ? 'rotate-180' : ''}`}
                       >
                         <polyline points="6 9 12 15 18 9"></polyline>
                       </svg>
                     </div>
-                    
+      
                     {districtDropdownOpen && (
-                      <div className="absolute left-0 right-0 mt-1 text-[#1F1F1F] bg-white rounded-xl shadow-lg z-10 max-h-60 overflow-y-auto">
+                      <div 
+                        className="absolute left-0 right-0 mt-1 text-[#1F1F1F] bg-white rounded-xl shadow-lg z-10 max-h-60 overflow-y-auto"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {['Чиланзарский', 'Юнусабадский', 'Мирзо-Улугбекский', 'Сергелийский'].map((item) => (
                           <div 
                             key={item}
-                            className="p-4 text-[#1F1F1F] cursor-pointer"
+                            className="p-4 text-[#1F1F1F] hover:bg-gray-50 cursor-pointer"
                             onClick={() => {
                               setDistrict(item);
                               setDistrictDropdownOpen(false);
@@ -624,16 +630,31 @@ export default function AddPropertyPage() {
                     )}
                   </div>
                 </div>
-                
+  
                 {/* Площадь */}
-                {renderInputField(t('area'), area, (e) => setArea(e.target.value), 'number', '60')}
-                
+                <div>
+                  <label className="text-[#8F8F8F] text-base mb-1 block">{t('area')}</label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      value={area}
+                      onChange={(e) => setArea(e.target.value)}
+                      placeholder="60"
+                      className="w-full bg-white rounded-xl p-4 outline-none text-[#1F1F1F] focus:ring-2 focus:ring-[#FF7560]/30"
+                      style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }}
+                    />
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#8F8F8F]">
+        м²
+                    </div>
+                  </div>
+                </div>
+  
                 {/* Валюта */}
                 <div>
                   <label className="text-[#8F8F8F] text-base mb-1 block">{t('currency')}</label>
                   <div className="relative">
                     <div 
-                      className="w-full bg-white rounded-xl p-4 flex justify-between items-center"
+                      className="w-full bg-white rounded-xl p-4 flex justify-between items-center cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
                         setCurrencyDropdownOpen(!currencyDropdownOpen);
@@ -649,18 +670,21 @@ export default function AddPropertyPage() {
                         fill="none" 
                         stroke="#A3A3A3" 
                         strokeWidth="2"
-                        className={`transition-transform ${currencyDropdownOpen ? 'rotate-180' : ''}`}
+                        className={`transition-transform duration-200 ${currencyDropdownOpen ? 'rotate-180' : ''}`}
                       >
                         <polyline points="6 9 12 15 18 9"></polyline>
                       </svg>
                     </div>
-                    
+      
                     {currencyDropdownOpen && (
-                      <div className="absolute left-0 right-0 mt-1  bg-white rounded-xl shadow-lg z-10">
+                      <div 
+                        className="absolute left-0 right-0 mt-1 bg-white rounded-xl shadow-lg z-10"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {['Доллары', 'UZS'].map((item) => (
                           <div 
                             key={item}
-                            className="p-4  text-[#1F1F1F] cursor-pointer"
+                            className="p-4 text-[#1F1F1F] hover:bg-gray-50 cursor-pointer"
                             onClick={() => {
                               setCurrency(item);
                               setCurrencyDropdownOpen(false);
@@ -673,58 +697,69 @@ export default function AddPropertyPage() {
                     )}
                   </div>
                 </div>
-                
+  
                 {/* Цена */}
-                {renderInputField(t('price'), price, (e) => setPrice(e.target.value), 'number', '500')}
-                
+                <div>
+                  <label className="text-[#8F8F8F] text-base mb-1 block">{t('price')}</label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#8F8F8F]">
+                      {currency === 'Доллары' ? '$' : '₽'}
+                    </div>
+                    <input
+                      type="number"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      placeholder="500"
+                      className="w-full bg-white rounded-xl p-4 pl-8 outline-none text-[#1F1F1F] focus:ring-2 focus:ring-[#FF7560]/30"
+                      style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }}
+                    />
+                  </div>
+                </div>
+  
                 {/* Описание */}
-                {renderTextareaField(t('description'), description, (e) => setDescription(e.target.value), t('descriptionPlaceholder'))}
-                
-                {/* Чекбоксы для дополнительных опций */}
+                <div>
+                  <div className="flex justify-between">
+                    <label className="text-[#8F8F8F] text-base mb-1 block">{t('description')}</label>
+                    <span className="text-xs text-gray-400">{description.length}/500</span>
+                  </div>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value.slice(0, 500))}
+                    placeholder="Опишите особенности объекта недвижимости..."
+                    className="w-full bg-white rounded-xl p-4 outline-none min-h-[120px] resize-none text-[#1F1F1F] focus:ring-2 focus:ring-[#FF7560]/30"
+                  />
+                </div>
+  
+                {/* Чекбоксы */}
                 <div className="mt-4 space-y-4">
                   {/* Наличие ремонта */}
                   <div 
-                    className="flex items-center"
+                    className="flex items-center cursor-pointer"
                     onClick={() => setHasRenovation(!hasRenovation)}
                   >
-                    <div className={`w-6 h-6 rounded border ${hasRenovation ? 'bg-[#FF6B6B] border-[#FF6B6B]' : 'border-gray-300'} flex items-center justify-center mr-3`}>
+                    <div className={`w-6 h-6 rounded border ${hasRenovation ? 'bg-[#FF6B6B] border-[#FF6B6B]' : 'border-gray-300'} flex items-center justify-center mr-3 transition-colors`}>
                       {hasRenovation && (
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
                           <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                       )}
                     </div>
-                    <span className="text-[#8F8F8F] text-lg">{t('withRenovation')}</span>
+                    <span className="text-[#1F1F1F] text-base">{t('withRenovation')}</span>
                   </div>
-                  
+    
                   {/* Мебель/техника */}
                   <div 
-                    className="flex items-center"
+                    className="flex items-center cursor-pointer"
                     onClick={() => setHasFurniture(!hasFurniture)}
                   >
-                    <div className={`w-6 h-6 rounded border ${hasFurniture ? 'bg-[#FF6B6B] border-[#FF6B6B]' : 'border-gray-300'} flex items-center justify-center mr-3`}>
+                    <div className={`w-6 h-6 rounded border ${hasFurniture ? 'bg-[#FF6B6B] border-[#FF6B6B]' : 'border-gray-300'} flex items-center justify-center mr-3 transition-colors`}>
                       {hasFurniture && (
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
                           <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                       )}
                     </div>
-                    <span className="text-[#8F8F8F] text-lg">{t('withFurniture')}</span>
-                  </div>
-                  
-                  {/* От собственников */}
-                  <div 
-                    className="flex items-center"
-                    onClick={() => setFromOwners(!fromOwners)}
-                  >
-                    <div className={`w-6 h-6 rounded border ${fromOwners ? 'bg-[#FF6B6B] border-[#FF6B6B]' : 'border-gray-300'} flex items-center justify-center mr-3`}>
-                      {fromOwners && (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      )}
-                    </div>
-                    <span className="text-[#8F8F8F] text-lg">{t('fromOwners')}</span>
+                    <span className="text-[#1F1F1F] text-base">{t('withFurniture')}</span>
                   </div>
                 </div>
               </div>
