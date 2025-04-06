@@ -7,10 +7,8 @@ import PropertyCard from '@/src/shared/components/PropertyCard';
 import { useTranslation } from '@/src/hooks';
 import EmptyState from '@/src/shared/components/EmptyState';
 
-// Типы для вкладок
 type AdvertisementTab = 'active' | 'inReview' | 'favorites';
 
-// Локализация
 const localization = {
   ru: {
     myAds: 'Мои',
@@ -32,7 +30,6 @@ const localization = {
   },
 };
 
-// Пример объявлений для избранного
 const favoritesAds = [
   {
     id: 3,
@@ -134,8 +131,7 @@ export default function MyAdvertisementsPage() {
           >
             {t('myAds')}
           </motion.h1>
-        
-          {/* Вкладки */}
+
           <div className="flex justify-between mb-4 bg-white p-2 rounded-[12px]">
             {[
               { key: 'active', label: t('active') },
