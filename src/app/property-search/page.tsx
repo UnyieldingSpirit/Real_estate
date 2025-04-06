@@ -201,7 +201,7 @@ export default function PropertySearchPage() {
       <div className="flex flex-col min-h-screen bg-[#f7f7f7]">
         <main className="flex-1">
           {/* Поисковая строка */}
-          <div className="pt-4">
+          <div className="">
             <SearchBar />
           </div>
           

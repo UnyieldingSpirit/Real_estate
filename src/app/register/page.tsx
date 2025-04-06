@@ -222,7 +222,7 @@ export default function RegistrationPage(): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex page-scrollable flex-col h-screen">
       
       <div className="flex flex-col flex-1 p-4">
         <h2 className="text-[#1F1F1F] text-4xl font-black">

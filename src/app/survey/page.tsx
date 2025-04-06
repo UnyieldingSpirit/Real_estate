@@ -356,10 +356,10 @@ export default function SurveyPage(): JSX.Element {
   };
   
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen page-scrollable">
       <div className="flex flex-col h-full bg-[#f7f7f7] relative">
         {/* Основное содержимое */}
-        <div className="flex-1 px-4 pb-32 pt-4 overflow-hidden">
+        <div className="flex-1 px-4 pb-32 overflow-hidden">
           <AnimatePresence custom={direction} initial={false} mode="wait">
             <motion.div
               key={currentStep}

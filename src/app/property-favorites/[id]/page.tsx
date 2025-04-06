@@ -128,7 +128,7 @@ export default function PropertyDetailPage({ params }: { params: { id: string } 
       // Если одно изображение, показываем только его
       return (
         <div 
-          className="w-full h-72 rounded-3xl overflow-hidden cursor-pointer"
+          className="w-full h-72 rounded-3xl page-scrollable cursor-pointer"
           onClick={() => handleOpenGallery(0)}
         >
           <img 

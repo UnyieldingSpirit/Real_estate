@@ -50,7 +50,7 @@ export default function VerificationCodePage(): JSX.Element {
   const [isTimerActive, setIsTimerActive] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
-  const router = useRouter();
+  // const router = useRouter();
   const { t } = useTranslation(localization as any);
   
   // Set up input refs
@@ -175,11 +175,11 @@ export default function VerificationCodePage(): JSX.Element {
   };
   
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col page-scrollable">
       {/* Header with back button */}
       {/* <NavigationHeader showLanguageSelector={true} /> */}
       
-      <div className="flex-1 flex flex-col px-5 pt-6">
+      <div className="flex-1 flex flex-col p-4">
         <h1 className="text-[32px] font-bold text-[#1F1F1F] mb-4">
           {t('enterCode')}
         </h1>
@@ -225,7 +225,7 @@ export default function VerificationCodePage(): JSX.Element {
         
         <button
           onClick={handleVerify}
-          className="py-3 bg-[#1F1F1F] text-white font-medium rounded-xl shadow-md"
+          className="py-4 bg-[#1F1F1F] text-white font-medium rounded-xl shadow-md"
         >
           {t('confirm')}
         </button>

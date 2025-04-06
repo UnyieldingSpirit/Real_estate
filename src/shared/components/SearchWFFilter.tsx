@@ -32,7 +32,7 @@ export default function SearchBar() {
   };
   
   return (
-    <div className="flex items-center gap-3 px-4 py-3 w-full">
+    <div className="flex items-center gap-3 px-4  w-full">
       <div className="flex items-center flex-1 h-16 bg-white rounded-2xl px-4 py-3 shadow-sm">
         <SearchIcon size={24} color="#343434" />
         <input

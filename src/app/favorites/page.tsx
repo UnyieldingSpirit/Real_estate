@@ -123,9 +123,9 @@ export default function MyAdvertisementsPage() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="flex flex-col min-h-screen"
+        className="flex flex-col page-scrollable"
       >
-        <div className="px-4 pt-4">
+        <div className="px-4">
           <motion.h1 
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}

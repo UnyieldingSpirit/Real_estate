@@ -53,7 +53,7 @@ export default function ListingTypePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f7f7f7]">
-      <div className="flex-1 px-4 pt-4 pb-24">
+      <div className="flex-1 px-4 pb-24">
         <h1 className="text-[32px] font-bold text-[#1F1F1F] mb-1">
           {t('listingType')}
         </h1>

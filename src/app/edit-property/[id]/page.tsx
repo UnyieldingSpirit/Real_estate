@@ -331,7 +331,7 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
     <div className="page-scrollable">
       <div className="bg-[#f7f7f7] min-h-screen">
         {/* Заголовок */}
-        <div className="px-4 pt-4 pb-6">
+        <div className="px-4 pb-6">
           <h1 className="text-[32px] font-bold text-[#1F1F1F]">{t('edit')}</h1>
           <p className="text-[#777777] text-base">{t('fillAllFields')}</p>
           
