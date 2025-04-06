@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Добавляем импорт роутера
+import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { BottomNavigation } from '@/src/shared/components';
 import PropertyCard from '@/src/shared/components/PropertyCard';
 import { useTranslation } from '@/src/hooks';
@@ -15,14 +16,20 @@ const localization = {
     myAds: 'Мои',
     active: 'Активные',
     inReview: 'На проверке',
-    favorites: 'Избранное'
+    favorites: 'Избранное',
   },
   uz: {
     myAds: 'Mening',
     active: 'Faol',
     inReview: 'Tekshiruvda',
-    favorites: 'Tanlanganlar'
-  }
+    favorites: 'Tanlanganlar',
+  },
+  en: {
+    myAds: 'My',
+    active: 'Active',
+    inReview: 'In Review',
+    favorites: 'Favorites',
+  },
 };
 
 // Пример объявлений для избранного
@@ -38,8 +45,8 @@ const favoritesAds = [
     daysAgo: 1,
     hasRenovation: true,
     hasFurniture: true,
-    fromOwner: false
-  }
+    fromOwner: false,
+  },
 ];
 
 // Пример объявлений (в реальном приложении это будет приходить с бэкенда)
@@ -48,7 +55,7 @@ const mockAdvertisements = {
     {
       id: 1,
       title: 'Современная квартира в центре',
-      price: '300 $/мес.',
+      price: '300',
       location: 'Ташкент, Чиланзарский район',
       area: '60м²',
       rooms: 4,
@@ -57,14 +64,14 @@ const mockAdvertisements = {
       hasRenovation: true,
       hasFurniture: true,
       fromOwner: true,
-      status: 'active'
-    }
+      status: 'active',
+    },
   ],
   inReview: [
     {
       id: 2,
       title: 'Уютная двухкомнатная квартира',
-      price: '200 $/мес.',
+      price: '200',
       location: 'Ташкент, Юнусабадский район',
       area: '45м²',
       rooms: 2,
@@ -73,14 +80,14 @@ const mockAdvertisements = {
       hasRenovation: false,
       hasFurniture: true,
       fromOwner: false,
-      status: 'inReview'
-    }
+      status: 'inReview',
+    },
   ],
-  favorites: favoritesAds
+  favorites: favoritesAds,
 };
 
 export default function MyAdvertisementsPage() {
-  const router = useRouter(); // Инициализируем роутер
+  const router = useRouter();
   const { t } = useTranslation(localization);
   const [activeTab, setActiveTab] = useState<AdvertisementTab>('active');
 
@@ -100,12 +107,9 @@ export default function MyAdvertisementsPage() {
 
   // Обработчик клика на карточку объявления
   const handlePropertyClick = (id: number, isFavorite: boolean) => {
-    // Если это избранное, направляем на детальную страницу избранного
     if (isFavorite) {
       router.push(`/favorites-pro/${id}`);
     } else {
-      // Для других типов объявлений можно направлять на обычную детальную страницу
-      // или на страницу редактирования в зависимости от бизнес-логики
       router.push(`/property/${id}`);
     }
   };
@@ -114,51 +118,82 @@ export default function MyAdvertisementsPage() {
   const isFavoritesTab = activeTab === 'favorites';
 
   return (
-    <div className="flex flex-col min-h-screen ">
-      <div className="px-4 pt-4">
-        <h1 className="text-[32px] font-bold text-[#1F1F1F] mb-4">
-          {t('myAds')}
-        </h1>
+    <div>
+      <motion.div 
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="flex flex-col min-h-screen"
+      >
+        <div className="px-4 pt-4">
+          <motion.h1 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+            className="text-[32px] font-bold text-[#1F1F1F] mb-4"
+          >
+            {t('myAds')}
+          </motion.h1>
         
-        {/* Вкладки */}
-        <div className="flex justify-between  mb-4 bg-white p-2 rounded-[12px]">
-          {[
-            { key: 'active', label: t('active') },
-            { key: 'inReview', label: t('inReview') },
-            { key: 'favorites', label: t('favorites') }
-          ].map(tab => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key as AdvertisementTab)}
-              className={`px-4 py-2 rounded-[12px] text-base font-medium transition-colors ${
-                activeTab === tab.key 
-                  ? 'bg-[#FF7560] text-white' 
-                  : ' text-[#8E8E8E]'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+          {/* Вкладки */}
+          <div className="flex justify-between mb-4 bg-white p-2 rounded-[12px]">
+            {[
+              { key: 'active', label: t('active') },
+              { key: 'inReview', label: t('inReview') },
+              { key: 'favorites', label: t('favorites') },
+            ].map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key as AdvertisementTab)}
+                className={`px-4 py-2 rounded-[12px] text-base font-medium transition-colors ${
+                  activeTab === tab.key 
+                    ? 'bg-[#FF7560] text-white' 
+                    : ' text-[#8E8E8E]'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
       
-      {/* Список объявлений */}
-      {advertisements.length > 0 ? (
-        <div className="space-y-4 px-4">
-          {advertisements.map(ad => (
-            <div key={ad.id} onClick={() => handlePropertyClick(ad.id, isFavoritesTab)}>
-              <PropertyCard 
-                property={ad}
-                myAdvertisementMode={!isFavoritesTab}
-                fromFavoritesPage={isFavoritesTab} // Устанавливаем флаг для избранного
-              />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <EmptyState activeTab={activeTab} />
-      )}
+        {/* Список объявлений */}
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={activeTab}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="space-y-4 px-4"
+          >
+            {advertisements.length > 0 ? (
+              advertisements.map((ad, index) => (
+                <motion.div 
+                  key={ad.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.3, 
+                    delay: index * 0.1,
+                    ease: 'easeOut', 
+                  }}
+                  onClick={() => handlePropertyClick(ad.id, isFavoritesTab)}
+                >
+                  <PropertyCard 
+                    property={ad}
+                    myAdvertisementMode={!isFavoritesTab}
+                    fromFavoritesPage={isFavoritesTab}
+                  />
+                </motion.div>
+              ))
+            ) : (
+              <EmptyState activeTab={activeTab} />
+            )}
+          </motion.div>
+        </AnimatePresence>
       
+      </motion.div>
       <BottomNavigation />
     </div>
   );

@@ -110,24 +110,33 @@ const localization: Record<string, Localization> = {
     continue: 'Davom etish',
     goToResults: 'Takliflarga o\'tish',
   },
-};
-
-// Пресеты значений для слайдера бюджета
-const budgetPresets = {
-  '$': [
-    { value: 300, label: '300$' },
-    { value: 500, label: '500$' },
-    { value: 1000, label: '1000$' },
-    { value: 2000, label: '2000$' },
-    { value: 3000, label: '3000$+' },
-  ],
-  'UZS': [
-    { value: 3000000, label: '3M' },
-    { value: 10000000, label: '10M' },
-    { value: 30000000, label: '30M' },
-    { value: 50000000, label: '50M' },
-    { value: 100000000, label: '100M+' },
-  ],
+  en: {
+    propertyType: {
+      title: 'Property Type',
+      subtitle: 'Select Property Type',
+      apartment: 'Apartment',
+      house: 'House',
+      commercial: 'Commercial',
+      dacha: 'Dacha',
+    },
+    rooms: {
+      title: 'Rooms',
+      subtitle: 'What rooms are you looking for?',
+      one: 'One room',
+      two: 'Two rooms',
+      three: 'Three rooms',
+      four: 'Four rooms',
+      moreThanFive: 'More than five',
+    },
+    budget: {
+      title: 'Budget',
+      subtitle: 'What budget are you looking for?',
+      currency: 'Currency',
+      from: 'From',
+    },
+    continue: 'Continue',
+    goToResults: 'Go to offers',
+  },
 };
 
 export default function SurveyPage(): JSX.Element {

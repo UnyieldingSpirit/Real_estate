@@ -68,6 +68,23 @@ const localization = {
     yes: 'Ha',
     no: 'Yo\'q',
   },
+  en: {
+    viewAll: 'View All',
+    description: 'Description',
+    features: 'Features',
+    renovation: 'Renovation',
+    furniture: 'Furniture',
+    owner: 'Owner',
+    contact: 'Contact',
+    delete: 'Delete',
+    edit: 'Edit',
+    deleteConfirm: 'Are you sure you want to delete this ad?',
+    removeFromFavorites: 'Remove from favorites',
+    removeFromFavoritesConfirm: 'Are you sure you want to remove from favorites?',
+    call: 'Call',
+    yes: 'Yes',
+    no: 'No',
+  },
 };
 
 export default function PropertyDetailPage({  }: { params: { id: string } }) {

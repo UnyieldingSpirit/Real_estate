@@ -3,7 +3,8 @@ import { persist } from 'zustand/middleware';
 
 export enum Locale {
     RU = 'ru',
-    UZ = 'uz'
+    UZ = 'uz',
+    EN = 'en',
 }
 
 interface LanguageState {

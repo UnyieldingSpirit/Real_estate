@@ -15,6 +15,11 @@ const localization = {
     surveyDescriptionStart: 'Va biz sizga mos',
     surveyDescriptionEnd: 'variantlarni',
   },
+  en: {
+    takeSurvey: 'Take Survey',
+    surveyDescriptionStart: 'And we will provide you with suitable',
+    surveyDescriptionEnd: 'options',
+  },
 };
 
 // Функция для создания светлого оттенка цвета с прозрачностью

@@ -7,12 +7,16 @@ import { useTranslation } from '@/src/hooks';
 const localization = {
   ru: {
     search: 'Поиск',
-    filter: 'Фильтр'
+    filter: 'Фильтр',
   },
   uz: {
     search: 'Qidirish',
-    filter: 'Filtr'
-  }
+    filter: 'Filtr',
+  },
+  en: {
+    search: 'Search',
+    filter: 'Filter',
+  },
 };
 
 export default function SearchBar() {
@@ -24,8 +28,7 @@ export default function SearchBar() {
   };
   
   const handleFilterClick = () => {
-    console.log('Open filter modal');
-     window.location.href = '/filter';
+    window.location.href = '/filter';
   };
   
   return (
@@ -47,7 +50,7 @@ export default function SearchBar() {
         aria-label={t('filter')}
       >
         <div className="relative">
-     <FilterIcon size={24} color="#343434"/>
+          <FilterIcon size={24} color="#343434"/>
         </div>
       </button>
     </div>

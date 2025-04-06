@@ -102,7 +102,7 @@ export default function RootLayout({
                 const mainContent = document.querySelector('.main-content');
                 if (mainContent) {
                   if (isMobileDevice()) {
-                    mainContent.style.paddingTop = '6rem';
+                    mainContent.style.paddingTop = '4rem';
                     mainContent.style.paddingBottom = '6rem';
                     mainContent.classList.add('mobile-padding');
                     mainContent.classList.remove('desktop-padding');
@@ -220,7 +220,7 @@ export default function RootLayout({
             
             /* Классы для JS-применения */
             .mobile-padding {
-              padding-top: 6rem !important;
+              padding-top: 4rem !important;
               padding-bottom: 6rem !important;
             }
             
@@ -234,9 +234,8 @@ export default function RootLayout({
               height: 100%;
               overflow-y: auto;
               -webkit-overflow-scrolling: touch;
-              /* Отступ для нижней навигации */
               padding-bottom: 120px;
-              padding-top: 100px;
+              padding-top: 60px;
               position: absolute;
               top: 0;
               left: 0;

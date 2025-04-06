@@ -118,15 +118,15 @@ export default function PropertyCard({
         
     if (property.operationType) {
       return property.operationType === 'rent' 
-        ? `${priceString}/мес.` 
-        : `${priceString}`;
+        ? `${priceString}` 
+        : `${priceString} $/мес.`;
     }
         
     const priceValue: number = parseInt(priceString.replace(/[^0-9]/g, ''));
         
     return priceValue > 5000 
       ? `${priceString}` 
-      : `${priceString}/мес.`;
+      : `${priceString} $/мес.`;
   };
 
   // Определяем текст для статуса объявления

@@ -17,6 +17,7 @@ interface LocalizationMessages {
 type Localization = {
   ru: LocalizationMessages;
   uz: LocalizationMessages;
+  en: LocalizationMessages;
 };
 
 const localization: Localization = {
@@ -27,10 +28,16 @@ const localization: Localization = {
     profile: 'Профиль',
   },
   uz: {
-    home: 'Asosiy',
-    post: 'Joylashtirish',
-    favorites: 'Mening',
+    home: 'Bosh',
+    post: 'Joylash',
+    favorites: 'Saqlab',
     profile: 'Profil',
+  },
+  en: {
+    home: 'Home',
+    post: 'Post',
+    favorites: 'Saved',
+    profile: 'Profile',
   },
 };
 

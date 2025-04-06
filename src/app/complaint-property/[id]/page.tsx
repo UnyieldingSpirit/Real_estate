@@ -31,6 +31,17 @@ const localization = {
     thankYouMessage: 'Sizning shikoyatingiz muvaffaqiyatli yuborildi. Xizmatimizni yaxshilayotganingiz uchun rahmat!',
     continue: 'Davom etish',
   },
+  en: {
+    complaint: 'Complain',
+    selectReason: 'Select a reason or describe',
+    notActual: 'Advertisement is not actual',
+    incorrectData: 'Incorrect data',
+    otherReason: 'Other reason',
+    submitComplaint: 'Complain',
+    complaintAccepted: 'Complaint accepted',
+    thankYouMessage: 'Your complaint has been successfully submitted for review. Thank you for making our service better!',
+    continue: 'Continue',
+  },
 };
 
 export default function PropertyComplaintPage({ params }: { params: { id: string } }) {

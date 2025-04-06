@@ -58,6 +58,18 @@ const localization = {
     edit: 'Tahrirlash',
     deleteConfirm: 'Siz bu e\'lonni o\'chirishni xohlaysizmi?',
   },
+  en: {
+    viewAll: 'View All',
+    description: 'Description',
+    features: 'Features',
+    renovation: 'Renovation',
+    furniture: 'Furniture',
+    owner: 'Owner',
+    contact: 'Contact',
+    delete: 'Delete',
+    edit: 'Edit',
+    deleteConfirm: 'Are you sure you want to delete this ad?',
+  },
 };
 
 export default function PropertyDetailPage({ params }: { params: { id: string } }) {

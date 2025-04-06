@@ -55,7 +55,7 @@ const localization: TranslationDictionary = {
     rent: 'Аренда',
     buy: 'Покупка',
     dollars: 'Доллары',
-    sum: 'UZS'
+    sum: 'UZS',
   },
   uz: {
     filter: 'Filtr',
@@ -78,8 +78,31 @@ const localization: TranslationDictionary = {
     rent: 'Аренда',
     buy: 'Продажа',
     dollars: 'Доллары',
-    sum: 'UZS'
-  }
+    sum: 'UZS',
+  },
+  en: {
+    filter: 'Filter',
+    city: 'City',
+    district: 'District',
+    area: 'Area (m2)',
+    currency: 'Currency',
+    type: 'Type',
+    price: 'Price',
+    minPrice: 'min.',
+    maxPrice: 'max.',
+    hasRenovation: 'Has renovation',
+    hasFurniture: 'Furniture/technology available',
+    fromOwners: 'From owners',
+    apply: 'Apply',
+    reset: 'Reset',
+    from: 'from',
+    to: 'to',
+    select: 'Select',
+    rent: 'Rent',
+    buy: 'Buy',
+    dollars: 'Dollars',
+    sum: 'UZS',
+  },
 };
 
 // Список городов и районов для демонстрации
@@ -88,7 +111,7 @@ const districts: Record<string, string[]> = {
   'Ташкент': ['Чиланзарский', 'Юнусабадский', 'Мирзо-Улугбекский', 'Сергелийский'],
   'Самарканд': ['Район 1', 'Район 2'],
   'Бухара': ['Район 1', 'Район 2'],
-  'Андижан': ['Район 1', 'Район 2']
+  'Андижан': ['Район 1', 'Район 2'],
 };
 
 // Типы валюты
@@ -135,7 +158,7 @@ export default function FilterPage(): JSX.Element {
       maxPrice,
       hasRenovation,
       hasFurniture,
-      fromOwners
+      fromOwners,
     });
     
     router.push('/property-search');
@@ -164,7 +187,7 @@ export default function FilterPage(): JSX.Element {
     setShowDropdown: React.Dispatch<React.SetStateAction<boolean>>, 
     options: string[], 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setValue: (option: any) => void
+    setValue: (option: any) => void,
   ): JSX.Element => {
     return (
       <div className="mb-6">
@@ -221,7 +244,7 @@ export default function FilterPage(): JSX.Element {
           showCityDropdown, 
           setShowCityDropdown, 
           cities, 
-          setSelectedCity
+          setSelectedCity,
         )}
         
         {/* Район */}
@@ -231,7 +254,7 @@ export default function FilterPage(): JSX.Element {
           showDistrictDropdown, 
           setShowDistrictDropdown, 
           districts[selectedCity] || [], 
-          setSelectedDistrict
+          setSelectedDistrict,
         )}
         
         {/* Площадь - теперь с двумя инпутами (от и до) */}
@@ -274,7 +297,7 @@ export default function FilterPage(): JSX.Element {
           showCurrencyDropdown, 
           setShowCurrencyDropdown, 
           ['Доллары', 'UZS'] as CurrencyType[], 
-          setCurrency
+          setCurrency,
         )}
         
         {/* Тип - опции изменены на "Аренда" и "Продажа" */}
@@ -284,7 +307,7 @@ export default function FilterPage(): JSX.Element {
           showTypeDropdown, 
           setShowTypeDropdown, 
           ['Аренда', 'Продажа'] as PropertyOperationType[], 
-          setPropertyType
+          setPropertyType,
         )}
         
         {/* Цена */}

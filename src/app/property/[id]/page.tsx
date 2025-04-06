@@ -24,13 +24,13 @@ const propertyData = {
   features: {
     hasRenovation: true,
     hasFurniture: true,
-    isFromOwner: true
+    isFromOwner: true,
   },
   owner: {
     name: 'Алена Ибрагимова',
     avatar: '/avatar.svg',
-    title: 'Хозяин'
-  }
+    title: 'Хозяин',
+  },
 };
 
 const localization = {
@@ -44,7 +44,7 @@ const localization = {
     contact: 'Пожаловаться',
     dislike: 'Не нравится',
     like: 'Нравится',
-    call: 'Позвонить'
+    call: 'Позвонить',
   },
   uz: {
     viewAll: 'Hammasini ko\'rish',
@@ -56,8 +56,20 @@ const localization = {
     contact: 'Shikoyat qilish',
     dislike: 'Yoqmadi',
     like: 'Yoqdi',
-    call: 'Qo\'ng\'iroq qilish'
-  }
+    call: 'Qo\'ng\'iroq qilish',
+  },
+  en: {
+    viewAll: 'View All',
+    description: 'Description',
+    features: 'Features',
+    renovation: 'Renovation',
+    furniture: 'Furniture',
+    owner: 'Owner',
+    contact: 'Contact',
+    dislike: 'Dislike',
+    like: 'Like',
+    call: 'Call',
+  },
 };
 
 export default function PropertyDetailPage() {
@@ -95,7 +107,7 @@ export default function PropertyDetailPage() {
   
   // Обработчик нажатия на кнопку "Позвонить"
   const handleCall = () => {
-    console.log("Calling the owner...");
+    console.log('Calling the owner...');
     // Здесь будет реальная логика для совершения звонка
   };
 
@@ -436,7 +448,7 @@ export default function PropertyDetailPage() {
               onClick={handleDislike}
               className={`w-[82px] h-[82px] ${isDisliked ? 'bg-[#FF7560]' : 'bg-[#E7E7E7]'} rounded-full flex items-center justify-center transition-colors`}
             >
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke={isDisliked ? "white" : "#9A9A9A"} strokeWidth="2">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke={isDisliked ? 'white' : '#9A9A9A'} strokeWidth="2">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
@@ -461,7 +473,7 @@ export default function PropertyDetailPage() {
               onClick={handleLike}
               className={`w-[82px] h-[82px] ${isLiked ? 'bg-[#D760FF]' : 'bg-[#E7E7E7]'} rounded-full flex items-center justify-center transition-colors`}
             >
-              <svg width="34" height="34" viewBox="0 0 24 24" fill={isLiked ? "white" : "none"} stroke={isLiked ? "white" : "#9A9A9A"} strokeWidth="2">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill={isLiked ? 'white' : 'none'} stroke={isLiked ? 'white' : '#9A9A9A'} strokeWidth="2">
                 <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
               </svg>
             </button>

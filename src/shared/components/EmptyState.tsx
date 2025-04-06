@@ -23,6 +23,15 @@ const localization = {
     createAdDescription: 'E\'lon joylashtiring va sotuvchi yoki ijaraga beruvchini toping',
     createAdButton: 'E\'lon yaratish',
   },
+  en: {
+    noAds: {
+      active: 'No active ads',
+      inReview: 'No ads in review',
+      favorites: 'No favorite ads',
+    },
+    createAdDescription: 'List your ad and find a buyer or renter',
+    createAdButton: 'Create Ad',
+  },
 };
 
 interface EmptyStateProps {

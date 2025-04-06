@@ -33,6 +33,13 @@ const localization = {
     commercial: 'Tijorat ko\'chmas mulki',
     dacha: 'Dala hovli',
   },
+  en: {
+    categories: 'Categories',
+    apartment: 'Apartment',
+    house: 'House',
+    commercial: 'Commercial',
+    dacha: 'Dacha',
+  },
 };
 
 interface PropertyCategoriesProps {
@@ -82,7 +89,7 @@ export default function PropertyCategories({
   };
   
   return (
-    <div className="px-4 mb-6">
+    <div className="mb-6">
       {/* Отображаем заголовок только если он передан или используем стандартный */}
       {(title || title !== '') ? (
         <h2 className="text-[#1F1F1F] mb-4"
@@ -108,7 +115,7 @@ export default function PropertyCategories({
         </h2>
       )}
       
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2  gap-4">
         {Object.values(PropertyCategoryType).map((category) => {
           const config = getCategoryConfig(category);
           

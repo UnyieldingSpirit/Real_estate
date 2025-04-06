@@ -74,6 +74,27 @@ const localization: TranslationDictionary = {
     photoLimit: '10 tagacha rasm qo\'shish mumkin',
     uploadMore: 'Yana qo\'shish',
   },
+  en: {
+    edit: 'Edit',
+    fillAllFields: 'Fill all fields',
+    city: 'City',
+    district: 'District',
+    area: 'Area (m2)',
+    currency: 'Currency',
+    price: 'Price',
+    description: 'Description',
+    hasRenovation: 'Renovation',
+    hasFurniture: 'Furniture',
+    fromOwners: 'From owners',
+    apply: 'Apply',
+    delete: 'Delete',
+    from: 'from',
+    to: 'to',
+    select: 'Select',
+    addPhotos: 'Add photos',
+    photoLimit: 'You can add up to 10 photos',
+    uploadMore: 'Upload more',
+  },
 };
 
 const cities: string[] = ['Ташкент', 'Самарканд', 'Бухара', 'Андижан'];
@@ -130,19 +151,6 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
   
   // Максимальное количество фото
   const MAX_PHOTOS = 10;
-  
-  // Эффект для имитации загрузки данных объявления с сервера
-  useEffect(() => {
-    // В реальном приложении здесь был бы API-запрос
-    console.log(`Loading property data for ID: ${params.id}`);
-    
-    // Имитация асинхронной загрузки данных
-    const timer = setTimeout(() => {
-      console.log('Property data loaded');
-    }, 500);
-    
-    return () => clearTimeout(timer);
-  }, [params.id]);
   
   // Обработчики изменения данных
   const handleCityChange = (city: string): void => {
@@ -265,7 +273,6 @@ export default function EditPropertyPage({ params }: { params: { id: string } })
   
   // Обработчик сохранения изменений
   const handleSaveChanges = (): void => {
-    console.log('Saving property changes:', property);
     // В реальном приложении здесь был бы API-запрос для сохранения
     
     // После успешного сохранения перенаправляем на страницу объявления

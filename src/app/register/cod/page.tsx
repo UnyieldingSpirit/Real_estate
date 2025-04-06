@@ -17,6 +17,7 @@ interface LocalizationMessages {
 type Localization = {
   ru: LocalizationMessages;
   uz: LocalizationMessages;
+  en: LocalizationMessages;
 };
 
 const localization: Localization = {
@@ -33,6 +34,13 @@ const localization: Localization = {
     requestAgain: 'Yana so\'rash',
     confirm: 'Tasdiqlash',
     verificationFailed: 'Noto\'g\'ri kod. Iltimos, qaytadan urinib ko\'ring.',
+  },
+  en: {
+    enterCode: 'Enter code from SMS',
+    codeSent: 'A code has been sent to your phone or email. Enter it in the input field to reset your password',
+    requestAgain: 'Request again',
+    confirm: 'Confirm',
+    verificationFailed: 'Invalid code. Please try again.',
   },
 };
 
@@ -135,8 +143,6 @@ export default function VerificationCodePage(): JSX.Element {
       setTimer(60);
       setIsTimerActive(true);
       
-      // API call to request a new code would go here
-      console.log('Requesting new verification code');
     }
   };
   

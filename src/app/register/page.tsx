@@ -15,6 +15,7 @@ interface LocalizationMessages {
 type Localization = {
   ru: LocalizationMessages;
   uz: LocalizationMessages;
+  en: LocalizationMessages;
 };
 
 const localization: Localization = {
@@ -31,6 +32,13 @@ const localization: Localization = {
     phoneNumber: 'Telefon raqami',
     requestCode: 'Kodni so\'rash',
     requiredField: 'Majburiy maydon',
+  },
+  en: {
+    authorization: 'Authorization',
+    enterPhoneNumber: 'Enter your phone number',
+    phoneNumber: 'Phone number',
+    requestCode: 'Request code',
+    requiredField: 'Required field',
   },
 };
 
@@ -262,7 +270,7 @@ export default function RegistrationPage(): JSX.Element {
         {/* Request code button */}
         <button
           onClick={handleRequestCode}
-          className="py-2.5 rounded-xl bg-[#1F1F1F] text-white font-medium text-lg"
+          className="py-3 rounded-xl bg-[#1F1F1F] text-white font-medium text-lg"
           style={{
             transition: 'background-color 0.2s ease',
           }}

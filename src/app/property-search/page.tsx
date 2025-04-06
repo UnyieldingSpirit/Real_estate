@@ -64,6 +64,19 @@ const localization = {
       dacha: 'Dala hovlilar',
     },
   },
+  en: {
+    searchResults: 'Search results',
+    found: 'Properties found',
+    noResults: 'No properties found for your query',
+    filterAgain: 'Change filter parameters',
+    loading: 'Loading...',
+    categories: {
+      apartment: 'Apartments',
+      house: 'Private Houses',
+      commercial: 'Commercial Properties',
+      dacha: 'Dachas',
+    },
+  },
 };
 
 export default function PropertySearchPage() {
