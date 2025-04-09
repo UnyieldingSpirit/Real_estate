@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useTranslation } from '@/src/hooks';
 import { useRouter } from 'next/navigation';
 import {
@@ -51,6 +52,10 @@ interface PropertyCategoriesProps {
   preventRouting?: boolean;
   // Опциональный заголовок для компонента
   title?: string;
+  // Сбрасывать ли активность категорий при монтировании
+  resetOnMount?: boolean;
+  // Отключить демонстрацию активной категории
+  noActiveCategory?: boolean;
 }
 
 export default function PropertyCategories({ 
@@ -58,6 +63,8 @@ export default function PropertyCategories({
   updateStoreCategory = true,
   preventRouting = false,
   title,
+  resetOnMount = false,
+  noActiveCategory = false,
 }: PropertyCategoriesProps) {
   const { t } = useTranslation(localization);
   const router = useRouter();
@@ -66,6 +73,14 @@ export default function PropertyCategories({
   const activeCategory = useCategoryStore(state => state.activeCategory);
   const setActiveCategory = useCategoryStore(state => state.setActiveCategory);
   const getCategoryConfig = useCategoryStore(state => state.getCategoryConfig);
+  
+  // При монтировании компонента сбрасываем активную категорию, если указан флаг
+  useEffect(() => {
+    if (resetOnMount) {
+      // Сбрасываем активную категорию, передавая null
+      setActiveCategory(null);
+    }
+  }, [resetOnMount, setActiveCategory]);
   
   // Обработчик нажатия на категорию
   const handleCategoryClick = (category: PropertyCategoryType) => {
@@ -115,12 +130,12 @@ export default function PropertyCategories({
         </h2>
       )}
       
-      <div className="grid grid-cols-2  gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {Object.values(PropertyCategoryType).map((category) => {
           const config = getCategoryConfig(category);
           
-          // Проверяем, является ли текущая категория активной
-          const isActive = activeCategory === category;
+          // Проверяем, является ли текущая категория активной (с учетом флага noActiveCategory)
+          const isActive = !noActiveCategory && activeCategory === category;
           
           const bgColor = isActive ? config.activeColor : config.inactiveColor;
           const textColor = isActive ? config.activeTextColor : config.textColor;

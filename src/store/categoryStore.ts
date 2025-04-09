@@ -2,10 +2,10 @@ import { create } from 'zustand';
 
 // Импортируем enum категорий
 export enum PropertyCategoryType {
-    APARTMENT = 'apartment',
-    HOUSE = 'house',
-    COMMERCIAL = 'commercial',
-    DACHA = 'dacha',
+  APARTMENT = 'apartment',
+  HOUSE = 'house',
+  COMMERCIAL = 'commercial',
+  DACHA = 'dacha',
 }
 
 // Определяем полную конфигурацию категорий прямо в store
@@ -56,43 +56,52 @@ export const PROPERTY_CATEGORIES = {
   },
 };
 
-// Цвет по умолчанию для приложения (красный для MoyDom)
-// const DEFAULT_APP_COLOR = '#FF6B6B';
-
 interface CategoryState {
-    // Активная категория
-    activeCategory: PropertyCategoryType;
-    // Соответствующий цвет активной категории
-    activeCategoryColor: string;
-    // Устанавливает активную категорию
-    setActiveCategory: (category: PropertyCategoryType | null) => void;
-    // Получает цвет на основе активной категории (или возвращает дефолтный)
-    getActiveColor: () => string;
-    // Проверяет активна ли указанная категория
-    isCategoryActive: (category: PropertyCategoryType) => boolean;
-    // Получает конфигурацию категории
-    getCategoryConfig: (category: PropertyCategoryType) => typeof PROPERTY_CATEGORIES[PropertyCategoryType];
+  // Активная категория - может быть null
+  activeCategory: PropertyCategoryType | null;
+  // Соответствующий цвет активной категории
+  activeCategoryColor: string;
+  // Устанавливает активную категорию
+  setActiveCategory: (category: PropertyCategoryType | null) => void;
+  // Получает цвет на основе активной категории (или возвращает дефолтный)
+  getActiveColor: () => string;
+  // Проверяет активна ли указанная категория
+  isCategoryActive: (category: PropertyCategoryType) => boolean;
+  // Получает конфигурацию категории
+  getCategoryConfig: (category: PropertyCategoryType) => typeof PROPERTY_CATEGORIES[PropertyCategoryType];
 }
 
-// Удалили middleware persist, теперь состояние не сохраняется между сессиями
+// Цвет по умолчанию
+const DEFAULT_APP_COLOR = '#FF6B6B';
+
 export const useCategoryStore = create<CategoryState>((set, get) => ({
-  // Устанавливаем APARTMENT как активную категорию по умолчанию
-  activeCategory: PropertyCategoryType.APARTMENT,
-  activeCategoryColor: PROPERTY_CATEGORIES[PropertyCategoryType.APARTMENT].activeColor,
+  // Изначально нет активной категории
+  activeCategory: null,
+  activeCategoryColor: DEFAULT_APP_COLOR,
 
   setActiveCategory: (category) => {
-    // Если передан null, используем APARTMENT как категорию по умолчанию
-    const categoryToSet = category || PropertyCategoryType.APARTMENT;
-    const categoryConfig = PROPERTY_CATEGORIES[categoryToSet];
+    // Если null, то сбрасываем активную категорию
+    if (category === null) {
+      set({
+        activeCategory: null,
+        activeCategoryColor: DEFAULT_APP_COLOR,
+      });
+      return;
+    }
 
+    // Иначе устанавливаем указанную категорию
+    const categoryConfig = PROPERTY_CATEGORIES[category];
     set({
-      activeCategory: categoryToSet,
+      activeCategory: category,
       activeCategoryColor: categoryConfig.activeColor,
     });
   },
 
   getActiveColor: () => {
-    return get().activeCategoryColor;
+    const { activeCategory, activeCategoryColor } = get();
+    // Если активная категория не выбрана, возвращаем дефолтный цвет
+    if (!activeCategory) return DEFAULT_APP_COLOR;
+    return activeCategoryColor;
   },
 
   isCategoryActive: (category) => {

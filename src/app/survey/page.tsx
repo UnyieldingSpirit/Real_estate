@@ -144,34 +144,46 @@ export default function SurveyPage(): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { t } = useTranslation(localization as any);
   
+  // Максимальные значения для бюджета
+  const maxBudget = {
+    '$': 3000,
+    'UZS': 100000000,
+  };
+
+  // Дефолтные значения бюджета для каждой валюты
+  const defaultBudgets = {
+    '$': 300,
+    'UZS': 10000000,
+  };
+  
+  // Общее количество шагов
+  const totalSteps: number = 3;
+  
   // Состояние для хранения ответов на опрос
   const [surveyData, setSurveyData] = useState<SurveyData>({
     propertyType: '',
     rooms: '',
     currency: '$',
-    budget: 300,
+    budget: defaultBudgets['$'],
   });
   
   // Состояние для отслеживания текущего шага
   const [currentStep, setCurrentStep] = useState<number>(0);
   
   // Состояние для слайдера бюджета
-  const [sliderPosition, setSliderPosition] = useState<number>(10); // процент от 0 до 100
+  const [sliderPosition, setSliderPosition] = useState<number>(
+    (defaultBudgets['$'] / maxBudget['$']) * 100,
+  ); 
   const sliderRef = useRef<HTMLDivElement>(null);
+  const thumbRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef<boolean>(false);
+  const startX = useRef<number>(0);
+  const startLeft = useRef<number>(0);
+  
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState<boolean>(false);
   
   // Состояние для анимации перехода
   const [direction, setDirection] = useState<number>(1); // 1 для вперед, -1 для назад
-  
-  // Максимальные значения для бюджета
-  const maxBudget = {
-    '$': 3000,
-    'UZS': 100000000,
-  };
-  
-  // Общее количество шагов
-  const totalSteps: number = 3;
 
   // Обработчик выбора категории недвижимости
   const handleCategorySelect = (category: PropertyCategoryType): void => {
@@ -185,108 +197,115 @@ export default function SurveyPage(): JSX.Element {
   
   // Обработчик выбора валюты
   const handleCurrencySelect = (currency: CurrencyType): void => {
-    // При смене валюты сбрасываем бюджет на стандартное значение
-    const defaultBudget = currency === '$' ? 300 : 10000000;
-    setSurveyData({...surveyData, currency, budget: defaultBudget});
+    // При смене валюты устанавливаем стандартное значение для выбранной валюты
+    const newBudget = defaultBudgets[currency];
+    setSurveyData({...surveyData, currency, budget: newBudget});
     
     // Пересчитываем положение слайдера
-    const newPosition = (defaultBudget / maxBudget[currency]) * 100;
+    const newPosition = (newBudget / maxBudget[currency]) * 100;
     setSliderPosition(Math.min(newPosition, 100));
+    setShowCurrencyDropdown(false);
   };
   
-  // Обработчик выбора предустановленного значения бюджета
-  const handleBudgetPresetSelect = (value: number): void => {
-    setSurveyData({...surveyData, budget: value});
-    const newPosition = (value / maxBudget[surveyData.currency]) * 100;
-    setSliderPosition(Math.min(newPosition, 100));
+  // Обработчик выбора бюджета при движении слайдера
+  const updateBudgetFromSliderPosition = (position: number): void => {
+    // Ограничиваем позицию от 0 до 100
+    const clampedPosition = Math.max(0, Math.min(100, position));
+    
+    // Устанавливаем положение слайдера
+    setSliderPosition(clampedPosition);
+    
+    // Рассчитываем бюджет на основе положения слайдера
+    const newBudget = Math.round((clampedPosition / 100) * maxBudget[surveyData.currency]);
+    setSurveyData(prev => ({...prev, budget: newBudget}));
   };
-  
-  // Логика для слайдера бюджета
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current || !sliderRef.current) return;
-      
-      const rect = sliderRef.current.getBoundingClientRect();
-      const offsetX = e.clientX - rect.left;
-      let newPosition = (offsetX / rect.width) * 100;
-      
-      // Ограничиваем значение от 0 до 100
-      newPosition = Math.max(0, Math.min(100, newPosition));
-      setSliderPosition(newPosition);
-      
-      // Обновляем бюджет в зависимости от положения слайдера
-      const newBudget = Math.round((newPosition / 100) * maxBudget[surveyData.currency]);
-      setSurveyData({...surveyData, budget: newBudget});
-    };
-    
-    const handleMouseUp = () => {
-      isDragging.current = false;
-      document.body.style.cursor = 'default';
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-    
-    // Обработчики для тачскрина
-    const handleTouchMove = (e: TouchEvent) => {
-      if (!isDragging.current || !sliderRef.current) return;
-      e.preventDefault(); // Предотвращаем скролл страницы при перетаскивании
-      
-      const rect = sliderRef.current.getBoundingClientRect();
-      const offsetX = e.touches[0].clientX - rect.left;
-      let newPosition = (offsetX / rect.width) * 100;
-      
-      // Ограничиваем значение от 0 до 100
-      newPosition = Math.max(0, Math.min(100, newPosition));
-      setSliderPosition(newPosition);
-      
-      // Обновляем бюджет в зависимости от положения слайдера
-      const newBudget = Math.round((newPosition / 100) * maxBudget[surveyData.currency]);
-      setSurveyData({...surveyData, budget: newBudget});
-    };
-    
-    const handleTouchEnd = () => {
-      isDragging.current = false;
-      // document.removeEventListener('touchmove', handleTouchMove, { passive: false });
-      document.removeEventListener('touchend', handleTouchEnd);
-    };
-    
-    if (isDragging.current) {
-      document.body.style.cursor = 'grabbing';
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('touchend', handleTouchEnd);
-    }
-    
-    return () => {
-      document.body.style.cursor = 'default';
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      // document.removeEventListener('touchmove', handleTouchMove, { passive: false });
-      document.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [surveyData.currency, maxBudget]);
   
   // Обработчик начала перетаскивания слайдера
-  const handleSliderDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    e.stopPropagation(); // Останавливаем всплытие события
+  const handleSliderMouseDown = (e: React.MouseEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!sliderRef.current || !thumbRef.current) return;
+    
     isDragging.current = true;
+    document.body.style.cursor = 'grabbing';
+    
+    // Запоминаем начальные координаты
+    startX.current = e.clientX;
+    startLeft.current = thumbRef.current.offsetLeft;
+    
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
+  
+  // Обработчик движения мыши при перетаскивании
+  const handleMouseMove = (e: MouseEvent): void => {
+    if (!isDragging.current || !sliderRef.current) return;
+    
+    const deltaX = e.clientX - startX.current;
+    const sliderWidth = sliderRef.current.offsetWidth;
+    const newLeft = startLeft.current + deltaX;
+    
+    // Новая позиция в процентах от 0 до 100
+    const newPosition = (newLeft / sliderWidth) * 100;
+    updateBudgetFromSliderPosition(newPosition);
+  };
+  
+  // Обработчик окончания перетаскивания
+  const handleMouseUp = (): void => {
+    isDragging.current = false;
+    document.body.style.cursor = 'default';
+    
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+  };
+  
+  // Обработчики для тачскрина
+  const handleTouchStart = (e: React.TouchEvent): void => {
+    e.stopPropagation();
+    
+    if (!sliderRef.current || !thumbRef.current) return;
+    
+    isDragging.current = true;
+    
+    // Запоминаем начальные координаты
+    startX.current = e.touches[0].clientX;
+    startLeft.current = thumbRef.current.offsetLeft;
+    
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd);
+  };
+  
+  const handleTouchMove = (e: TouchEvent): void => {
+    if (!isDragging.current || !sliderRef.current) return;
+    e.preventDefault(); // Предотвращаем скролл страницы при перетаскивании
+    
+    const deltaX = e.touches[0].clientX - startX.current;
+    const sliderWidth = sliderRef.current.offsetWidth;
+    const newLeft = startLeft.current + deltaX;
+    
+    // Новая позиция в процентах от 0 до 100
+    const newPosition = (newLeft / sliderWidth) * 100;
+    updateBudgetFromSliderPosition(newPosition);
+  };
+  
+  const handleTouchEnd = (): void => {
+    isDragging.current = false;
+    
+    document.removeEventListener('touchmove', handleTouchMove);
+    document.removeEventListener('touchend', handleTouchEnd);
   };
   
   // Обработчик клика на полосу слайдера
-  const handleSliderClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!sliderRef.current) return;
+  const handleSliderClick = (e: React.MouseEvent<HTMLDivElement>): void => {
+    if (!sliderRef.current || isDragging.current) return;
     
     const rect = sliderRef.current.getBoundingClientRect();
-    let newPosition = ((e.clientX - rect.left) / rect.width) * 100;
+    const offsetX = e.clientX - rect.left;
     
-    // Ограничиваем значение от 0 до 100
-    newPosition = Math.max(0, Math.min(100, newPosition));
-    setSliderPosition(newPosition);
-    
-    // Обновляем бюджет в зависимости от положения слайдера
-    const newBudget = Math.round((newPosition / 100) * maxBudget[surveyData.currency]);
-    setSurveyData({...surveyData, budget: newBudget});
+    // Новая позиция в процентах от 0 до 100
+    const newPosition = (offsetX / rect.width) * 100;
+    updateBudgetFromSliderPosition(newPosition);
   };
   
   // Обработчик кнопки "Продолжить"
@@ -355,6 +374,26 @@ export default function SurveyPage(): JSX.Element {
     },
   };
   
+  // Закрываем выпадающее меню валют при клике вне его
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showCurrencyDropdown) {
+        setShowCurrencyDropdown(false);
+      }
+    };
+    
+    // Прикрепляем обработчик только если меню открыто
+    if (showCurrencyDropdown) {
+      setTimeout(() => {
+        document.addEventListener('click', handleClickOutside);
+      }, 0);
+    }
+    
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showCurrencyDropdown]);
+  
   return (
     <div className="h-screen page-scrollable">
       <div className="flex flex-col h-full bg-[#f7f7f7] relative">
@@ -389,6 +428,7 @@ export default function SurveyPage(): JSX.Element {
                     onCategorySelect={handleCategorySelect}
                     updateStoreCategory={true}
                     preventRouting={true} 
+                    resetOnMount={true} 
                   />
                 </div>
               )}
@@ -469,7 +509,8 @@ export default function SurveyPage(): JSX.Element {
                     <div className="relative text-[#2F3334] mb-6">
                       <button 
                         className="w-full bg-white p-4 rounded-xl flex justify-between items-center shadow-sm"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setShowCurrencyDropdown(!showCurrencyDropdown);
                         }}
                       >
@@ -495,6 +536,7 @@ export default function SurveyPage(): JSX.Element {
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
                             className="absolute left-0 right-0 mt-1 bg-white rounded-xl shadow-lg z-10 overflow-hidden"
+                            onClick={(e) => e.stopPropagation()}
                           >
                             {['$', 'UZS'].map((currency) => (
                               <motion.div
@@ -503,9 +545,9 @@ export default function SurveyPage(): JSX.Element {
                                 className={`p-4 flex items-center cursor-pointer ${
                                   surveyData.currency === currency ? 'bg-gray-100' : ''
                                 }`}
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   handleCurrencySelect(currency as CurrencyType);
-                                  setShowCurrencyDropdown(false);
                                 }}
                               >
                                 <span className="text-xl">{currency}</span>
@@ -529,15 +571,23 @@ export default function SurveyPage(): JSX.Element {
                       className="relative h-3 bg-gray-200 rounded-full mb-5 cursor-pointer"
                       onClick={handleSliderClick}
                     >
+                      {/* Закрашенная часть слайдера */}
                       <div 
                         className="absolute h-3 bg-[#FF7560] rounded-full"
                         style={{ width: `${sliderPosition}%` }}
                       ></div>
+                      
+                      {/* Ползунок слайдера */}
                       <div
-                        className="absolute w-7 h-7 bg-white rounded-full -mt-2 -ml-3.5 shadow-md cursor-grab flex items-center justify-center"
-                        style={{ left: `${sliderPosition}%` }}
-                        onMouseDown={handleSliderDragStart}
-                        onTouchStart={handleSliderDragStart}
+                        ref={thumbRef}
+                        className="absolute w-7 h-7 bg-white rounded-full -mt-2 shadow-md cursor-grab flex items-center justify-center touch-none"
+                        style={{ 
+                          left: `${sliderPosition}%`, 
+                          transform: 'translateX(-50%)',
+                          touchAction: 'none',
+                        }}
+                        onMouseDown={handleSliderMouseDown}
+                        onTouchStart={handleTouchStart}
                       >
                         <div className="w-3 h-3 bg-[#FF7560] rounded-full"></div>
                       </div>

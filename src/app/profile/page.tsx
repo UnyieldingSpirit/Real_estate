@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { BottomNavigation } from '@/src/shared/components';
 import { useTranslation } from '@/src/hooks';
+import { useLanguageStore, Locale } from '@/src/store/language';
 
 const localization = {
   ru: {
@@ -15,6 +16,12 @@ const localization = {
     language: 'Язык',
     logout: 'Выйти',
     apply: 'Применить',
+    // Названия языков
+    languages: {
+      ru: 'Русский',
+      uz: 'Узбекский',
+      en: 'Английский',
+    },
   },
   uz: {
     profile: 'Profil',
@@ -24,6 +31,12 @@ const localization = {
     language: 'Til',
     logout: 'Chiqish',
     apply: 'Qo\'llash',
+    // Названия языков
+    languages: {
+      ru: 'Rus tili',
+      uz: 'O\'zbek tili',
+      en: 'Ingliz tili',
+    },
   },
   en: {
     profile: 'Profile',
@@ -33,20 +46,31 @@ const localization = {
     language: 'Language',
     logout: 'Logout',
     apply: 'Apply',
+    // Названия языков
+    languages: {
+      ru: 'Russian',
+      uz: 'Uzbek',
+      en: 'English',
+    },
   },
 };
 
 export default function ProfilePage() {
   const router = useRouter();
   const { t } = useTranslation(localization);
+  const { currentLocale } = useLanguageStore();
   
-  const [profileData ] = useState({
+  const [profileData] = useState({
     viewsCount: 30,
     adsCount: 10,
     phoneNumber: '+998 99 999 99 99',
-    language: 'Русский',
   });
   
+  // Получаем название текущего языка на выбранном языке интерфейса
+  const getCurrentLanguageName = () => {
+    return t(`languages.${currentLocale}`, { returnObjects: true });
+  };
+
   const handleLanguageClick = () => {
     router.push('/language-select');
   };
@@ -133,7 +157,7 @@ export default function ProfilePage() {
               >
                 <div className="text-[#8F8F8F] mr-2">{t('language')}</div>
                 <div className="flex items-center">
-                  <span className="text-[#1F1F1F] text-[16px] mr-6">{profileData.language}</span>
+                  <span className="text-[#1F1F1F] text-[16px] mr-6">{getCurrentLanguageName()}</span>
                   <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1L7 7L1 13" stroke="#A3A3A3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>

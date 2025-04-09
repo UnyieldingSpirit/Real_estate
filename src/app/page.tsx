@@ -225,7 +225,9 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
               className='px-4'
             >
-              <Categories  />
+              <Categories
+                resetOnMount={true}
+              />
             </motion.div>
 
             <div className="px-4 mb-6">

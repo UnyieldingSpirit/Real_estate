@@ -268,7 +268,7 @@ export default function FilterPage(): JSX.Element {
                   type="number"
                   value={minArea}
                   onChange={(e) => setMinArea(e.target.value)}
-                  className="flex-1 text-[#2F3334] text-lg outline-none"
+                  className="flex-1 text-[#2F3334] text-lg outline-none w-[60px]"
                   placeholder="0"
                   style={{ appearance: 'textfield' }}
                 />
@@ -281,7 +281,7 @@ export default function FilterPage(): JSX.Element {
                   type="number"
                   value={maxArea}
                   onChange={(e) => setMaxArea(e.target.value)}
-                  className="flex-1 text-[#2F3334] text-lg outline-none"
+                  className="flex-1 text-[#2F3334] text-lg outline-none w-[60px]"
                   placeholder="0"
                   style={{ appearance: 'textfield' }}
                 />

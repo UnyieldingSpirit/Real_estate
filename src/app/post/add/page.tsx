@@ -370,6 +370,7 @@ export default function AddPropertyPage() {
                 onCategorySelect={handlePropertyTypeSelect}
                 updateStoreCategory={true}
                 preventRouting={true}
+                resetOnMount={true} 
               />
             </motion.div>
           )}
