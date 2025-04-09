@@ -47,3 +47,25 @@
     @apply w-full bg-white rounded-xl p-4 text-gray-800 outline-none;
   }
 }
+
+
+body.tg-desktop .main-content {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* Отключаем фиксированные высоты для десктопа */
+body.tg-desktop .page-scrollable {
+  height: auto;
+  min-height: 100vh;
+  padding-bottom: 30px;
+  padding-top: 0;
+}
+
+/* Стили для мобильной версии остаются прежними */
+body.tg-mobile .main-content {
+  padding-top: var(--safe-area-inset-top, 0px);
+  padding-bottom: calc(var(--safe-area-inset-bottom, 0px) + 100px);
+}

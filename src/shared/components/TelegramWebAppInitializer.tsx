@@ -10,23 +10,79 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
   const handleBackRef = useRef(() => router.back());
   const viewportSetterRef = useRef<(() => void) | null>(null);
 
+  // Улучшенная функция для определения десктопного клиента
+  const isDesktopClient = () => {
+    const tg = window.Telegram?.WebApp;
+    if (!tg) return false;
+    
+    // Явное определение десктопных платформ
+    const desktopPlatforms = ['tdesktop', 'webk', 'web', 'webz'];
+    const isTgDesktop = desktopPlatforms.includes(tg.platform);
+    
+    // Дополнительная проверка User-Agent для десктопных браузеров
+    const isDesktopUA = !(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) ||
+                        (/Windows|Macintosh|Linux/i.test(navigator.userAgent));
+    
+    // Консоль для отладки
+    console.log('Telegram Platform:', tg.platform);
+    console.log('User Agent:', navigator.userAgent);
+    console.log('Is Desktop Client:', isTgDesktop || isDesktopUA);
+    
+    return isTgDesktop || isDesktopUA;
+  };
+
+  // Функция для применения стилей десктопа
+  const applyDesktopStyles = () => {
+    // Находим элемент с классом main-content
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+      // Убираем мобильные классы
+      mainContent.classList.remove('mobile-padding');
+      // Добавляем классы для десктопа
+      mainContent.classList.add('desktop-padding');
+      
+      // Явно указываем отсутствие падингов
+      (mainContent as HTMLElement).style.paddingTop = '0';
+      (mainContent as HTMLElement).style.paddingBottom = '0';
+      
+      console.log('Desktop styles applied to main-content');
+    } else {
+      console.warn('main-content element not found for desktop styling');
+      
+      // Пробуем применить повторно через секунду, если элемент еще не создан
+      setTimeout(() => {
+        const retryMainContent = document.querySelector('.main-content');
+        if (retryMainContent) {
+          retryMainContent.classList.remove('mobile-padding');
+          retryMainContent.classList.add('desktop-padding');
+          (retryMainContent as HTMLElement).style.paddingTop = '0';
+          (retryMainContent as HTMLElement).style.paddingBottom = '0';
+          console.log('Desktop styles applied on retry');
+        }
+      }, 1000);
+    }
+    
+    // Применяем стили к body для десктопа
+    document.body.classList.add('tg-desktop');
+    
+    // Добавляем CSS-переменную для использования в стилях
+    document.documentElement.style.setProperty('--is-desktop', '1');
+  };
+
   // Основная инициализация - выполняется один раз
   useEffect(() => {
     if (!tgInitialized.current && typeof window !== 'undefined' && window.Telegram?.WebApp) {
       try {
         const tg = window.Telegram.WebApp;
         
-        // Получаем платформу из Telegram WebApp API
-        const tgPlatform = tg.platform || '';
+        // Используем улучшенную функцию определения десктопа
+        const isDesktop = isDesktopClient();
         
-        // Определяем, является ли устройство мобильным, используя как User-Agent, так и платформу
-        const isMobileByUserAgent = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-        const isMobileByPlatform = ['android', 'ios', 'android_x', 'ios_x'].includes(tgPlatform);
-        
-        // Определяем, является ли это Telegram Desktop
-        const isTelegramDesktop = tgPlatform === 'tdesktop';
-        
-        const isMobileDevice = isMobileByUserAgent || isMobileByPlatform;
+        console.log('Device detection:', {
+          isDesktop,
+          platform: tg.platform,
+          userAgent: navigator.userAgent,
+        });
         
         // Сообщаем Telegram, что приложение готово
         if (typeof tg.ready === 'function') {
@@ -38,16 +94,18 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           tg.enableClosingConfirmation(true);
         }
         
-        // Полноэкранный режим только для мобильных устройств, не для Desktop
-        if (!isTelegramDesktop && typeof tg.requestFullscreen === 'function') {
+        // НЕ вызываем полноэкранный режим для десктопа
+        if (!isDesktop && typeof tg.requestFullscreen === 'function') {
+          console.log('Activating fullscreen (mobile only)');
           tg.requestFullscreen();
+        } else {
+          console.log('Skipping fullscreen (desktop client detected)');
         }
 
-        // Настройка кнопки "Назад"
+        // Настройка кнопки "Назад" (работает на всех устройствах)
         if (tg.BackButton && typeof tg.BackButton.onClick === 'function') {
           tg.BackButton.onClick(handleBackRef.current);
           
-          // Скрываем на главной, показываем на других страницах
           if (pathname === '/') {
             if (typeof tg.BackButton.hide === 'function') {
               tg.BackButton.hide();
@@ -59,9 +117,10 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           }
         }
 
-        // Мобильно-специфичные методы - только для не-Desktop платформ
-        if (isMobileDevice && !isTelegramDesktop) {
-
+        // Мобильно-специфичные методы только для мобильных устройств
+        if (!isDesktop) {
+          console.log('Applying mobile-specific settings');
+          
           // Расширение на всю высоту
           if (typeof tg.expand === 'function') {
             tg.expand();
@@ -86,19 +145,14 @@ export default function TelegramWebAppInitializer(): JSX.Element | null {
           
           setViewportHeight();
           window.addEventListener('resize', setViewportHeight);
-        } else {
           
-          // Для Desktop убираем падинги
-          if (isTelegramDesktop) {
-            // Находим элемент с классом main-content или подобный
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent) {
-              mainContent.classList.remove('mobile-padding');
-              mainContent.classList.add('desktop-padding');
-              (mainContent as HTMLElement).style.paddingTop = '0';
-              (mainContent as HTMLElement).style.paddingBottom = '0';
-            }
-          }
+          // Добавляем класс для мобильной версии
+          document.body.classList.add('tg-mobile');
+        } else {
+          console.log('Applying desktop-specific settings');
+          
+          // Применяем стили для десктопа
+          applyDesktopStyles();
         }
 
         tgInitialized.current = true;
