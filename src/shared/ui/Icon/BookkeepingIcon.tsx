@@ -4,7 +4,6 @@ export default function BookkeepingIcon({
   style = {},
   ...props 
 }) {
-  // Рассчитываем высоту пропорционально ширине
   const height = size * (93/91);
   
   return (
