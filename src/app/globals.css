@@ -50,19 +50,17 @@
 
 
 body.tg-desktop .main-content {
-  padding-top: 10px !important;
-  padding-bottom: 40px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   height: 100vh;
   overflow-y: auto;
 }
 
-
-/* Отключаем фиксированные высоты для десктопа */
 body.tg-desktop .page-scrollable {
   height: auto;
   min-height: 100vh;
-  padding-bottom: 30px;
-  padding-top: 0;
+  padding-bottom: 50px;
+  padding-top: 10px;
 }
 
 /* Стили для мобильной версии остаются прежними */
