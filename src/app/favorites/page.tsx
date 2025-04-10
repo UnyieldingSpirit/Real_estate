@@ -105,8 +105,13 @@ export default function MyAdvertisementsPage() {
   // Обработчик клика на карточку объявления
   const handlePropertyClick = (id: number, isFavorite: boolean) => {
     if (isFavorite) {
-      router.push(`/favorites-pro/${id}`);
+    // Если это избранное объявление, переходим на страницу просмотра избранного
+      router.push(`/property-favorites/${id}`);
+    } else if (activeTab === 'active') {
+    // Если это активное объявление, переходим на страницу редактирования
+      router.push(`/property-favorites/${id}`);
     } else {
+    // В остальных случаях (например, "на проверке") переходим на обычную страницу просмотра
       router.push(`/property/${id}`);
     }
   };
